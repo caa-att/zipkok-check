@@ -342,6 +342,38 @@
   /* 컴퓨터: 진한 그림자 대신 얇은 선과 아주 옅은 그림자 */
   .device{box-shadow:0 0 0 1px var(--ds-gray-300),0 2px 4px rgba(20,26,36,.06)}
 
+  /* ---------- 아래 탭: 계약 체크 · 기타 서비스 (질문 목록과 기타 서비스 화면에만) ---------- */
+  .cta.tabbed{padding-bottom:0}
+  .cta.tab-only{padding-top:0;border-top:0}
+  .tabbar{display:grid;grid-template-columns:1fr 1fr;margin:8px calc(-1 * var(--pad)) 0;padding:6px 8px 10px;background:var(--card);border-top:1px solid var(--ds-divider);pointer-events:auto}
+  .cta.tab-only .tabbar{margin-top:0}
+  .tabbar button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;padding:6px 0;border-radius:var(--ds-radius-btn);font-size:13px;font-weight:600;line-height:18px;color:var(--ds-gray-600);cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .tabbar button svg{width:24px;height:24px}
+  .tabbar button.on{color:var(--ds-text-strong)}
+  .tabbar button:active{transform:scale(.95);background:var(--ds-pressed)}
+  #p1 .scroll{padding-bottom:200px}
+  #ps .scroll{padding-bottom:110px}
+  .screen.tabbed .toast{bottom:186px}
+  .views.instant .view{transition:none}
+
+  /* ---------- 도움받을 곳 (기타 서비스 화면 · 결과 화면) ---------- */
+  .hrow{display:flex;align-items:center;gap:12px;padding:16px}
+  .hrow + .hrow{border-top:1px solid var(--ds-divider)}
+  .ht{flex:1;min-width:0}
+  .ht b{display:block;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong)}
+  .ht span{display:block;font-size:14px;line-height:22px;color:var(--ds-text-primary);margin-top:2px}
+  .hb{flex:none;display:flex;flex-direction:column;gap:6px;align-items:stretch}
+  .hbtn{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:40px;padding:0 14px;border-radius:var(--ds-radius-btn);background:var(--ds-blue-50);color:var(--ds-primary-heavy);font-size:14px;font-weight:600;line-height:20px;text-decoration:none;white-space:nowrap;font-variant-numeric:tabular-nums;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .hbtn:active{transform:scale(.92)}
+  .hbtn.call{background:var(--ds-primary-strong);color:#fff}
+  .hbtn.call:active{background:var(--ds-primary-heavy)}
+  .hbtn svg{flex:none;width:16px;height:16px}
+  .urgent{margin-top:20px;background:var(--bad-bg);border-radius:var(--ds-radius-card);padding:16px;font-size:16px;line-height:24px;color:var(--ds-text-strong)}
+  .urgent b{display:block;color:var(--bad);font-size:16px;font-weight:700;line-height:24px;margin-bottom:4px}
+  .urgent .hbtns{display:flex;gap:8px;margin-top:12px}
+  .urgent .hbtn{flex:1}
+  .grp[hidden]{display:none}
+
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     body{background:var(--bg)}
@@ -353,6 +385,8 @@
     .foot-m{display:block} /* 휴대폰은 시작 화면 맨 아래에 맨 아래 문구를 보여 줘요 */
     .nav{padding-top:env(safe-area-inset-top);height:calc(52px + env(safe-area-inset-top))}
     .cta{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+    .cta.tabbed{padding-bottom:0}
+    .tabbar{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
   }
   @media (prefers-reduced-motion:reduce){
     .view,.view.on{transition:none}
@@ -417,7 +451,14 @@
           </div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
         </div>
-        <div class="cta"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button></div>
+        <div class="cta tabbed"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button><nav class="tabbar" aria-label="메뉴"></nav></div>
+      </section>
+
+      <!-- 기타 서비스: 무료 상담받을 곳 · 서류 떼기 -->
+      <section class="view" id="ps" aria-label="기타 서비스">
+        <div class="nav"><span></span><span class="title"></span><span></span></div>
+        <div class="scroll" id="ps-body"></div>
+        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- ② 답변 입력 -->
@@ -489,6 +530,10 @@
           <div class="grp">
             <div class="card-t">추천 행동</div>
             <div class="card" id="r-acts"></div>
+          </div>
+          <div class="grp" id="r-help" hidden>
+            <div class="card-t" id="r-help-t"></div>
+            <div class="card" id="r-help-body"></div>
           </div>
           <div class="grp">
             <div class="card-t">관련 법률</div>
@@ -1166,6 +1211,12 @@ function renderResult(){
   $('r-risk').textContent = q.risk;
   $('r-tip').textContent = TIPS[a.how];
   $('r-acts').innerHTML = q.acts.map((t,i)=>'<div class="act"><span class="num">' + (i + 1) + '</span><span>' + t + '</span></div>').join('');
+  // 🟠·🔴이면 그 질문에 맞는 무료 상담 기관 2곳
+  $('r-help').hidden = j.level === 'ok';
+  if(j.level !== 'ok'){
+    $('r-help-t').textContent = j.level === 'bad' ? '넘어가기 전에 상담받아 보세요' : '헷갈리면 무료로 물어보세요';
+    $('r-help-body').innerHTML = helpRows(HELP_Q[q.id] || ['klac','seoul']);
+  }
   $('r-laws').innerHTML = q.laws.map(l=>'<div class="law"><b>' + l[0] + '</b><span>' + l[1] + '</span></div>').join('');
   renderAi();
   const nx = nextOpen(state.sel);
@@ -1173,8 +1224,57 @@ function renderResult(){
   if(nx) $('toNext').textContent = '다음 추천 질문 보기 · ' + BY_ID[nx].n + '. ' + BY_ID[nx].tag;
 }
 
+/* ---------- 도움받을 곳 (무료·공공, 2026년 10월 각 기관 안내 기준) ---------- */
+const HELP = {
+  klac:{name:'대한법률구조공단', desc:'무료 법률상담 · 분쟁조정', tel:'132', web:'https://www.klac.or.kr'},
+  seoul:{name:'서울시 전월세종합지원센터', desc:'임대차·전세사기 상담 · 평일 9~17시', tel:'02-2133-1200', web:'https://housing.seoul.go.kr'},
+  hug:{name:'주택도시보증공사(HUG)', desc:'보증보험 가입 가능 여부', tel:'1566-9009', web:'https://www.khug.or.kr'},
+  gu:{name:'120 다산콜센터', desc:'중개사·중개보수 신고 안내', tel:'02-120'},
+  iros:{name:'인터넷등기소', desc:'등기부등본 떼기', web:'https://www.iros.go.kr'},
+  gov24:{name:'정부24', desc:'건축물대장 · 전입신고', web:'https://www.gov.kr'}
+};
+// 질문마다 '확인 필요'·'위험'일 때 결과 화면에 보여 줄 곳 (앞의 2곳)
+const HELP_Q = {q1:['klac','seoul'], q2:['klac','seoul'], q3:['klac','iros'], q4:['gu','seoul'], q5:['seoul','hug'], q6:['seoul','klac'], q7:['hug','seoul'], q8:['seoul','klac'], q9:['gov24','seoul'], q10:['klac','seoul'], q11:['klac','seoul'], q12:['seoul','hug'], q13:['klac','seoul'], q14:['klac','seoul'], q15:['gu','seoul']};
+const PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l2 5-2.4 1.6a11 11 0 005.3 5.3L15 13.5l5 2V19a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>';
+const callBtn = (tel, label) => '<a class="hbtn call" href="tel:' + tel.replace(/-/g, '') + '">' + PHONE + label + '</a>';
+const helpRows = keys => keys.map(k=>{
+  const h = HELP[k];
+  return '<div class="hrow"><div class="ht"><b>' + h.name + '</b><span>' + h.desc + '</span></div><div class="hb">' +
+    (h.tel ? callBtn(h.tel, h.tel) : '') +
+    (h.web ? '<a class="hbtn" href="' + h.web + '" target="_blank" rel="noopener">사이트</a>' : '') + '</div></div>';
+}).join('');
+function renderServices(){
+  $('ps-body').innerHTML =
+    '<div class="large"><h1>기타 서비스</h1><p class="legal-top">참고용 안내예요. 법률 자문이 아니에요.</p></div>' +
+    '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
+      '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
+    '<div class="grp"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
+    '<div class="grp"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
+    '<p class="note">집콕체크는 위 기관과 제휴하지 않았어요. 연락처는 2026년 10월 기준이에요.</p>';
+}
+
+/* ---------- 아래 탭: 계약 체크(질문 목록) · 기타 서비스 ---------- */
+const TABS = [
+  ['p1', '계약 체크', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg>'],
+  ['ps', '기타 서비스', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>']
+];
+document.querySelectorAll('.tabbar').forEach(nav=>{
+  const here = nav.closest('.view').id;
+  nav.innerHTML = TABS.map(t=>'<button type="button" data-tab="' + t[0] + '"' + (t[0] === here ? ' class="on" aria-current="page"' : '') + '>' + t[2] + t[1] + '</button>').join('');
+});
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-tab]'); if(!b) return;
+  const here = b.closest('.view').id, t = b.dataset.tab;
+  if(t === here) $(here).querySelector('.scroll').scrollTo({top:0, behavior:'smooth'});
+  else if(t === 'ps') go('ps');
+  else history.back(); // 기타 서비스는 질문 목록 위에 쌓여 있어요
+});
+
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
 const VIEWS = ['p0','p1','p2','p3'];
+// 화면이 놓인 순서(옆으로 넘어가는 방향)와 뒤로 가기 깊이. 기타 서비스는 질문 목록 바로 위에 쌓여요
+const ORDER = ['p0','p1','ps','p2','p3'];
+const DEPTH = {p0:0, p1:1, ps:2, p2:2, p3:3};
 let depth = 0;
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null;
@@ -1186,20 +1286,29 @@ let busyUntil = 0;
   if(Date.now() < busyUntil && (t === 'click' || e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); e.stopPropagation(); }
 }, true));
 
+let curView = 'p0';
 function show(id){
   busyUntil = Date.now() + 400;
-  const k = VIEWS.indexOf(id);
-  VIEWS.forEach((v,i)=>{
+  // 탭끼리(질문 목록 ↔ 기타 서비스) 바꿀 때는 옆으로 넘기지 않고 바로 바꿔요
+  const tab = (curView === 'p1' && id === 'ps') || (curView === 'ps' && id === 'p1');
+  const vs = document.querySelector('.views');
+  if(tab){ vs.classList.add('instant'); busyUntil = Date.now() + 100; }
+  const k = ORDER.indexOf(id);
+  ORDER.forEach((v,i)=>{
     const el = $(v);
     el.classList.toggle('on', i === k);
     el.classList.toggle('past', i < k);
     el.setAttribute('aria-hidden', i !== k);
   });
+  if(tab) requestAnimationFrame(()=>requestAnimationFrame(()=>vs.classList.remove('instant')));
+  document.querySelector('.screen').classList.toggle('tabbed', id === 'p1' || id === 'ps');
+  curView = id;
   $(id).querySelector('.scroll').scrollTop = 0;
 }
 
 function go(id){
-  depth = VIEWS.indexOf(id);
+  depth = DEPTH[id];
+  if(id === 'ps') renderServices();
   history.pushState({v:id, d:depth}, '');
   show(id);
 }
@@ -1208,7 +1317,8 @@ window.addEventListener('popstate', e=>{
   let v = (e.state && e.state.v) || 'p0';
   if((v === 'p2' || v === 'p3') && !state.sel) v = 'p1';
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
-  depth = VIEWS.indexOf(v);
+  depth = DEPTH[v];
+  if(v === 'ps') renderServices();
   if(v === 'p0') renderStart();
   if(v === 'p1') renderList();
   if(v === 'p1' && doneTag) toast(doneMsg(doneTag));
