@@ -408,6 +408,7 @@
   .r-src{margin-top:12px;font-size:13px;line-height:20px;color:var(--ds-gray-700);padding:0 4px}
   .r-link{display:flex;justify-content:center;margin-top:12px}
   #pr .scroll{padding-bottom:40px}
+  #a-rent .rent-entry{margin-top:0}
 
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
@@ -499,7 +500,7 @@
       <!-- 동네 전월세 시세 (기타 서비스에서 열어요) -->
       <section class="view" id="pr" aria-label="동네 전월세 시세">
         <div class="nav">
-          <button type="button" class="back" data-back aria-label="기타 서비스로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>기타 서비스</button>
+          <button type="button" class="back" data-back aria-label="기타 서비스로" id="r-back"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>기타 서비스</span></button>
           <span class="title"></span><span></span>
         </div>
         <div class="scroll">
@@ -534,6 +535,7 @@
               <div class="why"><b>왜 물어봐야 하나요?</b><span id="a-why"></span></div>
             </div>
           </div>
+          <div class="grp" id="a-rent" hidden></div>
           <div class="grp" id="a-lookup" hidden></div>
           <div id="a-fields"></div>
           <div class="field">
@@ -1069,6 +1071,9 @@ function renderAnswer(){
   $('a-cat').textContent = q.cat + ' · ' + q.tag;
   $('a-q').textContent = q.q;
   $('a-why').textContent = q.why;
+  // 12번(시세 비교)에서만 동네 시세 화면으로 가는 칸을 보여 줘요
+  $('a-rent').hidden = q.id !== 'q12';
+  $('a-rent').innerHTML = q.id === 'q12' ? '<button type="button" class="rent-entry" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 시세 확인해 보기</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' : '';
   $('a-ans').value = a.memo;
   $('a-cnt').textContent = a.memo.length + ' / 300';
   document.querySelectorAll('#p2 .chips').forEach(g=>{
@@ -1303,7 +1308,7 @@ const helpRows = keys => keys.map(k=>{
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="large"><h1>기타 서비스</h1><p class="legal-top">참고용 안내예요. 법률 자문이 아니에요.</p></div>' +
-    '<button type="button" class="rent-entry" id="toRent"><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 전월세 시세</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' +
+    '<button type="button" class="rent-entry" id="toRent" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 전월세 시세</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' +
     '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
       '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
     '<div class="grp"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
@@ -1345,6 +1350,7 @@ async function loadGu(code){
   return (rCache[code] = d);
 }
 function renderRent(){
+  rentBack();
   $('r-gu').innerHTML = SEOUL_GU.map(g=>'<option value="' + g[0] + '"' + (g[0] === rf.gu ? ' selected' : '') + '>' + g[1] + '</option>').join('');
   rentChips('r-type', RENT_TYPE, rf.type);
   rentChips('r-deal', RENT_DEAL, rf.deal);
@@ -1400,7 +1406,14 @@ $('r-dong').addEventListener('change', e=>{ rf.dong = e.target.value; rSave(); r
   drawRent();
 }));
 $('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown += RPAGE; drawRent(); } });
-document.addEventListener('click', e=>{ if(e.target.closest('#toRent')) go('pr'); });
+// 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
+let rentFrom = 'ps';
+document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = curView === 'p2' ? 'p2' : 'ps'; go('pr'); } });
+function rentBack(){
+  const fromAns = rentFrom === 'p2';
+  $('r-back').querySelector('span').textContent = fromAns ? '답변' : '기타 서비스';
+  $('r-back').setAttribute('aria-label', fromAns ? '답변으로' : '기타 서비스로');
+}
 
 /* ---------- 아래 탭: 계약 체크(질문 목록) · 기타 서비스 ---------- */
 const TABS = [
@@ -1442,8 +1455,10 @@ function show(id){
   const tab = (curView === 'p1' && id === 'ps') || (curView === 'ps' && id === 'p1');
   const vs = document.querySelector('.views');
   if(tab){ vs.classList.add('instant'); busyUntil = Date.now() + 100; }
-  const k = ORDER.indexOf(id);
-  ORDER.forEach((v,i)=>{
+  // 12번 답 화면에서 연 시세 화면은 답 화면 오른쪽에서 들어와요
+  const order = rentFrom === 'p2' ? ['p0','p1','ps','p2','pr','p3'] : ORDER;
+  const k = order.indexOf(id);
+  order.forEach((v,i)=>{
     const el = $(v);
     el.classList.toggle('on', i === k);
     el.classList.toggle('past', i < k);
@@ -1459,7 +1474,7 @@ function go(id){
   depth = DEPTH[id];
   if(id === 'ps') renderServices();
   if(id === 'pr') renderRent();
-  history.pushState({v:id, d:depth}, '');
+  history.pushState({v:id, d:depth, from:rentFrom}, '');
   show(id);
 }
 
@@ -1468,6 +1483,7 @@ window.addEventListener('popstate', e=>{
   if((v === 'p2' || v === 'p3') && !state.sel) v = 'p1';
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
   depth = DEPTH[v];
+  if(v === 'pr') rentFrom = (e.state && e.state.from) || 'ps';
   if(v === 'ps') renderServices();
   if(v === 'pr') renderRent();
   if(v === 'p0') renderStart();
