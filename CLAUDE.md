@@ -188,8 +188,9 @@
 - 자료: 공공데이터포털(data.go.kr) 국토교통부 단독/다가구·연립다세대·오피스텔·아파트 **전월세 실거래가 자료** 4개. 주소는 `https://apis.data.go.kr/1613000/RTMSDataSvc○○Rent/getRTMSDataSvc○○Rent`(○○ = SH·RH·Offi·Apt), 보내는 값은 `serviceKey`, `LAWD_CD`(구 코드), `DEAL_YMD`(년월), `pageNo`, `numOfRows`예요.
 - 하루 요청은 25개 구 × 4가지 × 3달 = 300번쯤이에요(무료 한도: 자료마다 하루 1,000번).
 - 받는 프로그램은 키가 틀리면 바로 멈추고, 절반 넘게 실패하면 파일을 바꾸지 않아요. 한 구만 실패하면 그 구는 예전 파일을 둬요. 키 값과 키가 든 주소는 기록에 남기지 않아요.
-- 응답 항목 이름(`umdNm`, `excluUseAr`, `totalFloorAr`, `floor`, `buildYear`, `deposit`, `monthlyRent`, `dealYear`·`dealMonth`·`dealDay`, `contractType`)은 공공데이터포털 안내를 바탕으로 적었고, 예전 한글 이름도 함께 읽어요. 실제 자료로 아직 확인하지 못했어요(Claude 작업 환경에서는 data.go.kr에 접속이 안 돼요).
-- GitHub 장치는 해외에 있어요. 국토교통부 자료가 해외 접속을 막으면 이 방식이 안 되니, 그때는 서울 서버(Vercel icn1)로 받는 방식으로 바꿀지 다시 정해요.
+- 응답 항목 이름(`umdNm`, `excluUseAr`, `totalFloorAr`, `floor`, `buildYear`, `deposit`, `monthlyRent`, `dealYear`·`dealMonth`·`dealDay`, `contractType`)은 공공데이터포털 안내를 바탕으로 적었고, 예전 한글 이름도 함께 읽어요. 2026-11-19 첫 실행에서 실제 자료로 확인했어요(25개 구, 약 99,000건, 항목이 모두 제대로 들어옴). Claude 작업 환경에서는 data.go.kr에 직접 접속이 안 돼서, 확인은 GitHub가 받아 온 파일로 해요.
+- GitHub 장치는 해외에 있지만 2026-11-19 첫 실행에서 국토교통부 자료가 잘 받아졌어요. 나중에 해외 접속이 막히면 서울 서버(Vercel icn1)로 받는 방식으로 바꿀지 다시 정해요.
+- 키는 사용자가 2026-11-19 GitHub Secrets `RENT_KEY`에 넣었어요.
 
 ## 방문자 통계 (2026-11-18 사용자와 정함)
 - Vercel Analytics를 켜고, `index.html` 머리 부분에 `/_vercel/insights/script.js`를 부르는 두 줄을 넣었어요. 설치(npm)는 하지 않았어요.
