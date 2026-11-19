@@ -377,6 +377,39 @@
   .urgent .hbtn{flex:1 1 auto;max-width:100%;height:auto;min-height:40px;padding:8px 14px;white-space:normal;text-align:center}
   .grp[hidden]{display:none}
 
+  /* ---------- 동네 전월세 시세 ---------- */
+  .rent-entry{position:relative;display:flex;align-items:center;gap:14px;width:100%;margin-top:20px;padding:16px 44px 16px 16px;border:0;border-radius:var(--ds-radius-card);background:var(--card);text-align:left;font:inherit;color:inherit;cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .rent-entry:active{transform:scale(.96);background:var(--ds-pressed)}
+  .rent-entry::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-top:2px solid var(--ds-gray-400);transform:translateY(-50%) rotate(45deg)}
+  .re-ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--ds-blue-50);color:var(--ds-primary-heavy);display:grid;place-items:center}
+  .re-ic svg{width:24px;height:24px}
+  .re-t{flex:1;min-width:0}
+  .re-t b{display:block;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong)}
+  .re-t span{display:block;font-size:14px;line-height:22px;color:var(--ds-text-primary);margin-top:2px}
+  .rf{display:flex;flex-wrap:wrap;gap:8px}
+  .rf > div{flex:1 1 9em;min-width:0}
+  .rf .lk-l{margin-top:0}
+  #pr .chips{margin-top:2px}
+  .r-sum{display:flex;flex-wrap:wrap}
+  .r-cell{flex:1 1 5.5em;padding:16px 8px;text-align:center}
+  .r-cell + .r-cell{border-left:1px solid var(--ds-divider)}
+  .r-cell span{display:block;font-size:13px;font-weight:600;line-height:20px;color:var(--ds-text-primary)}
+  .r-cell p{margin-top:4px;font-size:14px;line-height:28px;color:var(--ds-text-strong)}
+  .r-cell p b{font-size:19px;font-weight:700}
+  .r-row{padding:14px 16px}
+  .r-row + .r-row{border-top:1px solid var(--ds-divider)}
+  .r-pr{font-size:16px;font-weight:400;line-height:24px;color:var(--ds-text-strong)}
+  .r-pr b{font-weight:700}
+  .r-meta{font-size:14px;line-height:22px;color:var(--ds-text-primary);margin-top:2px}
+  .r-date{font-size:13px;line-height:20px;color:var(--ds-gray-700);margin-top:2px}
+  .r-empty{padding:24px 16px;text-align:center;font-size:15px;line-height:24px;color:var(--ds-text-primary)}
+  .r-more{display:block;width:100%;padding:14px;border:0;border-top:1px solid var(--ds-divider);background:var(--card);color:var(--ds-primary-heavy);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background .1s}
+  .r-more:active{background:var(--ds-pressed)}
+  .r-src{margin-top:12px;font-size:13px;line-height:20px;color:var(--ds-gray-700);padding:0 4px}
+  .r-link{display:flex;justify-content:center;margin-top:12px}
+  #pr .scroll{padding-bottom:40px}
+  #a-rent .rent-entry{margin-top:0}
+
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     body{background:var(--bg)}
@@ -464,6 +497,28 @@
         <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
+      <!-- 동네 전월세 시세 (기타 서비스에서 열어요) -->
+      <section class="view" id="pr" aria-label="동네 전월세 시세">
+        <div class="nav">
+          <button type="button" class="back" data-back aria-label="기타 서비스로" id="r-back"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>기타 서비스</span></button>
+          <span class="title"></span><span></span>
+        </div>
+        <div class="scroll">
+          <div class="large"><h1>동네 전월세 시세</h1><p class="legal-top">참고용 안내예요. 법률 자문이 아니에요.</p></div>
+          <div class="grp">
+            <div class="rf">
+              <div><label class="lk-l" for="r-gu">구</label><select class="lk-in" id="r-gu"></select></div>
+              <div><label class="lk-l" for="r-dong">동</label><select class="lk-in" id="r-dong"></select></div>
+            </div>
+            <p class="lk-l">건물 종류</p>
+            <div class="chips" id="r-type"></div>
+            <p class="lk-l">거래 종류</p>
+            <div class="chips" id="r-deal"></div>
+          </div>
+          <div id="r-out"></div>
+        </div>
+      </section>
+
       <!-- ② 답변 입력 -->
       <section class="view" id="p2" aria-label="답변 입력">
         <div class="nav">
@@ -480,6 +535,7 @@
               <div class="why"><b>왜 물어봐야 하나요?</b><span id="a-why"></span></div>
             </div>
           </div>
+          <div class="grp" id="a-rent" hidden></div>
           <div class="grp" id="a-lookup" hidden></div>
           <div id="a-fields"></div>
           <div class="field">
@@ -1015,6 +1071,9 @@ function renderAnswer(){
   $('a-cat').textContent = q.cat + ' · ' + q.tag;
   $('a-q').textContent = q.q;
   $('a-why').textContent = q.why;
+  // 12번(시세 비교)에서만 동네 시세 화면으로 가는 칸을 보여 줘요
+  $('a-rent').hidden = q.id !== 'q12';
+  $('a-rent').innerHTML = q.id === 'q12' ? '<button type="button" class="rent-entry" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 시세 확인해 보기</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' : '';
   $('a-ans').value = a.memo;
   $('a-cnt').textContent = a.memo.length + ' / 300';
   document.querySelectorAll('#p2 .chips').forEach(g=>{
@@ -1249,11 +1308,111 @@ const helpRows = keys => keys.map(k=>{
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="large"><h1>기타 서비스</h1><p class="legal-top">참고용 안내예요. 법률 자문이 아니에요.</p></div>' +
+    '<button type="button" class="rent-entry" id="toRent" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 전월세 시세</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' +
     '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
       '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
     '<div class="grp"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
     '<div class="grp"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<p class="note">집콕체크는 위 기관과 제휴하지 않았어요. 연락처는 2026년 10월 기준이에요.</p>';
+}
+
+/* ---------- 동네 전월세 시세 ----------
+   GitHub가 매일 국토교통부 전월세 실거래가를 받아 data/rent/구코드.json 으로 만들어요 (scripts/fetch_rent.mjs).
+   앱은 이 파일만 읽어요. 바깥 서비스를 직접 부르지 않고, 사용자 답·메모·금액도 쓰지 않아요.
+   파일 모양: {code, gu, updated, from, to, items:[[종류, 동, 면적㎡, 층, 지은 해, 보증금(만 원), 월세(만 원, 전세는 0), 계약일, 신규·갱신]]}
+   고른 구·동·종류·거래는 이 기기 브라우저에만 기억해요(키 jipkok-rent). */
+const SEOUL_GU = [['11110','종로구'],['11140','중구'],['11170','용산구'],['11200','성동구'],['11215','광진구'],['11230','동대문구'],['11260','중랑구'],['11290','성북구'],['11305','강북구'],['11320','도봉구'],['11350','노원구'],['11380','은평구'],['11410','서대문구'],['11440','마포구'],['11470','양천구'],['11500','강서구'],['11530','구로구'],['11545','금천구'],['11560','영등포구'],['11590','동작구'],['11620','관악구'],['11650','서초구'],['11680','강남구'],['11710','송파구'],['11740','강동구']];
+const RENT_TYPE = [['all','전체'],['sh','다가구·단독'],['rh','빌라'],['offi','오피스텔'],['apt','아파트']];
+const RENT_DEAL = [['monthly','월세'],['jeonse','전세']];
+const RENT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>';
+const RENT_SITE = 'https://rt.molit.go.kr';
+const RKEY = 'jipkok-rent', RPAGE = 30;
+let rf = {gu:'11410', dong:'all', type:'all', deal:'monthly'};
+try { const v = JSON.parse(localStorage.getItem(RKEY) || 'null'); if(v && SEOUL_GU.some(g=>g[0] === v.gu)) rf = Object.assign(rf, v); } catch(e){}
+const rSave = () => { try { localStorage.setItem(RKEY, JSON.stringify(rf)); } catch(e){} };
+const rCache = {};
+let rShown = RPAGE, rTurn = 0;
+// 금액(만 원): 1억 2,000만처럼. 숫자는 굵게, 단위는 보통 굵기로
+const manTxt = n => { const e = Math.floor(n / 10000), m = n % 10000; return (e ? e + '억' : '') + (e && m ? ' ' : '') + (m || !e ? m.toLocaleString('ko-KR') + '만' : ''); };
+const manHtml = n => manTxt(n).replace(/[\d,]+/g, '<b>$&</b>');
+const median = a => { if(!a.length) return null; const b = a.slice().sort((x,y)=>x - y), k = b.length >> 1; return b.length % 2 ? b[k] : Math.round((b[k - 1] + b[k]) / 2); };
+const rType = k => (RENT_TYPE.find(t=>t[0] === k) || ['', ''])[1];
+
+function rentChips(id, list, cur){
+  $(id).innerHTML = list.map(t=>'<button type="button" class="chip' + (t[0] === cur ? ' on' : '') + '" data-v="' + t[0] + '" aria-pressed="' + (t[0] === cur) + '">' + t[1] + '</button>').join('');
+}
+async function loadGu(code){
+  if(rCache[code]) return rCache[code];
+  const r = await fetch('data/rent/' + code + '.json', {cache:'no-cache'});
+  if(!r.ok) throw new Error('파일 없음');
+  const d = await r.json();
+  if(!d || !Array.isArray(d.items)) throw new Error('모양이 달라요');
+  return (rCache[code] = d);
+}
+function renderRent(){
+  rentBack();
+  $('r-gu').innerHTML = SEOUL_GU.map(g=>'<option value="' + g[0] + '"' + (g[0] === rf.gu ? ' selected' : '') + '>' + g[1] + '</option>').join('');
+  rentChips('r-type', RENT_TYPE, rf.type);
+  rentChips('r-deal', RENT_DEAL, rf.deal);
+  rShown = RPAGE;
+  drawRent();
+}
+async function drawRent(){
+  const turn = ++rTurn, out = $('r-out');
+  let d;
+  if(!rCache[rf.gu]){ $('r-dong').innerHTML = '<option>불러오는 중</option>'; out.innerHTML = '<div class="grp"><div class="card r-empty">자료를 불러오는 중이에요.</div></div>'; }
+  try { d = await loadGu(rf.gu); }
+  catch(e){
+    if(turn !== rTurn) return;
+    $('r-dong').innerHTML = '<option value="all">전체</option>';
+    out.innerHTML = '<div class="grp"><div class="card r-empty"><b>자료를 불러오지 못했어요.</b><br>잠시 뒤 다시 열어 보거나, 국토교통부 실거래가 공개시스템에서 직접 찾아보세요.</div>' +
+      '<div class="r-link"><a class="hbtn" href="' + RENT_SITE + '" target="_blank" rel="noopener">국토교통부 실거래가 공개시스템</a></div></div>';
+    return;
+  }
+  if(turn !== rTurn) return;
+  // 동 목록: 이 구 거래에 나온 동 (가나다순)
+  const dongs = [...new Set(d.items.map(x=>x[1]))].sort((a,b)=>a.localeCompare(b, 'ko'));
+  if(rf.dong !== 'all' && !dongs.includes(rf.dong)) rf.dong = 'all';
+  $('r-dong').innerHTML = '<option value="all">전체</option>' + dongs.map(n=>'<option value="' + esc(n) + '"' + (n === rf.dong ? ' selected' : '') + '>' + esc(n) + '</option>').join('');
+  const jeonse = rf.deal === 'jeonse';
+  const list = d.items.filter(x=>(rf.dong === 'all' || x[1] === rf.dong) && (rf.type === 'all' || x[0] === rf.type) && ((x[6] === 0) === jeonse))
+    .sort((a,b)=>b[7].localeCompare(a[7]));
+  const place = (SEOUL_GU.find(g=>g[0] === rf.gu) || ['', ''])[1] + (rf.dong === 'all' ? '' : ' ' + rf.dong);
+  const cell = (label, v) => '<div class="r-cell"><span>' + label + '</span><p>' + (v == null ? '<b>-</b>' : v) + '</p></div>';
+  const md = median(list.map(x=>x[5])), mr = median(list.map(x=>x[6])), ma = median(list.map(x=>x[2]));
+  let h = '<div class="grp"><div class="card-t">' + esc(place) + ' ' + (rf.type === 'all' ? '' : rType(rf.type) + ' ') + (jeonse ? '전세' : '월세') + '<small>최근 3달 가운데값</small></div><div class="card r-sum">' +
+    (jeonse ? cell('전세 보증금', md == null ? null : manHtml(md)) + cell('면적', ma == null ? null : '<b>' + Math.round(ma) + '</b>㎡') + cell('거래', '<b>' + list.length + '</b>건')
+            : cell('보증금', md == null ? null : manHtml(md)) + cell('월세', mr == null ? null : manHtml(mr)) + cell('거래', '<b>' + list.length + '</b>건')) +
+    '</div><p class="r-src">가운데값은 거래를 금액 순서로 세웠을 때 한가운데 금액이에요. 비슷한 방과 비교할 때 참고하세요.</p></div>';
+  h += '<div class="grp"><div class="card-t">최근 거래<small>' + list.length + '건</small></div><div class="card">';
+  if(!list.length) h += '<div class="r-empty">이 조건의 거래가 없어요.<br>동이나 건물 종류를 바꿔 보세요.</div>';
+  h += list.slice(0, rShown).map(x=>{
+    const pr = x[6] === 0 ? '전세 ' + manHtml(x[5]) : '보증금 ' + manHtml(x[5]) + ' · 월세 ' + manHtml(x[6]);
+    const meta = [rType(x[0]), x[1], (Math.round(x[2] * 10) / 10) + '㎡(' + Math.round(x[2] / 3.3058) + '평)', x[3] != null ? x[3] + '층' : '', x[4] ? x[4] + '년 지음' : ''].filter(Boolean).join(' · ');
+    return '<div class="r-row"><p class="r-pr">' + pr + '</p><p class="r-meta">' + esc(meta) + '</p><p class="r-date">' + x[7] + ' 계약' + (x[8] ? ' · ' + esc(x[8]) : '') + '</p></div>';
+  }).join('');
+  if(list.length > rShown) h += '<button type="button" class="r-more" id="r-more">더 보기 (' + (list.length - rShown) + '건 남음)</button>';
+  h += '</div><p class="r-src">국토교통부 실거래가 공개시스템 자료예요(' + esc(d.from || '') + ' ~ ' + esc(d.to || '') + ' 계약, ' + esc(d.updated || '') + ' 받음). 이미 계약된 거래이고, 정확한 주소와 집주인 정보는 없어요. 신고된 거래만 들어 있어서 모든 거래가 있지는 않아요.</p>' +
+    '<div class="r-link"><a class="hbtn" href="' + RENT_SITE + '" target="_blank" rel="noopener">국토교통부 실거래가 공개시스템</a></div></div>' +
+    '<p class="note">참고용 안내이며 법률 자문이 아니에요. 집콕체크는 국토교통부와 제휴하지 않았어요.</p>';
+  out.innerHTML = h;
+}
+$('r-gu').addEventListener('change', e=>{ rf.gu = e.target.value; rf.dong = 'all'; rSave(); rShown = RPAGE; drawRent(); });
+$('r-dong').addEventListener('change', e=>{ rf.dong = e.target.value; rSave(); rShown = RPAGE; drawRent(); });
+['r-type','r-deal'].forEach(id=>$(id).addEventListener('click', e=>{
+  const c = e.target.closest('.chip'); if(!c) return;
+  rf[id === 'r-type' ? 'type' : 'deal'] = c.dataset.v; rSave(); rShown = RPAGE;
+  $(id).querySelectorAll('.chip').forEach(x=>{ x.classList.toggle('on', x === c); x.setAttribute('aria-pressed', x === c); });
+  drawRent();
+}));
+$('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown += RPAGE; drawRent(); } });
+// 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
+let rentFrom = 'ps';
+document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = curView === 'p2' ? 'p2' : 'ps'; go('pr'); } });
+function rentBack(){
+  const fromAns = rentFrom === 'p2';
+  $('r-back').querySelector('span').textContent = fromAns ? '답변' : '기타 서비스';
+  $('r-back').setAttribute('aria-label', fromAns ? '답변으로' : '기타 서비스로');
 }
 
 /* ---------- 아래 탭: 계약 체크(질문 목록) · 기타 서비스 ---------- */
@@ -1276,8 +1435,8 @@ document.addEventListener('click', e=>{
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
 const VIEWS = ['p0','p1','p2','p3'];
 // 화면이 놓인 순서(옆으로 넘어가는 방향)와 뒤로 가기 깊이. 기타 서비스는 질문 목록 바로 위에 쌓여요
-const ORDER = ['p0','p1','ps','p2','p3'];
-const DEPTH = {p0:0, p1:1, ps:2, p2:2, p3:3};
+const ORDER = ['p0','p1','ps','pr','p2','p3'];
+const DEPTH = {p0:0, p1:1, ps:2, pr:3, p2:2, p3:3};
 let depth = 0;
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null;
@@ -1296,8 +1455,10 @@ function show(id){
   const tab = (curView === 'p1' && id === 'ps') || (curView === 'ps' && id === 'p1');
   const vs = document.querySelector('.views');
   if(tab){ vs.classList.add('instant'); busyUntil = Date.now() + 100; }
-  const k = ORDER.indexOf(id);
-  ORDER.forEach((v,i)=>{
+  // 12번 답 화면에서 연 시세 화면은 답 화면 오른쪽에서 들어와요
+  const order = rentFrom === 'p2' ? ['p0','p1','ps','p2','pr','p3'] : ORDER;
+  const k = order.indexOf(id);
+  order.forEach((v,i)=>{
     const el = $(v);
     el.classList.toggle('on', i === k);
     el.classList.toggle('past', i < k);
@@ -1312,7 +1473,8 @@ function show(id){
 function go(id){
   depth = DEPTH[id];
   if(id === 'ps') renderServices();
-  history.pushState({v:id, d:depth}, '');
+  if(id === 'pr') renderRent();
+  history.pushState({v:id, d:depth, from:rentFrom}, '');
   show(id);
 }
 
@@ -1321,7 +1483,9 @@ window.addEventListener('popstate', e=>{
   if((v === 'p2' || v === 'p3') && !state.sel) v = 'p1';
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
   depth = DEPTH[v];
+  if(v === 'pr') rentFrom = (e.state && e.state.from) || 'ps';
   if(v === 'ps') renderServices();
+  if(v === 'pr') renderRent();
   if(v === 'p0') renderStart();
   if(v === 'p1') renderList();
   if(v === 'p1' && doneTag) toast(doneMsg(doneTag));
