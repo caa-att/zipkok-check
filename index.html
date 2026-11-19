@@ -370,8 +370,9 @@
   .hbtn svg{flex:none;width:16px;height:16px}
   .urgent{margin-top:20px;background:var(--bad-bg);border-radius:var(--ds-radius-card);padding:16px;font-size:16px;line-height:24px;color:var(--ds-text-strong)}
   .urgent b{display:block;color:var(--bad);font-size:16px;font-weight:700;line-height:24px;margin-bottom:4px}
-  .urgent .hbtns{display:flex;gap:8px;margin-top:12px}
-  .urgent .hbtn{flex:1}
+  /* 자리가 넉넉하면 두 버튼을 나란히, 모자라면(좁은 휴대폰·큰 글씨) 위아래로 쌓아서 칸 밖으로 나가지 않게 */
+  .urgent .hbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .urgent .hbtn{flex:1 1 auto;max-width:100%;height:auto;min-height:40px;padding:8px 14px;white-space:normal;text-align:center}
   .grp[hidden]{display:none}
 
   /* 휴대폰에서는 화면 전체를 앱으로 */
