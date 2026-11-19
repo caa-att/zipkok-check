@@ -410,6 +410,42 @@
   #pr .scroll{padding-bottom:40px}
   #a-rent .rent-entry{margin-top:0}
 
+  /* ---------- 첫 화면: 한눈에 보는 흐름 (2026-11-19) ---------- */
+  .hero{margin-top:20px;padding:20px 18px 18px}
+  .hero h2{font-size:20px;font-weight:700;line-height:28px;color:var(--ds-text-strong)}
+  .hflow{display:flex;align-items:flex-start;margin-top:18px}
+  .hstep{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+  .hstep i{width:52px;height:52px;border-radius:16px;background:var(--ds-blue-50);color:var(--ds-primary-heavy);display:grid;place-items:center;font-style:normal}
+  .hstep i svg{width:26px;height:26px}
+  .hstep span{font-size:14px;font-weight:600;line-height:20px;color:var(--ds-text-strong)}
+  .hstep small{display:block;font-size:12px;font-weight:600;line-height:18px;color:var(--ds-primary-heavy)}
+  .hf-ar{flex:none;width:16px;height:16px;margin-top:18px;color:var(--ds-gray-400)}
+  .resume{position:relative;display:block;width:100%;padding:16px 44px 16px 18px;border:0;border-radius:var(--ds-radius-card);background:var(--card);text-align:left;font:inherit;color:inherit;cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .resume[hidden]{display:none}
+  .resume:active{transform:scale(.96);background:var(--ds-pressed)}
+  .resume::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-top:2px solid var(--ds-gray-400);transform:translateY(-50%) rotate(45deg)}
+  .resume .rs-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .resume .rs-top b{font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong)}
+  .resume .rs-top span{font-size:14px;line-height:22px;color:var(--ds-text-primary);white-space:nowrap}
+  .resume .rs-top span em{font-style:normal;font-size:18px;font-weight:700;color:var(--ds-text-strong)}
+  .resume .track{height:8px;margin-top:10px;background:var(--ds-gray-200);border-radius:8px;overflow:hidden}
+  .resume .fill{height:100%;width:0;background:var(--ds-primary);border-radius:8px}
+  .resume .rs-next{margin-top:10px;font-size:14px;line-height:22px;color:var(--ds-text-primary)}
+  .resume .rs-next b{font-weight:600;color:var(--ds-text-strong)}
+  .qmenu{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:14px 8px}
+  .qm{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 2px;border:0;border-radius:var(--ds-radius-btn);background:none;font:inherit;cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .qm:active{transform:scale(.95);background:var(--ds-pressed)}
+  .qm i{width:48px;height:48px;border-radius:14px;background:var(--ds-blue-50);color:var(--ds-primary-heavy);display:grid;place-items:center;font-style:normal}
+  .qm i svg{width:24px;height:24px}
+  .qm span{font-size:13px;font-weight:600;line-height:18px;color:var(--ds-text-strong);word-break:keep-all}
+  .about{background:var(--card);border-radius:var(--ds-radius-card);overflow:hidden}
+  .about summary{position:relative;list-style:none;padding:16px 44px 16px 18px;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong);cursor:pointer}
+  .about summary::-webkit-details-marker{display:none}
+  .about summary::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-bottom:2px solid var(--ds-gray-400);transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+  .about[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+  .about summary:active{background:var(--ds-pressed)}
+  .about .intro-row:first-of-type{border-top:1px solid var(--ds-divider)}
+
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     body{background:var(--bg)}
@@ -442,18 +478,37 @@
             <h1>집콕체크</h1>
             <p class="legal-top">참고용 안내예요. 법률 자문이 아니에요.</p>
           </div>
+          <!-- 한눈에 보는 흐름 -->
+          <div class="card hero">
+            <h2>계약 전, 물어볼 것 15개를<br>차례로 확인해요</h2>
+            <div class="hflow">
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span><small>1</small>질문 보기</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M15 7l1.5 1.5L19 6"/></svg></i><span><small>2</small>들은 답 고르기</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/></svg></i><span><small>3</small>안전·주의·위험 확인</span></div>
+            </div>
+          </div>
+          <div class="grp" id="savedGrp" hidden>
+            <button type="button" class="resume" id="saved">
+              <div class="rs-top"><b>이어서 하기</b><span id="savedCount"><em>0</em> / 15 확인</span></div>
+              <div class="track"><div class="fill" id="savedFill"></div></div>
+              <p class="rs-next" id="savedNext"></p>
+            </button>
+          </div>
           <div class="grp">
-            <div class="card intro">
-              <div class="intro-row"><b>문제</b><p>전월세 계약 전에 무엇을 물어봐야 하는지, 받은 답이 안전한지 판단하기 어려워요.</p></div>
-              <div class="intro-row"><b>고객</b><p>서울(신촌 등)에서 혼자 전월세 계약을 앞둔 대학생을 위해 만들었어요.</p></div>
-              <div class="intro-row"><b>핵심 가치</b><p>확인할 질문을 체크리스트로 모아 주고, 들은 답을 고르면 법률 기준으로 영향과 다음 행동을 알려 줘요.</p></div>
+            <div class="card qmenu" role="group" aria-label="바로가기">
+              <button type="button" class="qm" data-quick="list"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span>체크리스트</span></button>
+              <button type="button" class="qm" data-quick="rent"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><span>동네 시세</span></button>
+              <button type="button" class="qm" data-quick="help"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l2 5-2.4 1.6a11 11 0 005.3 5.3L15 13.5l5 2V19a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></i><span>무료 상담</span></button>
+              <button type="button" class="qm" data-quick="docs"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></i><span>서류 떼기</span></button>
             </div>
           </div>
           <div class="grp">
-            <div class="card saved" id="saved" hidden>
-              <p class="saved-t">이전에 확인하던 기록이 있어요</p>
-              <p class="saved-d"><b id="savedCount">0 / 15</b> 확인했어요. 이어서 할까요?</p>
-            </div>
+            <details class="about">
+              <summary>집콕체크는 이런 앱이에요</summary>
+              <div class="intro-row"><b>문제</b><p>전월세 계약 전에 무엇을 물어봐야 하는지, 받은 답이 안전한지 판단하기 어려워요.</p></div>
+              <div class="intro-row"><b>고객</b><p>서울(신촌 등)에서 혼자 전월세 계약을 앞둔 대학생을 위해 만들었어요.</p></div>
+              <div class="intro-row"><b>핵심 가치</b><p>확인할 질문을 체크리스트로 모아 주고, 들은 답을 고르면 법률 기준으로 영향과 다음 행동을 알려 줘요.</p></div>
+            </details>
           </div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
           <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
@@ -1311,8 +1366,8 @@ function renderServices(){
     '<button type="button" class="rent-entry" id="toRent" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 전월세 시세</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' +
     '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
       '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
-    '<div class="grp"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
-    '<div class="grp"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
+    '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
+    '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<p class="note">집콕체크는 위 기관과 제휴하지 않았어요. 연락처는 2026년 10월 기준이에요.</p>';
 }
 
@@ -1409,10 +1464,11 @@ $('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown +
 // 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
 let rentFrom = 'ps';
 document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = curView === 'p2' ? 'p2' : 'ps'; go('pr'); } });
+const RENT_BACK = {p0:['처음','시작 화면으로'], p2:['답변','답변으로'], ps:['기타 서비스','기타 서비스로']};
 function rentBack(){
-  const fromAns = rentFrom === 'p2';
-  $('r-back').querySelector('span').textContent = fromAns ? '답변' : '기타 서비스';
-  $('r-back').setAttribute('aria-label', fromAns ? '답변으로' : '기타 서비스로');
+  const b = RENT_BACK[rentFrom] || RENT_BACK.ps;
+  $('r-back').querySelector('span').textContent = b[0];
+  $('r-back').setAttribute('aria-label', b[1]);
 }
 
 /* ---------- 아래 탭: 계약 체크(질문 목록) · 기타 서비스 ---------- */
@@ -1456,7 +1512,7 @@ function show(id){
   const vs = document.querySelector('.views');
   if(tab){ vs.classList.add('instant'); busyUntil = Date.now() + 100; }
   // 12번 답 화면에서 연 시세 화면은 답 화면 오른쪽에서 들어와요
-  const order = rentFrom === 'p2' ? ['p0','p1','ps','p2','pr','p3'] : ORDER;
+  const order = rentFrom === 'p2' ? ['p0','p1','ps','p2','pr','p3'] : rentFrom === 'p0' ? ['p0','pr','p1','ps','p2','p3'] : ORDER;
   const k = order.indexOf(id);
   order.forEach((v,i)=>{
     const el = $(v);
@@ -1471,7 +1527,7 @@ function show(id){
 }
 
 function go(id){
-  depth = DEPTH[id];
+  depth = id === 'pr' ? DEPTH[rentFrom] + 1 : DEPTH[id];
   if(id === 'ps') renderServices();
   if(id === 'pr') renderRent();
   history.pushState({v:id, d:depth, from:rentFrom}, '');
@@ -1482,7 +1538,7 @@ window.addEventListener('popstate', e=>{
   let v = (e.state && e.state.v) || 'p0';
   if((v === 'p2' || v === 'p3') && !state.sel) v = 'p1';
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
-  depth = DEPTH[v];
+  depth = (e.state && e.state.d != null) ? e.state.d : DEPTH[v];
   if(v === 'pr') rentFrom = (e.state && e.state.from) || 'ps';
   if(v === 'ps') renderServices();
   if(v === 'pr') renderRent();
@@ -1645,9 +1701,11 @@ function hasSaved(){
 }
 function renderStart(){
   const saved = hasSaved();
-  $('saved').hidden = !saved;
-  const k = naCount();
-  $('savedCount').textContent = Q.filter(q=>isDone(q.id)).length + ' / ' + Q.length + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
+  $('savedGrp').hidden = !saved;
+  const k = naCount(), n = Q.filter(q=>isDone(q.id)).length, nx = nextOpen();
+  $('savedCount').innerHTML = '<em>' + n + '</em> / ' + Q.length + ' 확인' + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
+  $('savedFill').style.width = Math.round(n / Q.length * 100) + '%';
+  $('savedNext').innerHTML = nx ? '다음: <b>' + BY_ID[nx].n + '. ' + esc(BY_ID[nx].tag) + '</b>' : '<b>15개 질문을 모두 확인했어요</b>';
   $('startGo').textContent = saved ? '이어서 하기' : '시작하기';
   $('startNew').hidden = !saved;
   $('wipeAll').hidden = !saved;
@@ -1660,6 +1718,17 @@ $('wipeAll').addEventListener('click', ()=>{
   $('p0').querySelector('.scroll').scrollTop = 0;
 });
 $('startGo').addEventListener('click', ()=>{ state.sel = nextOpen(); renderList(); go('p1'); });
+$('saved').addEventListener('click', ()=>$('startGo').click());
+// 첫 화면 바로가기 4칸
+document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click', ()=>{
+  const k = b.dataset.quick;
+  if(k === 'list') return $('startGo').click();
+  if(k === 'rent'){ rentFrom = 'p0'; return go('pr'); }
+  // 무료 상담·서류 떼기: 질문 목록 위에 기타 서비스를 쌓아 탭 구조를 그대로 써요
+  state.sel = nextOpen(); renderList(); go('p1'); go('ps');
+  const t = $(k === 'docs' ? 'ps-docs' : 'ps-help');
+  if(t) $('ps').querySelector('.scroll').scrollTop = t.offsetTop - 12;
+}));
 $('startNew').addEventListener('click', ()=>{ clearAll(); go('p1'); });
 
 history.replaceState({v:'p0', d:0}, '');
