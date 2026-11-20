@@ -761,6 +761,7 @@
   .rec-big:active{transform:scale(.96);background:var(--brand-press)}
   .rec-big span{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center}
   .rec-big svg{width:18px;height:18px}
+  .rec-big.on{background:var(--bad-fill)}
   .h-blk .rec-big{margin-top:16px}
   .linkb{border:0;background:none;padding:0;font:inherit;font-weight:700;color:var(--brand-press);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
   /* 계약까지 4단계 */
@@ -798,6 +799,70 @@
   .aiq small{display:block;margin-top:8px;font-size:13px;color:var(--ds-text-secondary)}
   .lv.ai{background:var(--pink-50);color:var(--pink)}
 
+  /* ---------- 홈 = 지금 보는 집 · 아래 가로바 없음 (2026-11-20) ---------- */
+  .tabbar{display:none}
+  #p0 .scroll{padding-bottom:40px}
+  .h-houses{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none;margin-right:-20px;padding-right:20px}
+  .h-houses::-webkit-scrollbar{display:none}
+  .hchip{flex:none;height:38px;padding:0 16px;border:1px solid var(--ds-divider);border-radius:19px;background:#fff;font:inherit;font-size:15px;font-weight:700;color:var(--ds-text-primary);cursor:pointer;white-space:nowrap;transition:transform .1s}
+  .hchip:active{transform:scale(.95)}
+  .hchip.on{background:var(--ds-text-strong);border-color:var(--ds-text-strong);color:#fff}
+  .hchip.add{color:var(--brand-press);border-style:dashed}
+  #hcard{background:#fff;border-radius:22px;padding:22px 20px}
+  .hc-n{font-size:25px;font-weight:800;letter-spacing:-.7px;line-height:34px;color:var(--ds-text-strong)}
+  .hc-s{margin-top:4px;font-size:15px;line-height:23px;color:var(--ds-text-secondary)}
+  .hsteps{margin-top:18px}
+  .hst{position:relative;display:flex;gap:12px;align-items:flex-start;padding-bottom:16px}
+  .hst:not(:last-child)::before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--ds-divider)}
+  .hst.done:not(:last-child)::before{background:var(--pink)}
+  .hs-d{position:relative;z-index:1;flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg);color:var(--ds-gray-500);display:grid;place-items:center;font-size:14px;font-weight:800}
+  .hst.done .hs-d{background:var(--pink);color:#fff}
+  .hst.hcur .hs-d{background:var(--brand);color:#fff;box-shadow:0 0 0 5px var(--brand-50)}
+  .hst b{display:block;font-size:16px;font-weight:700;line-height:30px;color:var(--ds-text-strong)}
+  .hst:not(.done):not(.hcur) b{color:var(--ds-gray-500)}
+  .hst div span{display:block;font-size:14px;line-height:20px;color:var(--ds-text-secondary)}
+  .hsum{margin-top:6px;padding:16px;border-radius:16px;background:var(--bg)}
+  .hsum-t{font-size:20px;font-weight:800;line-height:29px;letter-spacing:-.5px;color:var(--ds-text-strong)}
+  .hsum-t em{font-style:normal;color:var(--bad)}
+  .hsum .rep-st{margin-top:12px}
+  #hcard .rec-big{margin-top:16px}
+  .hc-link{display:block;margin:12px auto 0;border:0;background:none;font:inherit;font-size:14px;font-weight:700;color:var(--ds-text-secondary);cursor:pointer;padding:4px 6px}
+  .hc-links{display:flex;justify-content:center;gap:14px}
+  .hc-links .hc-link{margin:12px 0 0}
+  .hc-del{display:block;margin:18px auto 0;border:0;background:none;font:inherit;font-size:13px;color:var(--ds-gray-500);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  /* 녹음 화면 */
+  .recard{margin-top:12px;padding:22px 20px;border-radius:24px;background:var(--navy-b);color:#fff;text-align:center}
+  .rec-h{font-size:15px;font-weight:700;color:#D6DFF2}
+  .live{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:14px;font-weight:700;color:#FF9C93}
+  .live::before{content:"";width:9px;height:9px;border-radius:50%;background:#FF6B5B;animation:blink 1.2s infinite}
+  .rtime{margin-top:2px;font-size:15px;color:#D6DFF2;font-variant-numeric:tabular-nums}
+  .ring{position:relative;width:156px;height:156px;margin:10px auto 0}
+  .ring svg{width:100%;height:100%}
+  .ring svg circle:last-child{transition:stroke-dasharray .6s}
+  .ring-t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring-t b{font-size:42px;font-weight:800;line-height:1}
+  .ring-t small{margin-top:6px;font-size:13px;color:#B9C8E8}
+  .rnew{margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.1);font-size:14px;line-height:21px;text-align:left;color:#E6ECF8}
+  .rnew b{color:#FFB3CB}
+  .recard .prog{color:#B9C8E8}
+  .rstop{display:block;width:100%;height:54px;margin-top:14px;border:0;border-radius:16px;background:#fff;color:var(--navy-b);font:inherit;font-size:17px;font-weight:800;cursor:pointer;transition:transform .1s}
+  .rstop:active{transform:scale(.96)}
+  .rcancel{display:block;margin:10px auto 0;border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:#B9C8E8;cursor:pointer}
+  .ask{margin-top:12px;padding:18px 20px;border-radius:22px;background:#fff}
+  .ask h3{font-size:17px;font-weight:800;color:var(--ds-text-strong)}
+  .ask h3 span{color:var(--brand)}
+  .aq{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--ds-divider);font-size:15px;font-weight:600;line-height:23px;color:var(--ds-text-strong)}
+  .ask h3 + .aq{border-top:0;margin-top:4px}
+  .aq i{flex:none;width:22px;height:22px;margin-top:1px;border-radius:50%;border:2px solid var(--ds-gray-300)}
+  .rec-for{font-size:15px;line-height:23px;color:var(--ds-text-primary)}
+  .rec-for b{color:var(--ds-text-strong)}
+  .aq-done{margin-top:8px;font-size:15px;color:var(--ds-text-primary)}
+  .allq{margin:0 -20px -18px;border-top:1px solid var(--ds-divider)}
+  .allq summary{list-style:none;padding:14px;text-align:center;font-size:14px;font-weight:700;color:var(--brand-press);cursor:pointer}
+  .allq summary::-webkit-details-marker{display:none}
+  .allq[open] summary{border-bottom:1px solid var(--ds-divider)}
+  .allq .grp{margin:12px 12px 16px}
+
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     .view.tabv > .nav{height:calc(8px + env(safe-area-inset-top))}
@@ -828,32 +893,15 @@
         <div class="scroll">
           <div class="h-hero">
             <div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>
-            <button type="button" class="h-search" data-quick="find"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>학교, 동네 이름으로 찾기</button>
-            <div class="h-cats" role="group" aria-label="건물 종류로 찾기">
-              <button type="button" class="h-cat" data-cat="sh"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1.5"/><path d="M14.5 12h.01"/></svg></i>원룸·다가구</button>
-              <button type="button" class="h-cat" data-cat="rh"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9 21v-5h6v5M9 11h.01M15 11h.01"/></svg></i>빌라</button>
-              <button type="button" class="h-cat" data-cat="offi"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg></i>오피스텔</button>
-              <button type="button" class="h-cat" data-rent><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i>동네 시세</button>
-            </div>
+            <div class="h-houses" id="h-houses" role="group" aria-label="내 집"></div>
           </div>
-          <!-- 계약까지 4단계: 만나서 녹음하면 체크리스트가 저절로 채워져요 -->
-          <div class="h-blk">
-            <div class="h-head"><h2>계약까지 이렇게 해요</h2></div>
-            <div class="steps" id="h-steps"></div>
-            <button type="button" class="rec-big" data-quick="talk"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></span>중개사 만나면 녹음 시작</button>
-          </div>
-          <!-- 내 계약 안전 점검 (집마다) -->
-          <div class="h-blk tight">
-            <div class="sig" id="sig"></div>
-            <button type="button" class="h-new" id="startNew" hidden>체크 기록 지우고 새로 시작하기</button>
-          </div>
-          <div class="h-blk">
-            <div class="h-head"><h2>내 예산에 맞는 동네</h2><button type="button" class="h-more" data-quick="find">조건 바꾸기</button></div>
-            <div id="h-picks"></div>
-          </div>
-          <div class="h-blk">
-            <div class="h-head"><h2>도움받기</h2></div>
+          <!-- 지금 보는 집: 진행 단계와 지금 할 일 -->
+          <div style="margin-top:12px"><div id="hcard"></div></div>
+          <div class="h-blk" style="margin-top:16px">
+            <div class="h-head"><h2>도움 기능</h2></div>
             <div style="margin-top:8px">
+              <button type="button" class="h-row" data-quick="find"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></i><div><b>동네 추천받기</b><span>예산으로 최근 실거래 동네 찾기</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+              <button type="button" class="h-row" data-rent><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><div><b>동네 전월세 시세</b><span>구·동별 최근 3달 실제 거래</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
               <button type="button" class="h-row" data-quick="help"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.3 3 7.8 7 9.5 4-1.7 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg></i><div><b>무료 상담·서류 떼기</b><span>법률구조공단·HUG·인터넷등기소</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
             </div>
           </div>
@@ -862,12 +910,11 @@
           <p class="note"><a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--ds-primary-heavy);font-weight:600">개인정보 처리 안내</a></p>
           <p class="note foot-m" id="footM"></p><!-- 휴대폰에서만 보이는 맨 아래 문구 (내용은 footer에서 복사) -->
         </div>
-        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- 1단계 집 찾기: 조건을 고르면 실거래로 어울리는 동네와 적정 가격을 AI가 추천해요 -->
-      <section class="view tabv" id="pf" aria-label="집 찾기">
-        <div class="nav"><button type="button" class="back" data-back aria-label="시작 화면으로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>처음</button><span class="title"></span><span class="step-ind">1단계</span></div>
+      <section class="view" id="pf" aria-label="집 찾기">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">집 찾기</span><span></span></div>
         <div class="scroll">
           <div class="large"><h1>집 찾기</h1><p>예산을 넣으면 실제 거래로 동네를 골라 드려요.</p></div>
           <div class="grp">
@@ -892,7 +939,6 @@
           </div>
           <div id="f-out"></div>
         </div>
-        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- 2단계 집 보러 가기: 처음 계약하는 사람이 현장에서 물어볼 질문(사기 예방 포함)과 대화 녹음 -->
@@ -903,15 +949,14 @@
       </section>
 
       <!-- 대화 분석: 녹음 · 실시간 받아쓰기 · 녹음 파일 · 글 붙여 넣기 → AI 분석 -->
-      <section class="view tabv" id="pa" aria-label="녹음">
-        <div class="nav"><button type="button" class="back" data-back aria-label="집 보러 가기로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>질문</button><span class="title">대화 분석</span><span></span></div>
+      <section class="view" id="pa" aria-label="녹음">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">녹음</span><span></span></div>
         <div class="scroll" id="pa-body"></div>
-        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- ① 질문 목록 -->
-      <section class="view tabv" id="p1" aria-label="계약 체크">
-        <div class="nav"><button type="button" class="back" data-back aria-label="시작 화면으로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>처음</button><span class="title"></span><span class="step-ind">1 / 3</span></div>
+      <section class="view" id="p1" aria-label="계약 체크">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">계약 체크</span><span></span></div>
         <div class="scroll">
           <!-- 계약 안전 리포트: 결론(먼저 확인할 것)부터 보여 줘요 -->
           <div class="large">
@@ -936,14 +981,13 @@
             <div class="card"><button type="button" class="reset" id="reset">처음부터 다시 하기</button></div>
           </div>
         </div>
-        <div class="cta tabbed"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button><nav class="tabbar" aria-label="메뉴"></nav></div>
+        <div class="cta"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button></div>
       </section>
 
       <!-- 기타 서비스: 무료 상담받을 곳 · 서류 떼기 -->
-      <section class="view tabv" id="ps" aria-label="더보기">
-        <div class="nav"><span></span><span class="title"></span><span></span></div>
+      <section class="view" id="ps" aria-label="더보기">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">더보기</span><span></span></div>
         <div class="scroll" id="ps-body"></div>
-        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- 동네 전월세 시세 (기타 서비스에서 열어요) -->
@@ -1557,7 +1601,7 @@ function renderList(){
     c.querySelector('.card-t small').textContent = n + '/' + items.length + (n === items.length ? ' 완료' : '');
   });
   const n = Q.filter(q=>isDone(q.id)).length, k = naCount(), c = levelCount(), warn = c.bad + c.unsure, left = Q.length - n;
-  $('p1-house').innerHTML = housePicker();
+  $('p1-house').innerHTML = ''; $('p1').querySelector('.nav .title').textContent = blankHouse(house) ? '계약 체크' : house.name;
   // 안전 리포트 머리: 결론부터
   $('repT').innerHTML = !n ? '계약 전에 물어볼 15개,<br>하나씩 확인해요'
     : warn ? '계약금 보내기 전에<br><em>' + warn + '개</em>를 먼저 확인하세요'
@@ -1968,7 +2012,7 @@ const TABS = [
   ['p1', '계약 체크', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg>'],
   ['ps', '더보기', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>']
 ];
-const TAB_VIEWS = TABS.map(t=>t[0]);
+const TAB_VIEWS = []; // 2026-11-20: 아래 가로바를 없애고 홈 하나에서 이어져요
 document.querySelectorAll('.tabbar').forEach(nav=>{
   const here = nav.closest('.view').id;
   nav.innerHTML = TABS.map(t=>'<button type="button" data-tab="' + t[0] + '" class="' + (t[0] === 'pa' ? 'rec-tab' : '') + (t[0] === here ? ' on" aria-current="page' : '') + '">' + (t[0] === 'pa' ? '<i>' + t[2] + '</i>' : t[2]) + t[1] + '</button>').join('');
@@ -1982,7 +2026,7 @@ document.addEventListener('click', e=>{
 });
 // 홈 탭: 탭 화면은 홈 바로 위에 하나만 쌓여 있으니 뒤로 한 칸 가면 홈이에요
 function goHome(){
-  if(depth === 1) return history.back();
+  if(depth > 0) return history.go(-depth);
   depth = 0;
   history.replaceState({v:'p0', d:0}, '');
   renderStart();
@@ -2516,16 +2560,20 @@ function drawFindOut(){
       '<div class="info"><span class="ptag b" style="margin-top:0">' + (o.ai ? 'AI 추천' : '거래 많은 동네') + '</span><div class="price">' + bigPrice(x, jeonse) + '</div>' +
       '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">' + Math.round(x.area / 3.3058) + '평(' + x.area + '㎡)' + (x.built ? ' · ' + x.built + '년' : '') + ' · 거래 ' + x.n + '건</div></div></div>' +
       '<div class="lwhy"><b>' + (x.why ? '추천 이유' : '이 동네는') + '</b><p>' + esc(x.why || '예산 안에서 최근 3달 거래가 많은 동네예요. 많은 건물 종류: ' + x.types) + '</p>' + (x.tip ? '<p>' + esc(x.tip) + '</p>' : '') + '</div>' +
-      '<div class="pick-btns"><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
+      '<div class="pick-btns"><button type="button" class="hbtn call" data-addhouse="' + esc(x.dong) + '">이 동네 집 보러 가기</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
       '<a class="hbtn" href="https://search.naver.com/search.naver?query=' + encodeURIComponent(x.gu + ' ' + x.dong + ' ' + (jeonse ? '전세' : '월세') + ' 원룸') + '" target="_blank" rel="noopener">매물 검색</a></div></div>').join('') +
     (o.note ? '<p class="r-src">' + esc(o.note) + '</p>' : '') +
     (o.ai ? '' : '<p class="r-src">AI 추천을 받지 못해 예산 안 거래가 많은 순서로 보여 드려요.</p>') +
     '</div>' +
     '<div class="r-link"><a class="hbtn" href="https://www.zigbang.com" target="_blank" rel="noopener">직방</a>&nbsp;<a class="hbtn" href="https://www.dabangapp.com" target="_blank" rel="noopener">다방</a>&nbsp;<a class="hbtn" href="https://land.naver.com" target="_blank" rel="noopener">네이버 부동산</a></div>' +
-    '<button type="button" class="btn next-step" data-next-visit>이 동네 집 보러 갈 때 물어볼 질문</button>';
+    '';
   box.innerHTML = h;
 }
-$('f-out').addEventListener('click', e=>{ if(e.target.closest('[data-next-visit]')) go('pv'); });
+$('f-out').addEventListener('click', e=>{
+  if(e.target.closest('[data-next-visit]')) return go('pv');
+  const ah = e.target.closest('[data-addhouse]');
+  if(ah && askAddHouse(ah.dataset.addhouse + ' 집', ah.dataset.addhouse + ' · 동네 추천으로 골랐어요')){ toast('집을 추가했어요. 중개사를 만나면 녹음을 켜세요.'); goHome(); }
+});
 
 /* ---------- 동의 창 (녹음·대화 분석을 처음 쓸 때 한 번) ---------- */
 let consentNext = null;
@@ -2589,10 +2637,11 @@ function fmtTime(sec){ sec = Math.floor(sec); return String(Math.floor(sec / 60)
 
 function renderTalk(){
   const b = paBody(), ph = T.phase;
+  $('pa').querySelector('.nav .title').textContent = blankHouse(house) ? '녹음' : house.name;
   if(ph === 'start'){
     const sessions = lsGet(TKEY, []), left = Q.filter(q=>!isDone(q.id)).length;
     b.innerHTML = '<div class="large"><h1>중개사 대화 녹음</h1><p>녹음하면 대화에서 나온 답이 체크리스트에 자동으로 채워져요.</p></div>' +
-      '<div class="grp"><p class="lk-l first">어느 집 대화인가요?</p><div id="t-house">' + housePicker() + '</div>' +
+      '<div class="grp"><p class="rec-for">' + (blankHouse(house) ? '녹음을 시작하면 보러 갈 집 이름을 먼저 적어요.' : '<b>' + esc(house.name) + '</b> 대화를 녹음해요. 다른 집은 홈에서 골라요.') + '</p>' +
       '<p class="fh">' + (left ? '아직 답이 안 나온 질문이 ' + left + '개 있어요. <button type="button" class="linkb" data-go-prep>물어볼 질문 보기</button>' : '15개 질문의 답이 모두 채워졌어요.') + '</p></div>' +
       '<div class="grp"><button type="button" class="rec-big" data-way="rec"><span>' + ICON_MIC + '</span>녹음 시작</button></div>' +
       '<div class="grp"><div class="ways">' +
@@ -2605,18 +2654,13 @@ function renderTalk(){
     return;
   }
   if(ph === 'rec'){
-    b.innerHTML = '<div class="grp" style="margin-top:12px"><div class="card rec-box"><p class="rec-house">' + esc(house.name) + '</p><span class="rec-dot" id="t-dot">녹음 중</span><p class="rec-time" id="t-time">00:00</p><div class="rec-lv"><i id="t-lv"></i></div>' +
-      '<p class="rec-note">1분쯤마다 받아 적고, 답이 나온 질문은 자동으로 체크해요. 화면은 켜 두세요.</p><p class="prog" id="t-prog"></p>' +
-      '<button type="button" class="btn rec-stop" data-t="stop">녹음 끝내기</button><button type="button" class="btn plain" data-t="cancel">녹음 버리기</button></div></div>' +
-      '<div id="t-checks">' + checksHtml() + '</div>';
+    b.innerHTML = recCard('녹음 중', 'stop', '녹음 끝내기') + '<div id="t-ask">' + askHtml() + '</div>';
     recTick();
     return;
   }
   if(ph === 'live'){
-    b.innerHTML = '<div class="grp" style="margin-top:12px"><div class="card rec-box"><p class="rec-house">' + esc(house.name) + '</p><span class="rec-dot" id="t-dot">듣는 중</span><p class="rec-note">말하는 대로 글자가 생기고, 답이 나온 질문은 자동으로 체크해요.</p>' +
-      '<button type="button" class="btn rec-stop" data-t="stoplive">그만 듣기</button></div></div>' +
-      '<div class="grp"><div class="answer"><textarea class="tx" id="t-live" readonly aria-label="받아 적은 글" style="min-height:120px">' + esc(T.text + T.live) + '</textarea></div></div>' +
-      '<div id="t-checks">' + checksHtml() + '</div>';
+    b.innerHTML = recCard('듣는 중', 'stoplive', '그만 듣기') + '<div id="t-ask">' + askHtml() + '</div>' +
+      '<div class="grp"><div class="answer"><textarea class="tx" id="t-live" readonly aria-label="받아 적은 글" style="min-height:100px">' + esc(T.text + T.live) + '</textarea></div></div>';
     return;
   }
   if(ph === 'work'){
@@ -2650,7 +2694,7 @@ function drawResult(){
   const full = filled.filter(q=>isDone(q.id)).length, part = filled.length - full;
   h += '<div class="grp"><div class="fillsum"><b>' + (filled.length ? '대화에서 ' + full + '개 질문의 답을 찾았어요' : '대화에서 체크리스트 답을 찾지 못했어요') + '</b>' + (part ? '<p class="fs-sub">' + part + '개는 답이 일부만 나와서 더 물어봐야 해요</p>' : '') +
     '<div class="rep-st"><div class="bad"><small>위험</small><b>' + c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + c.unsure + '</b></div><div class="ok"><small>비교적 안전</small><b>' + c.ok + '</b></div></div>' +
-    '<button type="button" class="btn" data-go-report style="margin-top:14px">안전 리포트 보기</button></div></div>';
+    '<button type="button" class="btn" data-go-home style="margin-top:14px">홈에서 다음 단계 보기</button><button type="button" class="hc-link" data-go-report style="color:#D6DFF2">안전 리포트 자세히</button></div></div>';
   if(left.length) h += '<div class="grp"><div class="card-t">아직 답이 안 나온 질문<small>' + left.length + '개</small></div><div class="card">' +
     left.map(q=>'<button type="button" class="lq" data-goq="' + q.id + '"><span class="ck"></span><div><b>“' + esc(q.q) + '”</b><span>' + q.n + '. ' + esc(q.tag) + (aiFilled(q.id) ? ' · 답이 일부 나왔어요' : '') + '</span></div></button>').join('') + '</div></div>';
   if(r.summary) h += '<div class="grp"><div class="card-t">한눈에 보기</div><div class="card pad"><p class="res-sum">' + esc(r.summary) + '</p>' +
@@ -2672,6 +2716,7 @@ paBody().addEventListener('click', e=>{
   if(w){
     const k = w.dataset.way;
     if(k === 'paste'){ Object.assign(T, {phase:'edit', text:'', fail:0}); return renderTalk(); }
+    if(blankHouse(house) && !askAddHouse()) return;
     return ensureConsent(()=>k === 'rec' ? startRec() : startLive());
   }
   const t = e.target.closest('[data-t]');
@@ -2689,6 +2734,7 @@ paBody().addEventListener('click', e=>{
   if(gq){ state.sel = gq.dataset.goq; renderAnswer(); return go('p2'); }
   if(e.target.closest('[data-go-report]')){ listFilter = null; return go('p1'); }
   if(e.target.closest('[data-go-prep]')) return go('pv');
+  if(e.target.closest('[data-go-home]')) return goHome();
   const fg = e.target.closest('[data-frgo]');
   if(fg){ const id = fg.dataset.frgo; go('pv'); setTimeout(()=>{ const d = $('fr-' + id); if(d){ d.open = true; scrollIn(d, true); flash(d); } }, 450); return; }
   const hs = e.target.closest('[data-hist]');
@@ -2698,6 +2744,7 @@ paBody().addEventListener('click', e=>{
 paBody().addEventListener('change', e=>{
   if(e.target.id !== 't-file') return;
   const f = e.target.files && e.target.files[0]; e.target.value = '';
+  if(f && blankHouse(house) && !askAddHouse()) return;
   if(f) ensureConsent(()=>fromFile(f));
 });
 paBody().addEventListener('input', e=>{
@@ -2768,7 +2815,36 @@ function checksHtml(){
   }).join('') + '</div></div>';
   return h;
 }
-function drawChecks(){ const el = $('t-checks'); if(el) el.innerHTML = checksHtml(); }
+// 녹음 화면 위: 원형 그래프(몇 개 채워졌나) · 방금 채운 답 · 지금 물어보면 좋은 질문 3개 (전체 15개는 접어 둬요)
+function ringHtml(){
+  const n = Q.filter(q=>isDone(q.id)).length, r = 52, len = 2 * Math.PI * r, on = len * n / Q.length;
+  return '<div class="ring"><svg viewBox="0 0 128 128" aria-hidden="true"><circle cx="64" cy="64" r="' + r + '" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="12"/>' +
+    '<circle cx="64" cy="64" r="' + r + '" fill="none" stroke="#E34C7F" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + on.toFixed(1) + ' ' + len.toFixed(1) + '" transform="rotate(-90 64 64)"/></svg>' +
+    '<div class="ring-t"><b>' + n + '</b><small>' + Q.length + '개 중 채워짐</small></div></div>';
+}
+function newHtml(){
+  const ids = (T.newly || []).filter(id=>BY_ID[id]);
+  return '<div class="rnew">' + (ids.length ? '<b>방금 채웠어요</b> · ' + ids.slice(0, 3).map(id=>esc(BY_ID[id].tag)).join(' · ') + (ids.length > 3 ? ' 외 ' + (ids.length - 3) + '개' : '')
+    : '대화에서 답이 나오면 여기에 바로 보여 드려요') + '</div>';
+}
+function askHtml(){
+  const left = Q.filter(q=>!isDone(q.id));
+  return '<div class="ask"><h3>지금 물어보면 좋은 질문 <span>' + left.length + '</span></h3>' +
+    (left.length ? left.slice(0, 3).map(q=>'<div class="aq"><i></i>' + esc(q.q) + '</div>').join('') : '<p class="aq-done">15개 질문의 답이 모두 나왔어요.</p>') +
+    '<details class="allq"><summary>질문 15개 전체 보기</summary>' + checksHtml() + '</details></div>';
+}
+function recCard(label, stopKey, stopText){
+  return '<div class="recard"><p class="rec-h">' + esc(house.name) + '</p><span class="live">' + label + '</span><div class="rtime" id="t-time"></div>' +
+    '<div id="t-ring">' + ringHtml() + '</div><div id="t-new">' + newHtml() + '</div><p class="prog" id="t-prog"></p>' +
+    '<button type="button" class="rstop" data-t="' + stopKey + '">' + stopText + '</button>' +
+    (stopKey === 'stop' ? '<button type="button" class="rcancel" data-t="cancel">녹음 버리기</button>' : '') + '</div>';
+}
+function drawChecks(){
+  const a = $('t-ring'); if(a) a.innerHTML = ringHtml();
+  const b = $('t-new'); if(b) b.innerHTML = newHtml();
+  const c = $('t-ask'); if(c){ const open = c.querySelector('details') && c.querySelector('details').open; c.innerHTML = askHtml(); if(open) c.querySelector('details').open = true; }
+}
+
 function drawTalkHouse(){ const el = $('t-house'); if(el) el.innerHTML = housePicker(); drawChecks(); }
 
 // --- 녹음 ---
@@ -2886,7 +2962,7 @@ function finishText(){
     if(curView === 'pa') renderTalk(); return;
   }
   analyzeTalk();
-  if(curView !== 'pa') toast('녹음을 받아 적고 분석하는 중이에요. 아래 녹음 탭에서 볼 수 있어요.');
+  if(curView !== 'pa') toast('녹음을 받아 적고 분석하는 중이에요. 끝나면 홈 카드에 보여 드려요.');
 }
 // --- 녹음 파일: 16kHz 한 줄 소리로 바꿔 100초씩 나눠요 ---
 async function fromFile(file){
@@ -2964,7 +3040,7 @@ function stopLive(){
 }
 // 녹음 탭을 떠나도 녹음·받아쓰기는 계속돼요 (앱 안에서 다른 화면을 볼 수 있게)
 function leaveTalk(){
-  if((R && T.phase === 'rec') || liveOn) toast('녹음은 계속돼요. 아래 녹음 탭에서 볼 수 있어요.');
+  if((R && T.phase === 'rec') || liveOn) toast('녹음은 계속돼요. 홈의 「녹음 중」 버튼으로 돌아올 수 있어요.');
 }
 // --- AI 분석 ---
 async function analyzeTalk(){
@@ -2980,7 +3056,7 @@ async function analyzeTalk(){
     } catch(e) {}
     if(code === 200 && data && typeof data.summary === 'string'){
       const at = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'2-digit'});
-      T.newly = [...applyFills(data.fills)];
+      T.newly = [...applyFills(data.fills)]; house.talked = true; save();
       renderList(); renderStart();
       Object.assign(T, {phase:'done', result:data, at});
       const list = lsGet(TKEY, []).filter(Boolean);
@@ -3070,71 +3146,93 @@ const shortMan = n => { const e = Math.floor(n / 10000), m = n % 10000; return e
 const bigPrice = (x, jeonse) => jeonse ? '전세 ' + shortMan(x.dep) : '월세 ' + shortMan(x.dep) + '<span>/</span>' + shortMan(x.rent);
 const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
 
+// ---------- 홈 = 지금 보는 집 (2026-11-20 사용자와 정함) ----------
+// 위에 내 집 목록, 그 아래 고른 집 카드: 진행 단계(정하기 → 녹음 → 남은 질문 → 안전 리포트)와 지금 할 단계의 큰 버튼 하나
+const blankHouse = h => !h.named && !Object.values(h.answers || {}).some(a=>a && (a.done || a.aiq || Object.keys(a.f || {}).length));
+const BLDG = {multi:'다가구', single:'다세대·오피스텔·아파트'};
+function houseSub(){
+  const p = [];
+  if(ctx.deposit != null) p.push(ctx.rent ? '월세 ' + shortMan(ctx.deposit) + '/' + shortMan(ctx.rent) : '보증금 ' + shortMan(ctx.deposit));
+  if(BLDG[ctx.bldg]) p.push(BLDG[ctx.bldg]);
+  return p.join(' · ');
+}
 function renderStart(){
   const saved = hasSaved();
-  const k = naCount(), n = Q.filter(q=>isDone(q.id)).length, nx = nextOpen(), c = levelCount();
-  // 내 계약 안전 점검 (남색 카드)
-  let h = '<div class="sig-l"><span>안전 점검</span>' + housePicker(true) + '</div>';
-  if(!n){
-    h += '<div class="sig-n"><b>' + Q.length + '개</b><span>물어볼 것이 있어요</span></div>' +
-      '<p class="sig-d">중개사와 나눈 대화를 녹음하면 답이 자동으로 채워지고, 법률 기준으로 안전·확인 필요·위험을 알려 줘요.</p>' +
-      '<button type="button" class="sig-go main" data-quick="prep">물어볼 질문 미리 보기</button>';
-  } else {
-    h += '<div class="sig-n"><b>' + n + '개</b><span>확인했어요</span><small>' + Q.length + '개 중' + (k ? ' (해당 없음 ' + k + ')' : '') + '</small></div>' +
-      '<div class="sig-bar"><i style="width:' + Math.round(n / Q.length * 100) + '%"></i></div>' +
-      '<div class="sig-st"><div style="--c:#3DDC84"><small>안전</small><b>' + c.ok + '</b></div><div style="--c:#FFA21A"><small>확인 필요</small><b>' + c.unsure + '</b></div><div style="--c:#FF6B5B"><small>위험</small><b>' + c.bad + '</b></div></div>' +
-      '<button type="button" class="sig-go" data-quick="list">' + (nx ? '<small>다음으로 물어볼 것</small><b>' + esc(BY_ID[nx].tag) + '</b>' : '<small>15개 질문을 모두 확인했어요</small><b>안전 리포트 보기</b>') + '</button>';
+  // 내 집 목록
+  const shown = houses.list.filter(h=>!blankHouse(h));
+  $('h-houses').innerHTML = shown.map(h=>'<button type="button" class="hchip' + (h.id === house.id ? ' on' : '') + '" data-pick-house="' + h.id + '">' + esc(h.name) + '</button>').join('') +
+    '<button type="button" class="hchip add" data-add-house>+ 집 추가</button>';
+  const card = $('hcard');
+  if(blankHouse(house)){
+    card.innerHTML = '<p class="hc-n">보러 갈 집이 있나요?</p><p class="hc-s">집을 추가하고 중개사를 만나면 녹음만 켜세요. 계약 전에 물어볼 15개 질문이 대화로 자동으로 채워져요.</p>' +
+      '<button type="button" class="btn" data-add-house style="margin-top:18px">보러 갈 집 추가하기</button>' +
+      '<button type="button" class="hc-link" data-quick="find">아직 없어요 · 예산으로 동네 추천받기</button>';
+    $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
+    return;
   }
-  $('sig').innerHTML = h;
-  const found = !!(findOut && findOut.picks && findOut.picks.length), talked = Q.some(q=>aiFilled(q.id));
+  const n = Q.filter(q=>isDone(q.id)).length, left = Q.length - n, c = levelCount(), warn = c.bad + c.unsure;
+  const filled = Q.filter(q=>aiFilled(q.id) && isDone(q.id)).length, talked = !!house.talked || Q.some(q=>aiFilled(q.id));
   const steps = [
-    ['find', '집 찾기', found ? '추천 동네 ' + findOut.picks.length + '곳을 찾았어요' : '예산으로 동네 추천받기', found],
-    ['prep', '만나기 전 질문 보기', '물어볼 질문 ' + Q.length + '개', false],
-    ['talk', '만나서 녹음하기', talked ? '대화에서 답을 찾아 체크했어요' : '답은 AI가 자동으로 체크해요', talked],
-    ['list', '안전 리포트 확인', n ? n + ' / ' + Q.length + ' 확인' : '위험한 답이 있는지 확인해요', n === Q.length]
+    ['보러 갈 집 정하기', house.from || '', true],
+    ['중개사 만나서 녹음하기', talked ? filled + '개 질문이 대화로 채워졌어요' : '대화만 녹음하면 질문 15개가 자동으로 채워져요', talked],
+    [talked && left ? '남은 질문 ' + left + '개 마저 묻기' : '남은 질문 마저 묻기', left ? (talked ? '전화로 물어보거나 다시 녹음해도 돼요' : '대화에서 답이 안 나온 것만') : '15개 모두 확인했어요', talked && !left],
+    ['안전 리포트 보고 계약 결정', '위험 · 확인 필요 · 안전', false]
   ];
-  const now = steps.findIndex(x=>!x[3]);
-  $('h-steps').innerHTML = steps.map((x,i)=>'<button type="button" class="st-row' + (x[3] ? ' done' : i === now ? ' now' : '') + '" data-quick="' + x[0] + '"><i>' + (x[3] ? CK : i + 1) + '</i><div><b>' + x[1] + '</b><span>' + esc(x[2]) + '</span></div>' + ARROW + '</button>').join('');
-  $('startNew').hidden = !saved;
-  // 내 예산에 맞는 동네: 집 찾기 추천 결과가 있으면 매물 카드처럼 보여 줘요
-  const o = findOut;
-  if(o && o.picks && o.picks.length){
-    const jeonse = o.p.deal === 'jeonse';
-    $('h-picks').innerHTML = '<div class="h-hs">' + o.picks.map((x,i)=>'<button type="button" class="lc" data-quick="find">' + mapThumb(i, (i + 1) + '순위') +
-      '<div class="price">' + bigPrice(x, jeonse) + '</div><div class="lsub">' + esc(x.gu + ' ' + x.dong) + ' · 거래 ' + x.n + '건</div>' +
-      (i === 0 ? '<span class="ptag">물어볼 질문 ' + FQ.length + '개</span>' : '') + '</button>').join('') + '</div>';
-  } else {
-    $('h-picks').innerHTML = '<div class="h-empty">찾는 곳과 예산을 넣으면 최근 3달 실제 거래로 어울리는 동네와 적정 가격을 골라 드려요.<button type="button" class="btn" data-quick="find">동네 추천받기</button></div>';
-  }
+  const now = steps.findIndex(x=>!x[2]);
+  let h = '<p class="hc-n">' + esc(house.name) + '</p>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
+    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>';
+  if(n) h += '<div class="hsum"><p class="hsum-t">' + (warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : left ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
+    '<div class="rep-st"><div class="bad"><small>위험</small><b>' + c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + c.ok + '</b></div></div></div>';
+  const recOn = (R && T.phase === 'rec') || liveOn;
+  if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
+  else if(now === 1) h += '<button type="button" class="rec-big" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 시작</button>' +
+    '<button type="button" class="hc-link" data-quick="prep">만나기 전에 물어볼 질문 미리 보기</button>';
+  else if(now === 2) h += '<button type="button" class="btn" data-quick="left" style="margin-top:16px">남은 질문 ' + left + '개 보기</button>' +
+    '<p class="hc-links"><button type="button" class="hc-link" data-quick="list">안전 리포트 자세히</button><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
+  else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>' +
+    '<p class="hc-links"><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
+  h += '<button type="button" class="hc-del" data-del-house>이 집 지우기</button>';
+  card.innerHTML = h;
   $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
+}
+function askAddHouse(name, from){
+  name = prompt('보러 갈 집 이름을 적어 주세요. 예) 홍은동 투룸', name || '');
+  if(!name || !name.trim()) return false;
+  if(blankHouse(house)){ house.name = String(name).trim().slice(0, 20); house.named = true; if(from) house.from = from; save(); }
+  else { addHouse(name); house.named = true; if(from) house.from = from; save(); }
+  renderList(); renderStart();
+  return true;
 }
 // 시작 화면 맨 아래 「기록 모두 지우기」: 한 번 더 묻고 지운 뒤 처음 온 사람 화면을 보여 줘요
 $('wipeAll').addEventListener('click', ()=>{
-  if(!confirm('적어 둔 답, 메모, AI 참고 의견, 현장 질문 체크, 대화 분석 기록, 집 찾기 조건을 모두 지울까요? 지우면 되돌릴 수 없어요.')) return;
+  if(!confirm('모든 집의 답, 메모, AI 참고 의견, 현장 질문 체크, 대화 기록, 집 찾기 조건을 모두 지울까요? 지우면 되돌릴 수 없어요.')) return;
   clearAll();
-  // 2026-11-20에 더한 기록도 함께 지워요 (동의 기록은 남겨요)
   [VKEY, TKEY, FKEY, STORE].forEach(k=>{ try { localStorage.removeItem(k); } catch(e) {} });
-  houses = {cur:1, list:[{id:1, name:'첫 번째 집', answers:{}, ctx:{}}]}; house = houses.list[0]; answers = house.answers; ctx = house.ctx; save(); renderList();
+  houses = {cur:1, list:[{id:1, name:'내 집', answers:{}, ctx:{}}]}; house = houses.list[0]; answers = house.answers; ctx = house.ctx; save(); renderList();
   visit = {asked:{}}; fp = {near:'sinchon', deal:'monthly', dep:'', rent:'', type:'all', wants:[], note:''}; findOut = null;
   Object.assign(T, {phase:'start', text:'', result:null});
   renderStart();
   $('p0').querySelector('.scroll').scrollTop = 0;
 });
-// 홈의 바로가기 (검색창·안전 점검 카드·동네 카드·집 보러 갈 때 메뉴). 카드 내용은 다시 그려지니 한 곳에서 받아요
 $('p0').addEventListener('click', e=>{
-  const cat = e.target.closest('[data-cat]');
-  if(cat){ fp.type = cat.dataset.cat; saveFind(); return go('pf'); }
+  const ph = e.target.closest('[data-pick-house]');
+  if(ph){ useHouse(+ph.dataset.pickHouse); renderList(); renderStart(); return; }
+  if(e.target.closest('[data-add-house]')) return askAddHouse();
+  if(e.target.closest('[data-del-house]')){
+    if(!confirm('"' + house.name + '"의 답과 기록을 지울까요? 되돌릴 수 없어요.')) return;
+    const id = house.id;
+    houses.list = houses.list.filter(x=>x.id !== id);
+    if(!houses.list.length) houses.list.push({id:id + 1, name:'내 집', answers:{}, ctx:{}});
+    house = houses.list[0]; answers = house.answers || (house.answers = {}); ctx = house.ctx || (house.ctx = {}); save();
+    state.sel = nextOpen(); renderList(); renderStart(); return;
+  }
   const b = e.target.closest('[data-quick]'); if(!b) return;
   const k = b.dataset.quick;
-  if(k === 'list'){ state.sel = nextOpen(); return go('p1'); }
+  if(k === 'list' || k === 'left'){ listFilter = k === 'left' ? 'left' : null; state.sel = nextOpen(); return go('p1'); }
   if(k === 'find') return go('pf');
-  if(k === 'visit' || k === 'prep') return go('pv');
+  if(k === 'prep') return go('pv');
   if(k === 'talk') return go('pa');
   if(k === 'help'){ go('ps'); requestAnimationFrame(()=>scrollIn($('ps-help'))); }
-});
-$('startNew').addEventListener('click', ()=>{
-  if(!confirm('계약 체크에 적어 둔 답과 메모를 모두 지우고 새로 시작할까요?')) return;
-  clearAll(); renderStart();
 });
 
 history.replaceState({v:'p0', d:0}, '');
