@@ -888,6 +888,29 @@
   .lf-row{display:flex;gap:8px}
   .lf-row > div{flex:1}
   #likeForm .lk-l{margin-top:12px}
+  /* ---------- 둘러보기 첫 화면 (2026-11-20) ---------- */
+  #pb-head{margin:0 calc(-1 * var(--pad));padding:4px 20px 18px;background:#fff}
+  #pb-head .h-brand{height:48px}
+  .reco{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:18px;border:0;border-radius:20px;background:var(--navy-b);color:#fff;font:inherit;text-align:left;cursor:pointer;transition:transform .1s}
+  .reco:active{transform:scale(.97)}
+  .reco-ic{flex:none;width:46px;height:46px;border-radius:15px;background:var(--pink);display:grid;place-items:center;font-size:15px;font-weight:900}
+  .reco-t{flex:1;min-width:0}
+  .reco-t b{display:block;font-size:18px;font-weight:800;line-height:26px}
+  .reco-t span{display:block;margin-top:2px;font-size:13px;line-height:19px;color:#C9D5EE}
+  .reco > svg{flex:none;width:20px;height:20px;color:#B9C8E8}
+  .cats4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .cat4{display:flex;align-items:center;gap:12px;height:64px;padding:0 16px;border:1.5px solid var(--ds-divider);border-radius:16px;background:#fff;font:inherit;font-size:16px;font-weight:800;color:var(--ds-text-strong);cursor:pointer;transition:transform .1s}
+  .cat4:active{transform:scale(.96)}
+  .cat4 i{width:36px;height:36px;border-radius:12px;background:var(--brand-50);color:var(--brand);display:grid;place-items:center}
+  .cat4 i svg{width:22px;height:22px}
+  .cat4.on{border-color:var(--brand);background:var(--brand-50)}
+  .cat4.on i{background:var(--brand);color:#fff}
+  .lhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px}
+  .lhead h2{flex:none;font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ds-text-strong)}
+  .near-sel{-webkit-appearance:none;appearance:none;min-width:0;max-width:62%;height:36px;padding:0 30px 0 12px;border:1px solid var(--ds-divider);border-radius:18px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.2l4 4 4-4' stroke='%23354153' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 10px center/12px no-repeat;font:inherit;font-size:14px;font-weight:700;color:var(--ds-text-strong);text-overflow:ellipsis}
+  .seg2{display:flex;margin-top:12px;padding:4px;border-radius:12px;background:var(--bg)}
+  .seg2 button{flex:1;height:38px;border:0;border-radius:9px;background:none;font:inherit;font-size:15px;font-weight:700;color:var(--ds-text-secondary);cursor:pointer}
+  .seg2 button.on{background:#fff;color:var(--ds-text-strong);box-shadow:0 1px 2px rgba(20,26,36,.08)}
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     .view.tabv > .nav{height:calc(8px + env(safe-area-inset-top))}
@@ -938,11 +961,10 @@
       <section class="view on tabv" id="pb" aria-label="둘러보기">
         <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll">
-          <div id="pb-head" style="padding-top:10px"></div>
+          <div id="pb-head"></div>
           <div id="pb-list"></div>
           <button type="button" class="save-like" data-like-new>+ 본 매물 관심 목록에 저장</button>
-          <button type="button" class="btn" data-go-find style="margin-top:12px">내 조건으로 AI 추천받기</button>
-          <p class="note">가격은 국토교통부 실거래가(이미 계약된 거래, 아파트 제외)의 가운데값이에요. 매물 앱 버튼은 그 앱을 열어 줘요(제휴 아님).</p>
+          <p class="note">가격은 국토교통부 실거래가(이미 계약된 거래, 아파트 제외)의 가운데값이에요. 매물 앱 버튼은 그 동네와 예산을 맞춘 화면을 열어 줘요(제휴 아님). 동네 위치: © OpenStreetMap</p>
         </div>
         <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
@@ -964,20 +986,20 @@
       <section class="view" id="pf" aria-label="집 찾기">
         <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">집 찾기</span><span></span></div>
         <div class="scroll">
-          <div class="large"><h1>집 찾기</h1><p>예산을 넣으면 실제 거래로 동네를 골라 드려요.</p></div>
+          <div class="large"><h1>내 조건에 맞는 집 추천</h1><p>조건을 넣으면 실제 거래로 동네와 적정 가격을 골라 드려요.</p></div>
           <div class="grp">
             <div class="card pad">
-              <label class="lk-l first" for="f-near">어디 근처에서 찾나요?</label>
+              <label class="lk-l first" for="f-near">1. 어디 근처에서 찾나요?</label>
               <select class="lk-in" id="f-near"></select>
-              <p class="lk-l">거래 종류</p>
+              <p class="lk-l">2. 월세·전세와 예산</p>
               <div class="chips" id="f-deal"></div>
               <div class="f-money">
                 <div><label class="lk-l" for="f-dep">보증금 최대</label><div class="money"><input id="f-dep" type="text" inputmode="numeric" autocomplete="off" placeholder="숫자만"><span>만 원</span></div><p class="money-read" id="f-dep-r"></p></div>
                 <div id="f-rent-box"><label class="lk-l" for="f-rent">월세 최대</label><div class="money"><input id="f-rent" type="text" inputmode="numeric" autocomplete="off" placeholder="숫자만"><span>만 원</span></div><p class="money-read" id="f-rent-r"></p></div>
               </div>
-              <p class="lk-l">건물 종류</p>
+              <p class="lk-l">3. 건물 종류</p>
               <div class="chips" id="f-type"></div>
-              <p class="lk-l">원하는 점 <span class="opt-tag">여러 개 골라도 돼요</span></p>
+              <p class="lk-l">4. 원하는 점 <span class="opt-tag">여러 개 골라도 돼요</span></p>
               <div class="chips" id="f-wants"></div>
               <label class="lk-l" for="f-note">더 하고 싶은 말 <span class="opt-tag">선택</span></label>
               <div class="answer"><textarea id="f-note" maxlength="100" rows="2" placeholder="예: 학교까지 걸어 다니고 싶어요"></textarea><span class="cnt" id="f-note-c">0 / 100</span></div>
@@ -2626,12 +2648,12 @@ function drawFindOut(){
   if(o.err === 'none'){ box.innerHTML = '<div class="grp"><div class="card r-empty"><b>이 조건으로 최근 3달 거래가 3건 넘는 동네가 없어요.</b><br>예산을 조금 올리거나 건물 종류를 "상관없음"으로 바꿔 보세요.</div></div>'; return; }
   const jeonse = o.p.deal === 'jeonse';
   let h = '<div class="grp"><div class="card-t">' + esc(nearName(o.p.near).replace(/\s*\(.*\)/, '')) + ' 추천 동네<small>' + (o.ai ? 'AI 추천' : '거래 많은 순') + '</small></div>' +
-    '<p class="f-count">최근 3달 실거래로 고른 <b>' + o.picks.length + '곳</b> · 곳마다 <em>물어볼 질문</em>을 챙겨 드려요</p>' +
+    '<p class="f-count">최근 3달 실거래로 고른 <b>' + o.picks.length + '곳</b>이에요. 아래 매물 앱 버튼을 누르면 <em>이 동네 · 내 예산</em>으로 맞춘 매물이 열려요.</p>' +
     o.picks.map((x,i)=>'<div class="lcard"><div class="lrow">' + mapThumb(i, String(i + 1)) +
       '<div class="info"><span class="ptag b" style="margin-top:0">' + (o.ai ? 'AI 추천' : '거래 많은 동네') + '</span><div class="price">' + bigPrice(x, jeonse) + '</div>' +
       '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">' + Math.round(x.area / 3.3058) + '평(' + x.area + '㎡)' + (x.built ? ' · ' + x.built + '년' : '') + ' · 거래 ' + x.n + '건</div></div></div>' +
       '<div class="lwhy"><b>' + (x.why ? '추천 이유' : '이 동네는') + '</b><p>' + esc(x.why || '예산 안에서 최근 3달 거래가 많은 동네예요. 많은 건물 종류: ' + x.types) + '</p>' + (x.tip ? '<p>' + esc(x.tip) + '</p>' : '') + '</div>' +
-      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x.gu, x.dong) + '</div><div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">♡ 본 매물 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
+      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, o.p.deal, o.p.dep, o.p.rent) + '</div><div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">♡ 본 매물 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
       '<a class="hbtn" href="https://search.naver.com/search.naver?query=' + encodeURIComponent(x.gu + ' ' + x.dong + ' ' + (jeonse ? '전세' : '월세') + ' 원룸') + '" target="_blank" rel="noopener">매물 검색</a></div></div>').join('') +
     (o.note ? '<p class="r-src">' + esc(o.note) + '</p>' : '') +
     (o.ai ? '' : '<p class="r-src">AI 추천을 받지 못해 예산 안 거래가 많은 순서로 보여 드려요.</p>') +
@@ -3226,10 +3248,56 @@ function houseSub(){
   return p.join(' · ');
 }
 const nearOpts = () => '<optgroup label="학교 근처">' + NEAR.map(n=>'<option value="' + n[0] + '">' + n[1] + '</option>').join('') + '</optgroup><optgroup label="구에서 고르기">' + SEOUL_GU.map(g=>'<option value="gu:' + g[0] + '">' + g[1] + '</option>').join('') + '</optgroup>';
+// ---------- 매물 앱 바로가기: 그 동네 + 예산을 넣은 화면으로 (2026-11-20 사용자가 보내 준 실제 주소로 맞춤) ----------
+// 다방: 주소에 거래 종류·보증금·월세 상한과 지도 좌표를 넣어요. 네이버 부동산: 좌표를 (값+200)×10,000,000을 62진법으로 쓴 ms와 b·d·g 조건.
+// 직방: 조건이 주소에 담기지 않아서 원룸 지도를 열고 무엇을 넣을지 알려 줘요. 세 곳 모두 제휴가 아니고 공식으로 약속된 주소가 아니라 바뀔 수 있어요.
+// 동네 좌표(data/dong-xy.json)는 OpenStreetMap(ODbL)으로 한 번 만들어 둔 것이에요.
+let dongXY = null;
+async function loadXY(){
+  if(dongXY) return dongXY;
+  try { const r = await fetch('data/dong-xy.json'); dongXY = r.ok ? (await r.json()).xy || {} : {}; } catch(e) { dongXY = {}; }
+  return dongXY;
+}
+loadXY();
+const B62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const b62 = n => { let s = ''; n = Math.round(n); do { s = B62[n % 62] + s; n = Math.floor(n / 62); } while(n > 0); return s; };
+const naverXY = v => b62((v + 200) * 1e7);
+// x: {code, gu, dong}, deal: monthly|jeonse, dep·rent: 상한(만 원, 없으면 null)
+function appUrl(app, x, deal, dep, rent){
+  const xy = dongXY && dongXY[x.code + '|' + x.dong], jeonse = deal === 'jeonse';
+  if(app === '다방'){
+    const q = ['sellingTypeList=' + encodeURIComponent(JSON.stringify([jeonse ? 'LEASE' : 'MONTHLY_RENT']))];
+    if(dep) q.push('depositRangeMax=' + Math.round(dep));
+    if(rent && !jeonse) q.push('priceRangeMax=' + Math.round(rent));
+    if(xy) q.push('m_lat=' + xy[0], 'm_lng=' + xy[1], 'm_zoom=15');
+    return 'https://www.dabangapp.com/map/onetwo?' + q.join('&');
+  }
+  if(app === '네이버'){
+    const q = [];
+    if(xy) q.push('ms=' + naverXY(xy[0]) + ',' + naverXY(xy[1]) + ',16');
+    q.push('a=APT:OPST:ABYG:OBYG:GM:OR:DDDGG:JWJT:SGJT:VL', 'b=' + (jeonse ? 'B1' : 'B2'));
+    if(rent && !jeonse) q.push('d=' + Math.round(rent));
+    q.push('e=RETAIL');
+    if(dep) q.push('g=' + Math.round(dep));
+    q.push('aa=SMALLSPCRENT');
+    return 'https://new.land.naver.com/rooms?' + q.join('&');
+  }
+  return 'https://www.zigbang.com/home/oneroom/map';
+}
+// 상한: 사용자가 적은 예산이 있으면 그것, 없으면 그 동네 가운데값보다 조금 넉넉하게
+const capOf = (v, mine) => mine ? +mine : v ? Math.ceil(v * 1.2 / 10) * 10 : null;
+function appLinks(x, deal, dep, rent){
+  const d = capOf(x.dep, dep), r = deal === 'jeonse' ? null : capOf(x.rent, rent);
+  const hint = esc(x.dong) + ' · ' + (deal === 'jeonse' ? '전세' : '월세') + (d ? ' · 보증금 ' + shortMan(d) + '만 이하' : '') + (r ? ' · 월세 ' + r + '만 이하' : '');
+  return ['직방', '다방', '네이버'].map(a=>'<a class="hbtn" href="' + esc(appUrl(a, x, deal, d, r)) + '" target="_blank" rel="noopener"' + (a === '직방' ? ' data-zb-hint="' + hint + '"' : '') + '>' + a + '</a>').join('');
+}
+document.addEventListener('click', e=>{
+  const z = e.target.closest('[data-zb-hint]');
+  if(z) toast('직방에서 이렇게 맞춰 보세요 · ' + z.dataset.zbHint);
+});
+
 // ---------- ① 둘러보기: 학교 근처 동네를 매물 카드처럼 (실거래 가운데값) + 매물 앱 바로가기 ----------
 // 실제 매물은 집콕체크에 없어요. 직방·다방은 지도 첫 화면, 네이버 부동산은 그 동네 검색을 열어요(제휴 아님).
-const APPS = [['직방', ()=>'https://www.zigbang.com/home/oneroom/map'], ['다방', ()=>'https://www.dabangapp.com/map/onetwo'], ['네이버', (gu, dong)=>'https://m.land.naver.com/search/result/' + encodeURIComponent(gu + ' ' + dong)]];
-const appLinks = (gu, dong) => APPS.map(a=>'<a class="hbtn" href="' + a[1](gu, dong) + '" target="_blank" rel="noopener">' + a[0] + '</a>').join('');
 const BTYPES = [['all','전체']].concat(RENT_TYPE.filter(t=>t[0] !== 'all' && t[0] !== 'apt'));
 let browseTurn = 0, browseDongs = [];
 // 고른 구들의 거래를 동네별로 모아 가운데값을 내요
@@ -3251,14 +3319,17 @@ async function dongStats(near, deal, type){
 }
 async function renderBrowse(){
   const turn = ++browseTurn, jeonse = fp.deal === 'jeonse';
-  $('pb-head').innerHTML = '<h1 class="rep-t">' + esc(nearName(fp.near).replace(/\s*\(.*\)/, '')) + ' 근처 둘러보기</h1>' +
-    '<select class="lk-in" id="b-near" aria-label="찾는 곳" style="margin-top:12px">' + nearOpts() + '</select>' +
-    '<div class="chips" id="b-deal" style="margin-top:12px">' + chipRow(RENT_DEAL, fp.deal) + '</div>' +
-    '<div class="chips" id="b-type" style="margin-top:8px">' + chipRow(BTYPES, BTYPES.some(t=>t[0] === fp.type) ? fp.type : 'all') + '</div>';
+  const bt = BTYPES.some(t=>t[0] === fp.type) ? fp.type : 'all';
+  const TILE = {"sh": "<path d=\"M6 21V3h12v18\"/><path d=\"M14.5 12h.01M3 21h18\"/>", "rh": "<path d=\"M3 21h18M5 21V9l7-5 7 5v12\"/><path d=\"M9 21v-5h6v5M9 11h.01M15 11h.01\"/>", "offi": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.5\"/><path d=\"M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1\"/>", "all": "<rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"13\" y=\"13\" width=\"7\" height=\"7\" rx=\"2\"/>"};
+  $('pb-head').innerHTML = '<div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>' +
+    '<button type="button" class="reco" data-go-find><span class="reco-ic">AI</span><span class="reco-t"><b>내 조건에 맞는 집 추천받기</b><span>학교·예산만 넣으면 실제 거래로 동네와 적정 가격을 골라 드려요</span></span>' + ARROW + '</button>' +
+    '<div class="cats4">' + [['sh','원룸·다가구'],['rh','빌라·투룸'],['offi','오피스텔'],['all','전체']].map(t=>'<button type="button" class="cat4' + (bt === t[0] ? ' on' : '') + '" data-btype="' + t[0] + '" aria-pressed="' + (bt === t[0]) + '"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + TILE[t[0]] + '</svg></i>' + t[1] + '</button>').join('') + '</div>' +
+    '<div class="lhead"><h2>동네 둘러보기</h2><select class="near-sel" id="b-near" aria-label="찾는 곳">' + nearOpts() + '</select></div>' +
+    '<div class="seg2" role="group" aria-label="거래 종류">' + RENT_DEAL.map(d=>'<button type="button" data-bdeal="' + d[0] + '"' + (fp.deal === d[0] ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + '>' + d[1] + '</button>').join('') + '</div>';
   $('b-near').value = fp.near;
   $('pb-list').innerHTML = '<div class="card busy" style="margin-top:16px">실제 거래를 모으고 있어요</div>';
   let r = {loaded:false, list:[]};
-  try { r = await dongStats(fp.near, fp.deal, BTYPES.some(t=>t[0] === fp.type) ? fp.type : 'all'); } catch(e) {}
+  try { await loadXY(); r = await dongStats(fp.near, fp.deal, bt); } catch(e) {}
   if(turn !== browseTurn) return;
   if(!r.loaded){ $('pb-list').innerHTML = '<div class="card r-empty" style="margin-top:16px">거래 자료를 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>'; return; }
   const list = r.list.slice(0, 12); browseDongs = list;
@@ -3271,15 +3342,14 @@ async function renderBrowse(){
       (v >= mid * 1.1 ? '<span class="ptag warn">조금 비싼 편</span>' : v <= mid * 0.9 ? '<span class="ptag ok">싼 편</span>' : '');
     return '<div class="lcard"><div class="lrow">' + mapThumb(i, '') + '<div class="info"><div class="price" style="margin-top:0">' + bigPrice(x, jeonse) + '</div>' +
       '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">최근 3달 ' + x.n + '건 · ' + Math.round(x.area / 3.3058) + '평쯤</div><div>' + tags + '</div></div></div>' +
-      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x.gu, x.dong) + '</div>' +
+      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, fp.deal, fp.dep, fp.rent) + '</div>' +
       '<div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">♡ 본 매물 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="all" data-deal="' + fp.deal + '">시세 자세히</button></div></div>';
   }).join('');
 }
 $('pb').addEventListener('change', e=>{ if(e.target.id === 'b-near'){ fp.near = e.target.value; saveFind(); renderBrowse(); } });
 $('pb').addEventListener('click', e=>{
-  const c = e.target.closest('.chip');
-  if(c && c.parentNode.id === 'b-deal'){ fp.deal = c.dataset.v; saveFind(); return renderBrowse(); }
-  if(c && c.parentNode.id === 'b-type'){ fp.type = c.dataset.v; saveFind(); return renderBrowse(); }
+  const dl = e.target.closest('[data-bdeal]'); if(dl){ fp.deal = dl.dataset.bdeal; saveFind(); return renderBrowse(); }
+  const bt = e.target.closest('[data-btype]'); if(bt){ fp.type = bt.dataset.btype; saveFind(); return renderBrowse(); }
   if(e.target.closest('[data-go-find]')) return go('pf');
 });
 
