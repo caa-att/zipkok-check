@@ -68,16 +68,24 @@ export async function gemini({model = MODEL, system, parts, schema, temperature 
   try {
     const generationConfig = {temperature};
     if(schema){ generationConfig.responseMimeType = 'application/json'; generationConfig.responseSchema = schema; }
-    const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'x-goog-api-key': key},
-      body: JSON.stringify({
-        systemInstruction: system ? {parts: [{text: system}]} : undefined,
-        contents: [{role: 'user', parts}],
-        generationConfig
-      }),
-      signal: ctrl.signal
+    const body = JSON.stringify({
+      systemInstruction: system ? {parts: [{text: system}]} : undefined,
+      contents: [{role: 'user', parts}],
+      generationConfig
     });
+    // Google 쪽이 잠깐 바쁠 때(500·503)는 조금 기다렸다가 두 번까지 다시 보내요 (2026-11-20 실제로 503 "high demand"를 봤어요)
+    let r;
+    for(let attempt = 0; ; attempt++){
+      r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-goog-api-key': key},
+        body,
+        signal: ctrl.signal
+      });
+      if(r.ok || attempt >= 2 || (r.status !== 500 && r.status !== 503)) break;
+      console.log(tag + ' 다시 보내기 · ' + r.status);
+      await new Promise(ok => setTimeout(ok, 1200 * (attempt + 1)));
+    }
     if(!r.ok){
       let msg = '';
       try { const e = (await r.json()).error || {}; msg = [e.status, e.message].filter(Boolean).join(': '); } catch(e) {}

@@ -2743,14 +2743,15 @@ async function liveFill(){
   const text = talkText().replace(/\(받아 적지 못했어요\)/g, '').trim();
   if(text.length < 20 || text.length - fillLen < 15) return;
   if(fillBusy){ fillAgain = true; return; }
-  fillBusy = true; fillLen = text.length;
+  fillBusy = true; const before = fillLen; fillLen = text.length;
   try {
     const r = await fetch('/api/talk', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({mode:'fill', text:maskMemo(text).slice(-20000), form:buildForm()})});
+    if(!r.ok) fillLen = before; // 실패하면 다음 조각 때 다시 보내요
     if(r.ok){
       const d = await r.json(), t = applyFills(d.fills);
       if(t.size){ T.newly = [...t]; drawChecks(); renderList(); const k = [...t].filter(isDone).length; toast(k ? '대화에서 ' + k + '개 질문의 답을 찾아 체크했어요.' : '대화에서 답의 일부를 찾았어요.'); }
     }
-  } catch(e) {}
+  } catch(e) { fillLen = before; }
   fillBusy = false;
   if(fillAgain){ fillAgain = false; liveFill(); }
 }
