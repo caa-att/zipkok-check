@@ -8,7 +8,8 @@
 
 import { mkdir, writeFile, rename } from 'node:fs/promises';
 
-const KEY = (process.env.RENT_KEY || '').trim();
+// 예전 저장소에서 쓰던 이름(MOLIT_KEY)도 읽어요 (2026-11-20)
+const KEY = (process.env.RENT_KEY || process.env.MOLIT_KEY || '').trim();
 const BASE = process.env.RENT_API_BASE || 'https://apis.data.go.kr/1613000'; // 시험할 때만 바꿔요
 const OUT = 'data/rent';
 const MONTHS = 3;        // 최근 3달
@@ -16,12 +17,15 @@ const ROWS = 1000;       // 한 번에 받는 줄 수
 const PARALLEL = 4;      // 동시에 묻는 수
 
 const SEOUL_GU = [['11110','종로구'],['11140','중구'],['11170','용산구'],['11200','성동구'],['11215','광진구'],['11230','동대문구'],['11260','중랑구'],['11290','성북구'],['11305','강북구'],['11320','도봉구'],['11350','노원구'],['11380','은평구'],['11410','서대문구'],['11440','마포구'],['11470','양천구'],['11500','강서구'],['11530','구로구'],['11545','금천구'],['11560','영등포구'],['11590','동작구'],['11620','관악구'],['11650','서초구'],['11680','강남구'],['11710','송파구'],['11740','강동구']];
-const TYPES = [
+const ALL_TYPES = [
   ['sh', 'RTMSDataSvcSHRent/getRTMSDataSvcSHRent'],
   ['rh', 'RTMSDataSvcRHRent/getRTMSDataSvcRHRent'],
   ['offi', 'RTMSDataSvcOffiRent/getRTMSDataSvcOffiRent'],
   ['apt', 'RTMSDataSvcAptRent/getRTMSDataSvcAptRent']
 ];
+// 활용신청한 자료만 받을 수 있게 RENT_TYPES(예: sh,rh,offi)로 고를 수 있어요. 없으면 4가지 모두 받아요
+const PICK = (process.env.RENT_TYPES || '').split(',').map(t=>t.trim()).filter(Boolean);
+const TYPES = PICK.length ? ALL_TYPES.filter(t=>PICK.includes(t[0])) : ALL_TYPES;
 
 if(!KEY){ console.error('RENT_KEY가 없어요. GitHub 저장소 설정(Secrets)에 인증키를 넣어 주세요.'); process.exit(1); }
 

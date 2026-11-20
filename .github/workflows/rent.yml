@@ -31,6 +31,9 @@ jobs:
       - name: 국토교통부 전월세 실거래가 받기
         env:
           RENT_KEY: ${{ secrets.RENT_KEY }}
+          MOLIT_KEY: ${{ secrets.MOLIT_KEY }}   # 예전 저장소의 키 이름도 받아요
+          # 아파트 전월세 자료를 활용신청하지 않았다면 이 줄로 나머지 3가지만 받아요. 신청했다면 지워도 돼요
+          RENT_TYPES: ${{ vars.RENT_TYPES || '' }}
         run: node scripts/fetch_rent.mjs
 
       - name: 바뀐 자료만 main에 올리기
