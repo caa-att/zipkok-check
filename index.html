@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#F2F3F8">
 <title>집콕체크 · 대학생·사회초년생 임대차 계약 도우미</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- 홈 화면에 앱처럼 추가하기 (2026-11-20) -->
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="집콕체크">
 <!-- 카톡·문자로 링크를 보낼 때 뜨는 미리보기 -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="집콕체크 · 대학생·사회초년생 임대차 계약 도우미">
@@ -446,6 +450,140 @@
   .about summary:active{background:var(--ds-pressed)}
   .about .intro-row:first-of-type{border-top:1px solid var(--ds-divider)}
 
+  /* 화면 틀이 옆으로 밀리지 않게 (overflow:clip은 코드로도 옆으로 움직이지 않아요) */
+  .screen,.views{overflow:clip}
+  /* ---------- 아래 탭 4개 (2026-11-20) ---------- */
+  .tabbar{grid-template-columns:repeat(4,1fr)}
+  .tabbar button{font-size:12px}
+  #pf .scroll,#pv .scroll{padding-bottom:110px}
+  #pa .scroll{padding-bottom:48px}
+
+  /* ---------- 1단계 집 찾기 ---------- */
+  .lk-l.first{margin-top:0}
+  .f-money{display:flex;flex-wrap:wrap;gap:0 10px}
+  .f-money > div{flex:1 1 9em;min-width:0}
+  .f-money .money{min-height:52px}
+  .f-money .money input{height:50px;font-size:17px}
+  #pf .chips,#pa .chips{margin-top:2px}
+  .chips.multi .chip.on{padding-left:12px}
+  .pick{padding:18px}
+  .pick + .pick{border-top:1px solid var(--ds-divider)}
+  .pick-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .pick-h b{font-size:18px;font-weight:700;line-height:26px;color:var(--ds-text-strong)}
+  .pick-h span{font-size:13px;font-weight:600;line-height:20px;color:var(--ds-primary-heavy);background:var(--ds-blue-50);border-radius:var(--ds-radius-tag);padding:2px 8px;white-space:nowrap}
+  .pick-n{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:14px;line-height:22px;color:var(--ds-text-primary)}
+  .pick-n b{font-weight:700;color:var(--ds-text-strong)}
+  .pick-why{margin-top:10px;font-size:16px;line-height:24px;color:var(--ds-text-strong)}
+  .pick-tip{margin-top:8px;padding:10px 12px;background:var(--ds-gray-100);border-radius:12px;font-size:14px;line-height:22px;color:var(--ds-text-primary)}
+  .pick-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .pick-btns .hbtn{flex:1 1 auto;border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .busy{display:flex;align-items:center;gap:12px;padding:18px;font-size:16px;line-height:24px;color:var(--ds-text-strong)}
+  .busy::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;border:3px solid var(--ds-blue-50);border-top-color:var(--ds-primary);animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .next-step{margin-top:20px}
+
+  /* ---------- 2단계 집 보러 가기 ---------- */
+  .fq{padding:16px}
+  .fq + .fq{border-top:1px solid var(--ds-divider)}
+  .fq-top{display:flex;gap:12px;align-items:flex-start}
+  .fq-ck{flex:none;width:28px;height:28px;margin-top:1px;border-radius:50%;border:2px solid var(--ds-gray-500);background:var(--card);display:grid;place-items:center;cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1)}
+  .fq-ck:active{transform:scale(.92)}
+  .fq-ck.on{border:0;background:var(--ds-primary-strong)}
+  .fq-say{flex:1;min-width:0;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong)}
+  .fq.on .fq-say{color:var(--ds-text-secondary)}
+  .fq-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0 40px}
+  .ftag{display:inline-block;font-size:12px;font-weight:600;line-height:18px;border-radius:var(--ds-radius-tag);padding:2px 8px;background:var(--ds-blue-50);color:var(--ds-primary-heavy);border:0;font-family:inherit;cursor:pointer}
+  .ftag:active{transform:scale(.95)}
+  .ftag.dg{background:var(--ds-gray-100);color:var(--ds-text-primary);cursor:default}
+  .fq details{margin:10px 0 0 40px}
+  .fq summary{list-style:none;display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:600;line-height:22px;color:var(--ds-primary-heavy);cursor:pointer;padding:4px 0}
+  .fq summary::-webkit-details-marker{display:none}
+  .fq summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);margin-left:4px;transition:transform .15s}
+  .fq details[open] summary::after{transform:rotate(225deg) translate(-1px,-1px)}
+  .fq dl{margin-top:6px;font-size:14px;line-height:22px}
+  .fq dt{font-weight:600;color:var(--ds-text-strong);margin-top:8px}
+  .fq dt.red{color:var(--bad)}
+  .fq dd{color:var(--ds-text-primary)}
+  .fq .go-q{margin-top:10px;height:40px;font-size:14px}
+  .talk-entry{margin-top:16px}
+  .talk-entry .re-ic{background:var(--ds-primary-strong);color:#fff}
+  .fraud{border-top:1px solid var(--ds-divider)}
+  .fraud:first-child{border-top:0}
+  .fraud summary{position:relative;list-style:none;padding:16px 44px 16px 16px;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong);cursor:pointer}
+  .fraud summary::-webkit-details-marker{display:none}
+  .fraud summary::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-bottom:2px solid var(--ds-gray-400);transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+  .fraud[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+  .fraud summary small{display:block;font-size:13px;font-weight:500;line-height:20px;color:var(--ds-text-secondary)}
+  .fraud .fr-b{padding:0 16px 16px;font-size:15px;line-height:24px;color:var(--ds-text-primary)}
+  .fraud .fr-b b{display:block;margin-top:10px;font-size:14px;font-weight:600;color:var(--ds-text-strong)}
+  .fraud .fr-b a{color:var(--ds-primary-heavy);font-weight:600;font-size:13px}
+  .fraud.flash{background:var(--ds-blue-50)}
+  .fq.flash{background:var(--ds-blue-50)}
+
+  /* ---------- 대화 분석 ---------- */
+  .ways{display:grid;gap:8px;margin-top:4px}
+  .way{position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:16px 40px 16px 16px;border:1px solid var(--ds-divider);border-radius:var(--ds-radius-card);background:var(--card);text-align:left;font:inherit;color:inherit;cursor:pointer;transition:transform .1s cubic-bezier(.42,0,.58,1),background .1s cubic-bezier(.42,0,.58,1)}
+  .way:active{transform:scale(.96);background:var(--ds-pressed)}
+  .way::after{content:"";position:absolute;right:18px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-top:2px solid var(--ds-gray-400);transform:translateY(-50%) rotate(45deg)}
+  .way.main{border-color:var(--ds-primary);background:var(--ds-blue-50)}
+  .way input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .rec-box{padding:28px 18px 22px;text-align:center}
+  .rec-time{font-size:40px;font-weight:700;line-height:48px;color:var(--ds-text-strong);font-variant-numeric:tabular-nums}
+  .rec-dot{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;line-height:22px;color:var(--bad)}
+  .rec-dot::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--bad);animation:blink 1.2s infinite}
+  .rec-dot.paused{color:var(--ds-gray-700)}
+  .rec-dot.paused::before{background:var(--ds-gray-500);animation:none}
+  @keyframes blink{50%{opacity:.25}}
+  .rec-lv{height:8px;margin:16px auto 0;max-width:240px;background:var(--ds-gray-200);border-radius:8px;overflow:hidden}
+  .rec-lv i{display:block;height:100%;width:0;background:var(--ds-primary);border-radius:8px;transition:width .1s}
+  .rec-note{margin-top:14px;font-size:14px;line-height:22px;color:var(--ds-text-primary)}
+  .rec-stop{margin-top:18px}
+  .prog{margin-top:10px;font-size:14px;font-weight:600;line-height:22px;color:var(--ds-primary-heavy)}
+  .tx{display:block;width:100%;min-height:200px;border:0;outline:0;resize:vertical;background:transparent;font:inherit;font-size:15px;line-height:24px;color:var(--label)}
+  .res-sum{font-size:16px;line-height:26px;color:var(--ds-text-strong)}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:15px;line-height:23px}
+  .facts dt{font-weight:600;color:var(--ds-text-primary);white-space:nowrap}
+  .facts dd{color:var(--ds-text-strong)}
+  .fu{padding:14px 16px}
+  .fu + .fu{border-top:1px solid var(--ds-divider)}
+  .fu b{display:block;font-size:16px;font-weight:600;line-height:24px;color:var(--ds-text-strong)}
+  .fu span{display:block;margin-top:4px;font-size:14px;line-height:22px;color:var(--ds-text-primary)}
+  .fu .said{display:block;font-size:15px;font-weight:600;line-height:23px;color:var(--ds-text-strong);border-left:3px solid var(--unsure);padding-left:10px}
+  .fu dl{margin-top:6px;font-size:14px;line-height:22px}
+  .fu dt{font-weight:600;color:var(--ds-text-strong);margin-top:4px}
+  .fu dd{color:var(--ds-text-primary)}
+  .fr-hit{padding:14px 16px;background:var(--bad-bg)}
+  .fr-hit + .fr-hit{border-top:1px solid var(--card)}
+  .fr-hit b{display:block;font-size:16px;font-weight:700;line-height:24px;color:var(--bad)}
+  .fr-hit span{display:block;margin-top:4px;font-size:15px;line-height:23px;color:var(--ds-text-strong)}
+  .ck-links{display:flex;flex-wrap:wrap;gap:6px;padding:14px 16px}
+  .ck-links .hbtn{border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .hist{display:block;width:100%;padding:14px 40px 14px 16px;border:0;background:var(--card);text-align:left;font:inherit;cursor:pointer;position:relative}
+  .hist + .hist{border-top:1px solid var(--ds-divider)}
+  .hist::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid var(--ds-gray-400);border-top:2px solid var(--ds-gray-400);transform:translateY(-50%) rotate(45deg)}
+  .hist b{display:block;font-size:15px;font-weight:600;line-height:22px;color:var(--ds-text-strong)}
+  .hist span{display:block;font-size:13px;line-height:20px;color:var(--ds-text-secondary)}
+  .hist:active{background:var(--ds-pressed)}
+
+  /* 말로 적기 (링크 앱의 음성 인식) */
+  .memo-tools{display:flex;gap:8px;margin-top:8px}
+  .mic{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:0;border-radius:999px;background:var(--ds-blue-50);color:var(--ds-primary-heavy);font-size:14px;font-weight:600;cursor:pointer;transition:transform .1s}
+  .mic svg{width:18px;height:18px}
+  .mic:active{transform:scale(.95)}
+  .mic.rec{background:var(--bad);color:#fff}
+  .no-sr .mic,.no-sr .way.sr{display:none}
+
+  /* 동의 창 */
+  .modal{position:absolute;inset:0;z-index:10;display:flex;align-items:flex-end;background:rgba(20,26,36,.45)}
+  .modal[hidden]{display:none}
+  .modal-box{width:100%;max-height:92%;overflow-y:auto;background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px calc(20px + env(safe-area-inset-bottom))}
+  .modal-box h2{font-size:20px;font-weight:700;line-height:28px;color:var(--ds-text-strong)}
+  .cs-list{list-style:none;margin-top:14px}
+  .cs-list li{padding:10px 0;font-size:15px;line-height:23px;color:var(--ds-text-primary)}
+  .cs-list li + li{border-top:1px solid var(--ds-divider)}
+  .cs-list b{display:block;font-size:15px;font-weight:600;color:var(--ds-text-strong)}
+  .cs-link{display:inline-block;margin:8px 0 6px;font-size:14px;font-weight:600;color:var(--ds-primary-heavy)}
+
   /* 휴대폰에서는 화면 전체를 앱으로 */
   @media (max-width:520px){
     body{background:var(--bg)}
@@ -480,11 +618,11 @@
           </div>
           <!-- 한눈에 보는 흐름 -->
           <div class="card hero">
-            <h2>계약 전, 물어볼 것 15개를<br>차례로 확인해요</h2>
+            <h2>집 찾기부터 계약까지,<br>물어볼 것을 차례로 챙겨요</h2>
             <div class="hflow">
-              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span><small>1</small>질문 보기</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
-              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M15 7l1.5 1.5L19 6"/></svg></i><span><small>2</small>들은 답 고르기</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
-              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/></svg></i><span><small>3</small>안전·주의·위험 확인</span></div>
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></i><span><small>1</small>집 찾기</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></i><span><small>2</small>보러 가서 묻고 녹음</span></div><svg class="hf-ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg>
+              <div class="hstep"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span><small>3</small>AI 분석·계약 체크</span></div>
             </div>
           </div>
           <div class="grp" id="savedGrp" hidden>
@@ -496,10 +634,10 @@
           </div>
           <div class="grp">
             <div class="card qmenu" role="group" aria-label="바로가기">
-              <button type="button" class="qm" data-quick="list"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span>체크리스트</span></button>
-              <button type="button" class="qm" data-quick="rent"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><span>동네 시세</span></button>
-              <button type="button" class="qm" data-quick="help"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l2 5-2.4 1.6a11 11 0 005.3 5.3L15 13.5l5 2V19a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></i><span>무료 상담</span></button>
-              <button type="button" class="qm" data-quick="docs"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></i><span>서류 떼기</span></button>
+              <button type="button" class="qm" data-quick="find"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></i><span>집 찾기</span></button>
+              <button type="button" class="qm" data-quick="visit"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 14.5h4"/></svg></i><span>현장 질문</span></button>
+              <button type="button" class="qm" data-quick="talk"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></i><span>대화 분석</span></button>
+              <button type="button" class="qm" data-quick="list"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg></i><span>계약 체크</span></button>
             </div>
           </div>
           <div class="grp">
@@ -512,12 +650,57 @@
           </div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
           <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
+          <p class="note"><a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--ds-primary-heavy);font-weight:600">개인정보 처리 안내</a></p>
           <p class="note foot-m" id="footM"></p><!-- 휴대폰에서만 보이는 맨 아래 문구 (내용은 footer에서 복사) -->
         </div>
         <div class="cta">
           <button type="button" class="btn" id="startGo">시작하기</button>
           <button type="button" class="btn plain" id="startNew" hidden>새로 시작하기</button>
         </div>
+      </section>
+
+      <!-- 1단계 집 찾기: 조건을 고르면 실거래로 어울리는 동네와 적정 가격을 AI가 추천해요 -->
+      <section class="view" id="pf" aria-label="집 찾기">
+        <div class="nav"><button type="button" class="back" data-back aria-label="시작 화면으로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>처음</button><span class="title"></span><span class="step-ind">1단계</span></div>
+        <div class="scroll">
+          <div class="large"><h1>집 찾기</h1><p>찾는 곳과 예산을 고르면 최근 실제 거래로 어울리는 동네와 적정 가격을 추천해요.</p></div>
+          <div class="grp">
+            <div class="card pad">
+              <label class="lk-l first" for="f-near">어디 근처에서 찾나요?</label>
+              <select class="lk-in" id="f-near"></select>
+              <p class="lk-l">거래 종류</p>
+              <div class="chips" id="f-deal"></div>
+              <div class="f-money">
+                <div><label class="lk-l" for="f-dep">보증금 최대</label><div class="money"><input id="f-dep" type="text" inputmode="numeric" autocomplete="off" placeholder="숫자만"><span>만 원</span></div><p class="money-read" id="f-dep-r"></p></div>
+                <div id="f-rent-box"><label class="lk-l" for="f-rent">월세 최대</label><div class="money"><input id="f-rent" type="text" inputmode="numeric" autocomplete="off" placeholder="숫자만"><span>만 원</span></div><p class="money-read" id="f-rent-r"></p></div>
+              </div>
+              <p class="lk-l">건물 종류</p>
+              <div class="chips" id="f-type"></div>
+              <p class="lk-l">원하는 점 <span class="opt-tag">여러 개 골라도 돼요</span></p>
+              <div class="chips" id="f-wants"></div>
+              <label class="lk-l" for="f-note">더 하고 싶은 말 <span class="opt-tag">선택</span></label>
+              <div class="answer"><textarea id="f-note" maxlength="100" rows="2" placeholder="예: 학교까지 걸어 다니고 싶어요"></textarea><span class="cnt" id="f-note-c">0 / 100</span></div>
+              <p class="lk-send">추천받기를 누르면 고른 조건과 동네별 거래 요약만 Google Gemini로 보내 추천을 받아요. 이름·연락처는 보내지 않아요.</p>
+              <button type="button" class="ai-btn fill" id="f-go">추천받기</button>
+            </div>
+          </div>
+          <div id="f-out"></div>
+          <p class="note">추천은 국토교통부 실거래가(이미 계약된 거래)를 바탕으로 한 참고용 안내예요. 지금 나와 있는 매물을 보여 주지는 않아요.</p>
+        </div>
+        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
+      </section>
+
+      <!-- 2단계 집 보러 가기: 처음 계약하는 사람이 현장에서 물어볼 질문(사기 예방 포함)과 대화 녹음 -->
+      <section class="view" id="pv" aria-label="집 보러 가기">
+        <div class="nav"><button type="button" class="back" data-back aria-label="시작 화면으로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>처음</button><span class="title"></span><span class="step-ind">2단계</span></div>
+        <div class="scroll" id="pv-body"></div>
+        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
+      </section>
+
+      <!-- 대화 분석: 녹음 · 실시간 받아쓰기 · 녹음 파일 · 글 붙여 넣기 → AI 분석 -->
+      <section class="view" id="pa" aria-label="중개사 대화 분석">
+        <div class="nav"><button type="button" class="back" data-back aria-label="집 보러 가기로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>질문</button><span class="title">대화 분석</span><span></span></div>
+        <div class="scroll" id="pa-body"></div>
       </section>
 
       <!-- ① 질문 목록 -->
@@ -596,7 +779,8 @@
           <div class="field">
             <label class="lbl" for="a-ans">들은 말 메모 <span class="opt-tag">선택</span></label>
             <div class="answer"><textarea id="a-ans" maxlength="300" rows="3" placeholder="들은 말을 그대로 적어 주세요."></textarea><span class="cnt" id="a-cnt">0 / 300</span></div>
-            <p class="fh">판단에는 쓰이지 않고 기록으로 남아요. 이름·주민번호·계좌번호는 적지 마세요.</p>
+            <div class="memo-tools"><button type="button" class="mic" data-mic="a-ans" data-label="말로 적기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg><span>말로 적기</span></button></div>
+            <p class="fh">판단에는 쓰이지 않고 기록으로 남아요. 이름·주민번호·계좌번호는 적지 마세요. 말로 적기는 브라우저의 음성 인식 기능을 써요(브라우저 회사 서버에서 말소리를 글자로 바꿀 수 있어요).</p>
           </div>
           <div class="field">
             <p class="lbl">누가 답했나요?</p>
@@ -660,9 +844,24 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- 녹음·대화 분석을 처음 쓸 때 한 번 묻는 동의 창 -->
+    <div class="modal" id="consent" role="dialog" aria-modal="true" aria-labelledby="cs-t" hidden>
+      <div class="modal-box">
+        <h2 id="cs-t">녹음과 AI 분석 전에 확인해 주세요</h2>
+        <ul class="cs-list">
+          <li><b>무엇을 보내나요?</b> 녹음은 글로 바꾸려고, 받아 적은 글은 분석하려고 Google Gemini로 보내요. 전화번호·주민등록번호·계좌번호처럼 보이는 숫자는 가려서 보내요.</li>
+          <li><b>무엇을 남기나요?</b> 녹음 소리는 어디에도 저장하지 않아요. 받아 적은 글과 분석 결과는 이 기기 브라우저에만 저장하고, 언제든 지울 수 있어요.</li>
+          <li><b>누구의 대화인가요?</b> 내가 참여한 대화만 녹음하세요. 다른 사람끼리 나누는 대화를 몰래 녹음하면 법에 어긋나요(통신비밀보호법 제3조). 녹음한다고 미리 알리면 서로 오해가 없어요.</li>
+          <li><b>결과는 참고용이에요.</b> AI는 틀릴 수 있고, 법률 자문이 아니에요.</li>
+        </ul>
+        <a class="cs-link" href="/privacy.html" target="_blank" rel="noopener">개인정보 처리 안내 자세히 보기</a>
+        <div class="ai-row"><button type="button" class="ai-btn sub" id="cs-no">취소</button><button type="button" class="ai-btn fill" id="cs-ok">동의하고 계속</button></div>
+      </div>
+    </div>
   </div></div>
 
-  <footer>서강대 스타트업 연계전공 수업 과제<small>마지막으로 고친 날 2026-11-19</small></footer>
+  <footer>서강대 스타트업 연계전공 수업 과제<small>마지막으로 고친 날 2026-11-20</small></footer>
 </div>
 
 <script>
@@ -1463,19 +1662,23 @@ $('r-dong').addEventListener('change', e=>{ rf.dong = e.target.value; rSave(); r
 $('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown += RPAGE; drawRent(); } });
 // 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
 let rentFrom = 'ps';
-document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = curView === 'p2' ? 'p2' : 'ps'; go('pr'); } });
-const RENT_BACK = {p0:['처음','시작 화면으로'], p2:['답변','답변으로'], ps:['기타 서비스','기타 서비스로']};
+document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = ['p2','pf','p0'].includes(curView) ? curView : 'ps'; const d = e.target.closest('[data-rent]').dataset; if(d.gu){ rf.gu = d.gu; rf.dong = d.dong || 'all'; rf.type = d.type || 'all'; rf.deal = d.deal || rf.deal; rSave(); } go('pr'); } });
+const RENT_BACK = {p0:['처음','시작 화면으로'], p2:['답변','답변으로'], ps:['기타 서비스','기타 서비스로'], pf:['집 찾기','집 찾기로']};
 function rentBack(){
   const b = RENT_BACK[rentFrom] || RENT_BACK.ps;
   $('r-back').querySelector('span').textContent = b[0];
   $('r-back').setAttribute('aria-label', b[1]);
 }
 
-/* ---------- 아래 탭: 계약 체크(질문 목록) · 기타 서비스 ---------- */
+/* ---------- 아래 탭 4개: 집 찾기 · 집 보러 가기 · 계약 체크 · 기타 서비스 (2026-11-20) ----------
+   탭끼리 바꿀 때는 옆으로 넘기지 않고 바로 바꾸고, 뒤로 가기 기록은 하나만 남겨요(탭에서 뒤로 가면 시작 화면). */
 const TABS = [
+  ['pf', '집 찾기', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>'],
+  ['pv', '집 보러 가기', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 14.5h4"/></svg>'],
   ['p1', '계약 체크', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 9.5l2 2 4-4M8.5 16h7"/></svg>'],
   ['ps', '기타 서비스', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>']
 ];
+const TAB_VIEWS = TABS.map(t=>t[0]);
 document.querySelectorAll('.tabbar').forEach(nav=>{
   const here = nav.closest('.view').id;
   nav.innerHTML = TABS.map(t=>'<button type="button" data-tab="' + t[0] + '"' + (t[0] === here ? ' class="on" aria-current="page"' : '') + '>' + t[2] + t[1] + '</button>').join('');
@@ -1484,18 +1687,16 @@ document.addEventListener('click', e=>{
   const b = e.target.closest('[data-tab]'); if(!b) return;
   const here = b.closest('.view').id, t = b.dataset.tab;
   if(t === here) $(here).querySelector('.scroll').scrollTo({top:0, behavior:'smooth'});
-  else if(t === 'ps') go('ps');
-  else history.back(); // 기타 서비스는 질문 목록 위에 쌓여 있어요
+  else go(t);
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const VIEWS = ['p0','p1','p2','p3'];
-// 화면이 놓인 순서(옆으로 넘어가는 방향)와 뒤로 가기 깊이. 기타 서비스는 질문 목록 바로 위에 쌓여요
-const ORDER = ['p0','p1','ps','pr','p2','p3'];
-const DEPTH = {p0:0, p1:1, ps:2, pr:3, p2:2, p3:3};
+// 화면이 놓인 순서(옆으로 넘어가는 방향)와 뒤로 가기 깊이. 탭 화면 4개는 모두 시작 화면 바로 위(깊이 1)예요
+const ORDER = ['p0','pf','pv','p1','ps','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pf:1, pv:1, p1:1, ps:1, pa:2, p2:2, p3:3};
 let depth = 0;
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
-let doneTag = null;
+let doneTag = null, wantList = false;
 const doneMsg = tag => nextOpen() ? '"' + tag + '" 확인 완료! 원하는 질문을 골라 보세요.' : '15개 질문을 모두 확인했어요. 수고했어요!';
 
 // 화면이 넘어가는 동안(0.4초) 누름을 받지 않아요. 두 번 빨리 눌러도 다음 화면이 눌리지 않게요.
@@ -1507,29 +1708,45 @@ let busyUntil = 0;
 let curView = 'p0';
 function show(id){
   busyUntil = Date.now() + 400;
-  // 탭끼리(질문 목록 ↔ 기타 서비스) 바꿀 때는 옆으로 넘기지 않고 바로 바꿔요
-  const tab = (curView === 'p1' && id === 'ps') || (curView === 'ps' && id === 'p1');
+  stopMemoMic();
+  if(curView === 'pa' && id !== 'pa') leaveTalk(); // 대화 분석 화면을 떠나면 녹음·받아쓰기를 멈춰요
+  // 탭끼리 바꿀 때는 옆으로 넘기지 않고 바로 바꿔요
+  const tab = TAB_VIEWS.includes(curView) && TAB_VIEWS.includes(id);
   const vs = document.querySelector('.views');
   if(tab){ vs.classList.add('instant'); busyUntil = Date.now() + 100; }
-  // 12번 답 화면에서 연 시세 화면은 답 화면 오른쪽에서 들어와요
-  const order = rentFrom === 'p2' ? ['p0','p1','ps','p2','pr','p3'] : rentFrom === 'p0' ? ['p0','pr','p1','ps','p2','p3'] : ORDER;
-  const k = order.indexOf(id);
-  order.forEach((v,i)=>{
+  const k = ORDER.indexOf(id);
+  ORDER.forEach((v,i)=>{
     const el = $(v);
     el.classList.toggle('on', i === k);
     el.classList.toggle('past', i < k);
     el.setAttribute('aria-hidden', i !== k);
   });
   if(tab) requestAnimationFrame(()=>requestAnimationFrame(()=>vs.classList.remove('instant')));
-  document.querySelector('.screen').classList.toggle('tabbed', id === 'p1' || id === 'ps');
+  document.querySelector('.screen').classList.toggle('tabbed', TAB_VIEWS.includes(id));
   curView = id;
   $(id).querySelector('.scroll').scrollTop = 0;
 }
 
-function go(id){
-  depth = id === 'pr' ? DEPTH[rentFrom] + 1 : DEPTH[id];
+// 화면을 열 때 그 화면 내용을 새로 그려요
+function paint(id){
+  if(id === 'pf') renderFind();
+  if(id === 'pv') renderVisit();
+  if(id === 'pa') renderTalk();
+  if(id === 'p1') renderList();
   if(id === 'ps') renderServices();
   if(id === 'pr') renderRent();
+}
+
+function go(id){
+  // 탭에서 다른 탭으로: 뒤로 가기 기록을 쌓지 않고 바꿔요
+  if(TAB_VIEWS.includes(id) && TAB_VIEWS.includes(curView)){
+    depth = 1;
+    paint(id);
+    history.replaceState({v:id, d:1}, '');
+    return show(id);
+  }
+  depth = TAB_VIEWS.includes(id) ? 1 : depth + 1; // 탭 화면은 시작 화면 바로 위, 나머지는 한 칸씩 위에 쌓여요
+  paint(id);
   history.pushState({v:id, d:depth, from:rentFrom}, '');
   show(id);
 }
@@ -1540,15 +1757,15 @@ window.addEventListener('popstate', e=>{
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
   depth = (e.state && e.state.d != null) ? e.state.d : DEPTH[v];
   if(v === 'pr') rentFrom = (e.state && e.state.from) || 'ps';
-  if(v === 'ps') renderServices();
-  if(v === 'pr') renderRent();
+  paint(v);
   if(v === 'p0') renderStart();
-  if(v === 'p1') renderList();
   if(v === 'p1' && doneTag) toast(doneMsg(doneTag));
   if(v === 'p0' || v === 'p1') doneTag = null;
   if(v === 'p2') renderAnswer();
   if(v === 'p3') renderResult();
   show(v);
+  // 「체크리스트로 돌아가기」로 왔는데 다른 탭(집 보러 가기 등)에 닿았으면 계약 체크 탭으로 바꿔요
+  if(wantList){ wantList = false; if(v !== 'p1' && TAB_VIEWS.includes(v)) go('p1'); }
 });
 
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click', ()=>history.back()));
@@ -1630,6 +1847,761 @@ $('r-ai-body').addEventListener('click', e=>{
   else if(k === 'send') sendAi();
 });
 
+/* ==========================================================================
+   2026-11-20 고도화: 집 찾기(AI 동네 추천) · 집 보러 가기(현장 질문·사기 수법) · 대화 분석(녹음 → AI)
+   ========================================================================== */
+const lsGet = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch(e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+const FKEY = 'jipkok-fp', VKEY = 'jipkok-visit', TKEY = 'jipkok-talk', CKEY = 'jipkok-consent';
+const chipRow = (list, cur, multi) => list.map(t=>{
+  const on = multi ? cur.includes(t[0]) : t[0] === cur;
+  return '<button type="button" class="chip' + (on ? ' on' : '') + '" data-v="' + t[0] + '" aria-pressed="' + on + '">' + t[1] + '</button>';
+}).join('');
+const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg>';
+const ICON_WAVE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2M7 8v8M11 5v14M15 8v8M19 10v4M21 12h0"/></svg>';
+const ICON_FILE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg>';
+const ICON_PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>';
+const CK_W = '<svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ---------- 사기 수법 (출처: HUG 전세사기예방센터 유형별 사례, 찾기쉬운 생활법령정보 전세사기피해의 유형 · 2026-11-20 확인) ----------
+   번호는 api/talk.mjs의 FRAUD와 같아야 해요. 고칠 때 같이 고쳐요. */
+const HUG = p => 'https://www.khug.or.kr/jeonse/web/s02/' + p + '.jsp';
+const EL = (cci, cls) => 'https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&csmSeq=1972&ccfNo=1&cciNo=' + cci + '&cnpClsNo=' + cls;
+const FRAUD = [
+  {id:'f1', name:'깡통전세', one:'보증금과 빚을 합치면 집값에 가까운 집',
+   how:'집값의 대부분을 대출과 세입자 보증금으로 채운 집이에요. 집값이 떨어지거나 경매로 넘어가면 보증금을 다 돌려받기 어렵고, 계약이 끝나도 "다음 세입자가 와야 준다"며 미루기도 해요.',
+   signs:['보증금과 집에 걸린 빚을 합치면 집값의 80%가 넘어요(HUG 기준)','"집주인이 부자라 괜찮아요"처럼 경제력만 강조해요','보증보험 가입이 안 된다고 해요'],
+   src:[['HUG 전세사기예방센터', HUG('s020201')], ['찾기쉬운 생활법령정보', EL(1,1)]]},
+  {id:'f2', name:'가짜 임대인·서류 위조', one:'집주인이 아닌 사람이 집주인 행세',
+   how:'건물을 관리하며 알게 된 실제 집주인 정보로 집주인 행세를 하거나, 등기부등본·위임장을 위조해 보증금을 가로채요.',
+   signs:['신분증 이름과 등기부 소유자가 달라요','등기부등본을 직접 떼지 말고 준 것만 보라고 해요','대리인인데 위임장·인감증명서 원본이 없어요'],
+   src:[['HUG 전세사기예방센터', HUG('s020301')]]},
+  {id:'f3', name:'월세를 전세로 바꾼 중개인', one:'집주인 몰래 전세 계약 후 차액을 가로챔',
+   how:'중개사나 중개보조원이 집주인 대리인이라며 세입자와는 전세로 계약하고, 집주인에게는 월세 계약이라고 속여 보증금 차액을 가로채요.',
+   signs:['집주인 없이 중개사가 대리인이라며 계약해요','집주인과 통화를 피하거나 서류를 준비하지 않아요','중개사·보조원 계좌로 보증금을 보내라고 해요'],
+   src:[['HUG 전세사기예방센터', HUG('s020401')], ['찾기쉬운 생활법령정보', EL(2,1)]]},
+  {id:'f4', name:'무등록·폐업 중개', one:'자격증·등록증을 빌려 차린 사무소',
+   how:'폐업한 사무소 간판과 서류 사본을 그대로 걸어 두거나, 남의 등록증을 빌려 무등록으로 중개해요. 사고가 나도 공제(보증)로 배상받기 어려워요.',
+   signs:['등록번호를 말하지 않거나 조회되지 않아요','공제증서를 보여 주지 않아요','설명하는 사람이 공인중개사인지 밝히지 않아요'],
+   src:[['HUG 전세사기예방센터', HUG('s020401')], ['찾기쉬운 생활법령정보', EL(1,3)]]},
+  {id:'f5', name:'선순위 보증금 속이기', one:'다가구에서 먼저 사는 세입자 보증금을 줄여 말함',
+   how:'다가구는 건물 전체가 한 등기라 먼저 들어온 세입자 보증금이 내 앞 순서가 되는데, 등기부에 나오지 않아 그 합계를 속이는 경우가 있어요.',
+   signs:['말로만 "다른 방 보증금은 얼마 안 돼요"라고 해요','확정일자 부여 현황 열람에 동의하지 않아요'],
+   src:[['HUG 전세사기예방센터', HUG('s020402')]]},
+  {id:'f6', name:'신탁 부동산 사기', one:'신탁회사 동의 없이 맺은 임대차 계약',
+   how:'집이 신탁회사에 맡겨진(신탁된) 상태인데, 신탁회사 동의 없이 원래 주인이 임대차 계약을 맺어요. 이런 계약은 무효가 될 수 있어요.',
+   signs:['등기부 갑구에 "신탁"이 있어요','신탁회사 동의서 없이 원래 주인 계좌로 돈을 보내라고 해요'],
+   src:[['찾기쉬운 생활법령정보', EL(1,2)]]},
+  {id:'f7', name:'이중계약', one:'한 집을 여러 사람에게 계약하고 잠적',
+   how:'한 집을 두 사람 이상에게 빌려주고 보증금을 여러 번 받아 가로채요. 이사 날 다른 세입자가 살고 있는 걸 알게 되기도 해요.',
+   signs:['지금 사는 세입자가 나가기 전에 잔금을 달라고 해요','보증금이 집값에 가까워요'],
+   src:[['HUG 전세사기예방센터', HUG('s020502')]]},
+  {id:'f8', name:'잔금·전입일 대출이나 매도', one:'전입신고 효력이 생기기 전에 빚을 냄',
+   how:'전입신고 효력은 다음 날 0시부터 생겨요. 그사이 집주인이 대출을 받거나 집을 다른 사람에게 넘기면 내 보증금이 뒤로 밀려요.',
+   signs:['잔금일에 대출이 예정돼 있어요','"추가 대출 안 한다"는 특약을 거부해요'],
+   src:[['찾기쉬운 생활법령정보', EL(1,1)]]},
+  {id:'f9', name:'전출 요구', one:'"잠깐 전입을 빼 달라"는 부탁',
+   how:'사는 동안 대출 등을 이유로 잠깐 전출해 달라고 해요. 전출하는 순간 대항력이 깨져 그사이 생긴 빚이 내 보증금보다 앞서요. 몰래 다른 주소로 전출시킨 사례도 있어요.',
+   signs:['"대출받는 동안만 잠깐 빼 주세요"라고 해요'],
+   src:[['HUG 전세사기예방센터', HUG('s020602')], ['찾기쉬운 생활법령정보', EL(2,2)]]},
+  {id:'f10', name:'집주인의 밀린 세금', one:'국세 체납이 보증금보다 먼저 가져감',
+   how:'집주인이 국세 등을 밀리면 집이 팔릴 때 세금이 먼저 나가서 내 보증금 순서가 밀려요.',
+   signs:['납세증명서를 보여 주지 않아요'],
+   src:[['찾기쉬운 생활법령정보', EL(2,2)]]},
+  {id:'f11', name:'특약 불이행', one:'적어 둔 특약을 지키지 않음',
+   how:'신탁 말소·근저당 말소 같은 집주인 의무를 특약에 적고도 지키지 않아 순서를 확보하지 못하는 경우가 있어요.',
+   signs:['말소를 확인하기 전에 잔금을 먼저 달라고 해요'],
+   src:[['찾기쉬운 생활법령정보', EL(2,1)]]},
+  {id:'f12', name:'명의 대여·이면계약', one:'"명의를 빌려주면 돈을 준다"는 제안',
+   how:'브로커가 대가를 주겠다며 명의를 빌리거나 실제와 다른 계약서를 쓰게 해요. 이면계약을 쓰면 보증을 받지 못하고 나도 처벌받을 수 있어요.',
+   signs:['실제와 다른 금액·이름으로 계약서를 쓰자고 해요','신분증·인감을 빌려 달라고 해요'],
+   src:[['HUG 전세사기예방센터', HUG('s020802')]]}
+];
+const FR = Object.fromEntries(FRAUD.map(f=>[f.id, f]));
+
+/* ---------- 현장 질문 리스트 (처음 계약하는 사람용 · 사기 예방) ----------
+   say: 그대로 읽을 문장, why: 왜, red: 이런 답이면 멈추기, how: 확인 방법, fr: 막는 사기 수법, q: 판단받을 체크리스트 질문 */
+const STAGE = [['see','집 보러 갔을 때'], ['pre','가계약금 보내기 전'], ['sign','계약서 쓰는 날'], ['pay','잔금·입주하는 날'], ['live','살면서']];
+const FQ = [
+  {id:'v1', st:'see', q:'q5', fr:['f2','f6','f1'],
+   say:'정확한 주소(동·호수까지) 알려 주실 수 있어요? 등기부등본을 제가 직접 떼 볼게요.',
+   why:'등기부등본으로 진짜 주인, 집에 걸린 빚, 신탁 여부를 볼 수 있어요. 남이 준 등기부는 위조된 경우도 있어서 직접 떼는 게 안전해요.',
+   red:'주소를 알려 주지 않거나, 뽑아 둔 등기부만 보라고 해요.',
+   how:'인터넷등기소(iros.go.kr)에서 누구나 열람·발급할 수 있어요.'},
+  {id:'v2', st:'see', q:'q5', fr:['f1'],
+   say:'이 집 매매 시세는 얼마쯤이고, 집에 걸린 대출(근저당)은 얼마예요?',
+   why:'보증금과 집에 걸린 빚을 합친 금액이 집값에 가까우면 집이 경매로 넘어갈 때 보증금을 다 돌려받기 어려워요. HUG는 그 합이 집값의 80%를 넘으면 깡통주택으로 봐요.',
+   red:'"집주인이 부자라 괜찮아요"처럼 경제력만 강조하거나 시세를 말해 주지 않아요.',
+   how:'국토교통부 실거래가 공개시스템에서 매매 시세를, 등기부 을구에서 근저당(채권최고액)을 확인해요.'},
+  {id:'v3', st:'see', q:'q7', fr:['f1'],
+   say:'전세보증금 반환보증(보증보험)에 가입할 수 있는 집인가요?',
+   why:'보증보험에 들면 집주인이 보증금을 못 돌려줘도 보증기관에서 받을 수 있어요. 가입이 안 되는 집은 빚이 많거나 건물에 문제가 있다는 신호일 수 있어요.',
+   red:'"안 돼요", "필요 없어요"라고만 해요.',
+   how:'HUG(1566-9009)나 안심전세앱에서 주소와 보증금으로 미리 확인해요.'},
+  {id:'v4', st:'see', q:'q6', fr:['f5'], dg:true,
+   say:'다가구 건물이면, 먼저 사는 세입자들 보증금 합계가 얼마예요? 계약 전에 확정일자 부여 현황을 볼 수 있게 집주인 동의를 받아 주실 수 있나요?',
+   why:'다가구는 건물 전체가 한 등기라 먼저 들어온 세입자 보증금이 내 앞 순서가 돼요. 등기부에 나오지 않아서 속이는 경우가 있어요.',
+   red:'말로만 "얼마 안 돼요"라고 하고 서류 열람에는 동의하지 않아요.',
+   how:'계약 전에는 집주인 동의서·신분증 사본으로 확정일자 부여 현황을, 계약 후에는 전입세대 열람 내역도 함께 떼 봐요(HUG 안내).'},
+  {id:'v5', st:'see', q:'q9', fr:[],
+   say:'건축물대장에 주택으로 등록된 방인가요? 위반건축물 표시는 없죠?',
+   why:'주택이 아닌 곳(근린생활시설 등)을 방으로 고친 경우 보증보험·전세대출이 어렵고, 원상복구 명령이 나올 수 있어요.',
+   red:'"다들 그냥 살아요"라며 확인을 피해요.',
+   how:'정부24에서 건축물대장을 무료로 떼 볼 수 있어요.'},
+  {id:'v6', st:'see', q:'q4', fr:['f4','f3'],
+   say:'중개사무소 등록번호를 알려 주시고, 공제증서도 보여 주실 수 있어요? 지금 설명해 주시는 분이 공인중개사님이세요?',
+   why:'자격증을 빌리거나 폐업한 사무소 서류를 걸어 두고 중개하는 경우가 있어요. 공제증서는 중개사 잘못으로 손해를 봤을 때 배상받는 근거예요.',
+   red:'등록번호를 말하지 않거나 조회되지 않고, 공제증서가 없어요.',
+   how:'계약 체크 4번 질문에서 등록번호로 바로 조회할 수 있어요.'},
+  {id:'v7', st:'pre', q:'q1', fr:['f2','f3'],
+   say:'계약하는 날 집주인분이 직접 나오시나요? 대리인이면 위임장과 인감증명서 원본을 준비해 주세요.',
+   why:'집주인이 아닌 사람이 집주인 행세를 하거나, 중개인이 대리인이라며 월세를 전세로 바꿔 계약해 보증금을 가로챈 사례가 있어요.',
+   red:'집주인 서류 없이 중개사가 대리인이라고 하거나, 집주인과 통화를 피해요.',
+   how:'신분증 이름과 등기부 소유자가 같은지 보고, 대리인이면 집주인과 직접 통화해 계약 내용을 확인해요(HUG 안내).'},
+  {id:'v8', st:'pre', q:'q5', fr:['f6'],
+   say:'등기부에 신탁 등기가 있나요? 있다면 신탁회사 동의서를 받을 수 있나요?',
+   why:'신탁된 집을 신탁회사 동의 없이 빌려주면 계약이 무효가 될 수 있어요.',
+   red:'"신탁은 형식일 뿐이에요"라며 동의서 없이 원래 주인 계좌로 돈을 보내라고 해요.',
+   how:'등기부 갑구에 "신탁"이 있는지 보고, 있으면 신탁원부와 신탁회사 동의서를 확인해요.'},
+  {id:'v9', st:'pre', q:'q8', fr:['f10'],
+   say:'집주인분 국세·지방세 완납증명서(납세증명서)를 보여 주실 수 있나요?',
+   why:'집주인이 세금을 밀리면 집이 팔릴 때 세금이 내 보증금보다 먼저 나갈 수 있어요.',
+   red:'보여 주기를 거부해요.',
+   how:'집주인에게 발급받아 달라고 요청해요.'},
+  {id:'v10', st:'pre', q:'q13', fr:['f3','f2','f6'],
+   say:'가계약금은 어느 계좌로 보내요? 등기부에 있는 집주인 이름 계좌 맞죠?',
+   why:'중개사·대리인 계좌로 보낸 돈은 집주인이 받지 못했다고 할 수 있어요.',
+   red:'중개사나 다른 사람 계좌, 또는 현금을 요구해요.',
+   how:'받는 사람 이름이 등기부 소유자와 같은지 확인해요. 집주인 요청으로 다른 계좌에 보낸다면 그 사실을 특약에 적어요(HUG 안내).'},
+  {id:'v11', st:'sign', q:'q14', fr:['f8'],
+   say:'잔금일 다음 날까지 근저당 설정이나 집 매도를 하지 않는다고 특약에 넣어 주실 수 있나요?',
+   why:'전입신고 효력은 다음 날 0시부터예요. 그사이 집주인이 대출을 받거나 집을 팔면 내 보증금이 뒤로 밀릴 수 있어요.',
+   red:'특약 넣기를 거부해요.',
+   how:'계약서 특약에 적고, 잔금 직전에 등기부를 다시 떼어 확인해요.'},
+  {id:'v12', st:'sign', q:'q10', fr:['f1'],
+   say:'계약이 끝나면 다음 세입자가 없어도 보증금을 바로 돌려주신다고 특약에 적어 주세요.',
+   why:'"다음 세입자가 들어와야 준다"는 조건이면 이사한 뒤에도 몇 달씩 못 받을 수 있어요.',
+   red:'"다음 세입자 오면 줄게요"라고 해요.',
+   how:'계약서 특약에 "계약 종료일에 보증금 전액 반환"을 적어요.'},
+  {id:'v13', st:'sign', q:'q2', fr:['f12'],
+   say:'실제 금액 그대로, 등기부의 집주인 이름으로 계약서를 쓰는 거죠?',
+   why:'실제와 다른 금액·이름으로 쓰는 이면계약은 보증을 받지 못할 수 있고, 사기에 휘말릴 수 있어요.',
+   red:'"명의를 빌려주면 돈을 준다", 다른 금액으로 쓰자는 제안을 해요.',
+   how:'다른 방식을 제안하면 거절하고 무료 상담을 받아요.'},
+  {id:'v14', st:'sign', q:'q15', fr:[],
+   say:'중개보수는 얼마이고, 영수증을 주시나요?',
+   why:'법정 한도를 넘는 중개보수는 받을 수 없어요.',
+   red:'한도보다 많이 달라고 하거나 영수증을 주지 않아요.',
+   how:'계약 체크 15번 질문에서 한도를 계산해 볼 수 있어요.'},
+  {id:'v15', st:'pay', q:'q14', fr:['f8','f11'],
+   say:'잔금 보내기 직전에 등기부를 한 번 더 떼어 보고 보낼게요.',
+   why:'계약 뒤 잔금 전에 새 빚이 생기거나 주인이 바뀔 수 있어요.',
+   red:'확인할 시간을 주지 않고 서두르게 해요.',
+   how:'인터넷등기소에서 오늘 날짜로 떼어 계약 때와 비교해요.'},
+  {id:'v16', st:'pay', q:null, fr:['f7'],
+   say:'지금 사는 세입자는 이사 나갔나요? 나간 걸 확인하고 잔금을 보낼게요.',
+   why:'한 집을 두 사람에게 계약하고 잠적한 사례가 있어요.',
+   red:'기존 세입자가 아직 사는데 잔금을 먼저 달라고 해요.',
+   how:'기존 세입자 계좌로 직접 보내기로 했다면 그 사실을 특약에 적어요(HUG 안내).'},
+  {id:'v17', st:'pay', q:'q5', fr:['f11'],
+   say:'특약에 적은 근저당·신탁 말소는 끝났나요? 말소된 등기부를 보고 잔금을 보낼게요.',
+   why:'특약에 적고도 지키지 않아 보증금 순서를 잃은 사례가 있어요.',
+   red:'"잔금 받고 바로 정리할게요"라고 해요.',
+   how:'말소가 반영된 등기부를 확인한 뒤 잔금을 보내요.'},
+  {id:'v18', st:'pay', q:null, fr:['f8'],
+   say:'입주하는 날 바로 전입신고하고 확정일자를 받을게요.',
+   why:'전입신고와 확정일자를 해야 보증금을 법으로 지킬 수 있어요.',
+   red:'"전입신고는 하지 말아 주세요"라고 해요.',
+   how:'주민센터나 정부24에서 할 수 있어요.'},
+  {id:'v19', st:'live', q:null, fr:['f9'],
+   say:'살다가 집주인이 "잠깐 전입을 빼 달라"고 하면 거절할게요.',
+   why:'전출하는 순간 대항력이 깨져서 그사이 생긴 빚이 내 보증금보다 앞설 수 있어요.',
+   red:'"대출받는 동안만 잠깐 빼 주세요"라고 해요.',
+   how:'어떤 이유든 전출 요청은 거절하고 무료 상담을 받아요.'}
+];
+let visit = lsGet(VKEY, {asked:{}});
+if(!visit || typeof visit.asked !== 'object') visit = {asked:{}};
+const saveVisit = () => lsSet(VKEY, visit);
+
+/* ---------- 2단계 집 보러 가기 화면 ---------- */
+function renderVisit(){
+  const n = FQ.filter(x=>visit.asked[x.id]).length;
+  const sessions = lsGet(TKEY, []);
+  let h = '<div class="large"><h1>집 보러 가기</h1><p>처음 계약하는 사람이 현장에서 꼭 물어볼 질문이에요. 실제 전세사기 수법을 막는 질문도 들어 있어요.</p></div>' +
+    '<button type="button" class="rent-entry talk-entry" data-go-talk><span class="re-ic">' + ICON_MIC + '</span><span class="re-t"><b>중개사와 나눈 대화 분석하기</b><span>녹음하면 AI가 더 물어볼 것과 다시 따져 볼 말을 찾아 줘요</span></span></button>' +
+    '<div class="grp"><div class="card meter"><div class="top"><span>물어본 질문</span><b>' + n + ' / ' + FQ.length + '</b></div><div class="track"><div class="fill" style="width:' + (n / FQ.length * 100) + '%"></div></div></div></div>';
+  STAGE.forEach(([st, name])=>{
+    const list = FQ.filter(x=>x.st === st);
+    const k = list.filter(x=>visit.asked[x.id]).length;
+    h += '<div class="grp"><div class="card-t">' + name + '<small>' + k + '/' + list.length + '</small></div><div class="card">' + list.map(x=>{
+      const on = !!visit.asked[x.id];
+      return '<div class="fq' + (on ? ' on' : '') + '" id="fq-' + x.id + '"><div class="fq-top">' +
+        '<button type="button" class="fq-ck' + (on ? ' on' : '') + '" data-ask="' + x.id + '" aria-pressed="' + on + '" aria-label="물어봤어요">' + (on ? CK_W : '') + '</button>' +
+        '<p class="fq-say">“' + esc(x.say) + '”</p></div>' +
+        ((x.fr.length || x.dg) ? '<div class="fq-tags">' + (x.dg ? '<span class="ftag dg">다가구라면</span>' : '') + x.fr.map(f=>'<button type="button" class="ftag" data-fr="' + f + '">' + FR[f].name + ' 막기</button>').join('') + '</div>' : '') +
+        '<details><summary>왜 물어보나요</summary><dl><dt>왜</dt><dd>' + esc(x.why) + '</dd><dt class="red">이런 답이면 멈추세요</dt><dd>' + esc(x.red) + '</dd><dt>확인 방법</dt><dd>' + esc(x.how) + '</dd></dl>' +
+        (x.q ? '<button type="button" class="ai-btn go-q" data-goq="' + x.q + '">계약 체크 ' + BY_ID[x.q].n + '번에서 판단받기</button>' : '') + '</details></div>';
+    }).join('') + '</div></div>';
+  });
+  h += '<div class="grp"><div class="card-t">실제로 있었던 사기 수법<small>공식 사례</small></div><div class="card">' + FRAUD.map(f=>
+    '<details class="fraud" id="fr-' + f.id + '"><summary>' + f.name + '<small>' + esc(f.one) + '</small></summary><div class="fr-b">' + esc(f.how) +
+    '<b>이런 신호가 보이면 조심하세요</b><ul class="ai-list">' + f.signs.map(s=>'<li>' + esc(s) + '</li>').join('') + '</ul>' +
+    '<b>막는 질문</b>' + FQ.filter(x=>x.fr.includes(f.id)).map(x=>'<button type="button" class="ftag" data-fq="' + x.id + '">' + esc(x.say.slice(0, 22)) + '…</button> ').join('') +
+    '<b>출처</b>' + f.src.map(s=>'<a href="' + s[1] + '" target="_blank" rel="noopener">' + s[0] + '</a>').join(' · ') + '</div></details>').join('') + '</div></div>';
+  if(sessions.length) h += '<div class="grp"><div class="card-t">최근 대화 분석</div><div class="card">' + sessions.map(histRow).join('') + '</div></div>';
+  h += '<p class="note">사기 수법과 예방 질문은 주택도시보증공사(HUG) 전세사기예방센터와 찾기쉬운 생활법령정보(법제처)의 공식 사례를 바탕으로 정리했어요(2026년 11월 확인). 참고용 안내이며 법률 자문이 아니에요.</p>';
+  $('pv-body').innerHTML = h;
+}
+// 화면 안 목록만 움직여요 (scrollIntoView는 화면 틀까지 옆으로 밀어서 쓰지 않아요)
+function scrollIn(el, center){
+  const sc = el && el.closest('.scroll'); if(!sc) return;
+  const r = el.getBoundingClientRect(), b = sc.getBoundingClientRect();
+  const top = sc.scrollTop + r.top - b.top - (center ? Math.max(12, (sc.clientHeight - r.height) / 2) : 12);
+  sc.scrollTo({top:Math.max(0, top), behavior:'smooth'});
+}
+const flash = el => { if(!el) return; el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'), 1400); };
+$('pv-body').addEventListener('click', e=>{
+  const ask = e.target.closest('[data-ask]');
+  if(ask){
+    const id = ask.dataset.ask;
+    if(visit.asked[id]) delete visit.asked[id]; else visit.asked[id] = Date.now();
+    saveVisit();
+    const sc = $('pv').querySelector('.scroll'), y = sc.scrollTop;
+    renderVisit(); sc.scrollTop = y;
+    return;
+  }
+  const fr = e.target.closest('[data-fr]');
+  if(fr){ const d = $('fr-' + fr.dataset.fr); d.open = true; scrollIn(d, true); flash(d); return; }
+  const fq = e.target.closest('[data-fq]');
+  if(fq){ const d = $('fq-' + fq.dataset.fq); scrollIn(d, true); flash(d); return; }
+  const gq = e.target.closest('[data-goq]');
+  if(gq){ state.sel = gq.dataset.goq; renderAnswer(); go('p2'); return; }
+  if(e.target.closest('[data-go-talk]')) return go('pa');
+  const hs = e.target.closest('[data-hist]');
+  if(hs){ openHist(hs.dataset.hist); go('pa'); }
+});
+
+/* ---------- 1단계 집 찾기: 실거래 요약 → AI가 동네 추천 ---------- */
+const NEAR = [
+  ['sinchon','신촌 (서강대·연세대·이화여대·홍익대)',['11410','11440']],
+  ['anam','안암·성북 (고려대·성신여대·국민대)',['11290','11230']],
+  ['hoegi','회기·청량리 (경희대·외대·시립대)',['11230','11290']],
+  ['wangsimni','왕십리·건대 (한양대·건국대·세종대)',['11200','11215']],
+  ['heukseok','흑석·상도 (중앙대·숭실대)',['11590','11620']],
+  ['gwanak','관악 (서울대)',['11620','11590']],
+  ['hyehwa','혜화·종로 (성균관대·동국대)',['11110','11140']],
+  ['yongsan','용산 (숙명여대)',['11170','11140']],
+  ['nowon','노원 (서울과기대·광운대)',['11350']]
+];
+const WANTS = [['cheap','보증금·월세 낮게'],['wide','넓은 방'],['new','새 건물'],['many','거래 많은 동네']];
+let fp = Object.assign({near:'sinchon', deal:'monthly', dep:'', rent:'', type:'all', wants:[], note:''}, lsGet(FKEY, {}).prefs || {});
+let findOut = lsGet(FKEY, {}).out || null;
+let findTurn = 0;
+const saveFind = () => lsSet(FKEY, {prefs:fp, out:findOut});
+const nearGus = k => k.startsWith('gu:') ? [k.slice(3)] : ((NEAR.find(n=>n[0] === k) || NEAR[0])[2]);
+const nearName = k => k.startsWith('gu:') ? (SEOUL_GU.find(g=>g[0] === k.slice(3)) || ['', ''])[1] : (NEAR.find(n=>n[0] === k) || NEAR[0])[1];
+
+function renderFind(){
+  $('f-near').innerHTML = '<optgroup label="학교 근처">' + NEAR.map(n=>'<option value="' + n[0] + '"' + (fp.near === n[0] ? ' selected' : '') + '>' + n[1] + '</option>').join('') + '</optgroup>' +
+    '<optgroup label="구에서 고르기">' + SEOUL_GU.map(g=>'<option value="gu:' + g[0] + '"' + (fp.near === 'gu:' + g[0] ? ' selected' : '') + '>' + g[1] + '</option>').join('') + '</optgroup>';
+  $('f-deal').innerHTML = chipRow(RENT_DEAL, fp.deal);
+  $('f-type').innerHTML = chipRow([['all','상관없음']].concat(RENT_TYPE.slice(1)), fp.type);
+  $('f-wants').innerHTML = chipRow(WANTS, fp.wants, true);
+  $('f-wants').classList.add('multi');
+  $('f-dep').value = fp.dep; $('f-rent').value = fp.rent; $('f-note').value = fp.note;
+  $('f-note-c').textContent = fp.note.length + ' / 100';
+  moneyRead();
+  $('f-rent-box').hidden = fp.deal === 'jeonse';
+  drawFindOut();
+}
+function moneyRead(){
+  $('f-dep-r').textContent = fp.dep ? won(+fp.dep) : '';
+  $('f-rent-r').textContent = fp.rent ? won(+fp.rent) : '';
+}
+$('pf').addEventListener('click', e=>{
+  const c = e.target.closest('.chip'); if(!c) return;
+  const g = c.parentNode.id;
+  if(g === 'f-deal'){ fp.deal = c.dataset.v; $('f-rent-box').hidden = fp.deal === 'jeonse'; }
+  if(g === 'f-type') fp.type = c.dataset.v;
+  if(g === 'f-wants'){ const v = c.dataset.v; fp.wants = fp.wants.includes(v) ? fp.wants.filter(x=>x !== v) : fp.wants.concat(v); }
+  saveFind();
+  if(g === 'f-wants') $('f-wants').innerHTML = chipRow(WANTS, fp.wants, true);
+  else c.parentNode.querySelectorAll('.chip').forEach(x=>{ x.classList.toggle('on', x === c); x.setAttribute('aria-pressed', x === c); });
+});
+$('f-near').addEventListener('change', e=>{ fp.near = e.target.value; saveFind(); });
+['f-dep','f-rent'].forEach(id=>$(id).addEventListener('input', e=>{
+  const v = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+  if(v !== e.target.value) e.target.value = v;
+  fp[id === 'f-dep' ? 'dep' : 'rent'] = v; saveFind(); moneyRead();
+}));
+$('f-note').addEventListener('input', e=>{ fp.note = e.target.value; $('f-note-c').textContent = fp.note.length + ' / 100'; saveFind(); });
+
+// 고른 구들의 실거래 파일을 읽어 동네(동)별로 예산 안 거래를 세고 가운데 값을 계산해요
+async function findCands(p){
+  const gus = nearGus(p.near);
+  const files = await Promise.all(gus.map(g=>loadGu(g).catch(()=>null)));
+  const jeonse = p.deal === 'jeonse', depMax = p.dep ? +p.dep : Infinity, rentMax = !jeonse && p.rent ? +p.rent : Infinity;
+  const by = new Map();
+  files.forEach(d=>{
+    if(!d) return;
+    d.items.forEach(x=>{
+      if((x[6] === 0) !== jeonse) return;
+      if(p.type !== 'all' && x[0] !== p.type) return;
+      const key = d.code + '|' + x[1];
+      if(!by.has(key)) by.set(key, {key, gu:d.gu, code:d.code, dong:x[1], all:0, m:[]});
+      const r = by.get(key); r.all++;
+      if(x[5] <= depMax && x[6] <= rentMax) r.m.push(x);
+    });
+  });
+  const list = [...by.values()].filter(r=>r.m.length >= 3).map(r=>{
+    const types = {}; r.m.forEach(x=>types[x[0]] = (types[x[0]] || 0) + 1);
+    const top = Object.entries(types).sort((a,b)=>b[1] - a[1]).slice(0, 2).map(t=>rType(t[0]));
+    return {key:r.key, gu:r.gu, code:r.code, dong:r.dong, n:r.m.length, share:Math.round(r.m.length / r.all * 100),
+      dep:median(r.m.map(x=>x[5])), rent:jeonse ? 0 : median(r.m.map(x=>x[6])),
+      area:Math.round(median(r.m.map(x=>x[2])) * 10) / 10, built:median(r.m.map(x=>x[4]).filter(Boolean)) || null, types:top.join('·')};
+  });
+  if(!list.length) return {list, files:files.filter(Boolean)};
+  // 원하는 점에 따라 점수를 매겨 위에서 12곳만 AI에게 보내요
+  const rank = (arr, f, asc) => { const s = arr.slice().sort((a,b)=>asc ? f(a) - f(b) : f(b) - f(a)); return new Map(s.map((x,i)=>[x.key, 1 - i / Math.max(1, s.length - 1)])); };
+  const rN = rank(list, x=>x.n), rA = rank(list, x=>x.area), rB = rank(list, x=>x.built || 0), rC = rank(list, x=>jeonse ? x.dep : x.rent * 100 + x.dep / 24, true);
+  const w = p.wants;
+  list.forEach(x=>{ x.score = rN.get(x.key) * (w.includes('many') ? 2 : 1) + (w.includes('wide') ? rA.get(x.key) * 1.5 : 0) + (w.includes('new') ? rB.get(x.key) * 1.5 : 0) + (w.includes('cheap') ? rC.get(x.key) * 1.5 : 0) + x.share / 100; });
+  list.sort((a,b)=>b.score - a.score);
+  return {list:list.slice(0, 12), files:files.filter(Boolean)};
+}
+const priceTxt = (x, jeonse) => jeonse ? '전세 ' + manTxt(x.dep) : manTxt(x.dep) + ' / ' + manTxt(x.rent);
+
+$('f-go').addEventListener('click', async ()=>{
+  const turn = ++findTurn, p = JSON.parse(JSON.stringify(fp));
+  if(!p.dep && !(p.deal === 'monthly' && p.rent)){ toast('보증금이나 월세 최대 금액을 적어 주세요.'); return; }
+  $('f-go').disabled = true; $('f-go').textContent = '추천하는 중…';
+  $('f-out').innerHTML = '<div class="grp"><div class="card busy">실제 거래를 살펴보고 있어요</div></div>';
+  scrollIn($('f-out'));
+  let c;
+  try { c = await findCands(p); } catch(e) { c = {list:[], files:[]}; }
+  if(turn !== findTurn) return;
+  if(!c.files.length){ findOut = {err:'load'}; return findDone(); }
+  if(!c.list.length){ findOut = {err:'none', p}; return findDone(); }
+  let ai = null;
+  try {
+    const r = await fetch('/api/recommend', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({
+      prefs:{deal:p.deal, depMax:p.dep ? +p.dep : null, rentMax:p.rent ? +p.rent : null, typeName:p.type === 'all' ? '상관없음' : rType(p.type),
+        near:nearName(p.near), wants:p.wants.map(w=>(WANTS.find(x=>x[0] === w) || ['', ''])[1]), note:p.note.trim().slice(0, 100)},
+      cands:c.list.map(x=>({key:x.key, gu:x.gu, dong:x.dong, n:x.n, share:x.share, dep:x.dep, rent:x.rent, area:x.area, built:x.built, types:x.types}))
+    })});
+    if(r.ok) ai = await r.json();
+  } catch(e) {}
+  if(turn !== findTurn) return;
+  const byKey = Object.fromEntries(c.list.map(x=>[x.key, x]));
+  const picks = ai && Array.isArray(ai.picks) ? ai.picks.filter(x=>byKey[x.key]).map(x=>Object.assign({}, byKey[x.key], {why:x.why, tip:x.tip})) : [];
+  findOut = picks.length ? {p, picks, note:ai.note || '', ai:true, at:today()}
+    : {p, picks:c.list.slice(0, 3), ai:false, at:today()};
+  findDone();
+});
+function findDone(){
+  saveFind();
+  $('f-go').disabled = false; $('f-go').textContent = '다시 추천받기';
+  drawFindOut();
+}
+function drawFindOut(){
+  const o = findOut, box = $('f-out');
+  if(!o){ box.innerHTML = ''; return; }
+  if(o.err === 'load'){ box.innerHTML = '<div class="grp"><div class="card r-empty"><b>거래 자료를 불러오지 못했어요.</b><br>잠시 뒤 다시 눌러 주세요.</div></div>'; return; }
+  if(o.err === 'none'){ box.innerHTML = '<div class="grp"><div class="card r-empty"><b>이 조건으로 최근 3달 거래가 3건 넘는 동네가 없어요.</b><br>예산을 조금 올리거나 건물 종류를 "상관없음"으로 바꿔 보세요.</div></div>'; return; }
+  const jeonse = o.p.deal === 'jeonse';
+  let h = '<div class="grp"><div class="card-t">' + esc(nearName(o.p.near)) + ' 추천 동네<small>' + (o.ai ? 'AI 추천' : '거래 많은 순') + '</small></div><div class="card">' +
+    o.picks.map((x,i)=>'<div class="pick"><div class="pick-h"><b>' + esc(x.gu + ' ' + x.dong) + '</b><span>' + (i + 1) + '순위</span></div>' +
+      '<div class="pick-n"><span>예산 안 거래 <b>' + x.n + '</b>건</span><span>가운데 값 <b>' + esc(priceTxt(x, jeonse)) + '</b></span><span>면적 <b>' + x.area + '</b>㎡(' + Math.round(x.area / 3.3058) + '평)</span>' + (x.built ? '<span>지은 해 <b>' + x.built + '</b>년</span>' : '') + '</div>' +
+      (x.why ? '<p class="pick-why">' + esc(x.why) + '</p>' : '<p class="pick-why">예산 안에서 최근 3달 거래가 많은 동네예요. 많은 건물 종류: ' + esc(x.types) + '</p>') +
+      (x.tip ? '<p class="pick-tip">' + esc(x.tip) + '</p>' : '') +
+      '<div class="pick-btns"><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
+      '<a class="hbtn" href="https://search.naver.com/search.naver?query=' + encodeURIComponent(x.gu + ' ' + x.dong + ' ' + (jeonse ? '전세' : '월세') + ' 원룸') + '" target="_blank" rel="noopener">매물 검색</a></div></div>').join('') +
+    '</div>' + (o.note ? '<p class="r-src">' + esc(o.note) + '</p>' : '') +
+    (o.ai ? '' : '<p class="r-src">AI 추천을 받지 못해 예산 안 거래가 많은 순서로 보여 드려요.</p>') +
+    '<p class="r-src">가운데 값은 예산 안 거래를 금액 순서로 세웠을 때 한가운데 값이에요(' + esc(o.at) + ' 기준). 매물 검색은 네이버 검색으로 열려요. 집콕체크는 매물 사이트와 제휴하지 않았어요.</p></div>' +
+    '<div class="r-link"><a class="hbtn" href="https://www.zigbang.com" target="_blank" rel="noopener">직방</a>&nbsp;<a class="hbtn" href="https://www.dabangapp.com" target="_blank" rel="noopener">다방</a>&nbsp;<a class="hbtn" href="https://land.naver.com" target="_blank" rel="noopener">네이버 부동산</a></div>' +
+    '<button type="button" class="btn next-step" data-next-visit>집 보러 갈 때 물어볼 질문 보기</button>';
+  box.innerHTML = h;
+}
+$('f-out').addEventListener('click', e=>{ if(e.target.closest('[data-next-visit]')) go('pv'); });
+
+/* ---------- 동의 창 (녹음·대화 분석을 처음 쓸 때 한 번) ---------- */
+let consentNext = null;
+function ensureConsent(fn){
+  if((lsGet(CKEY, {}) || {}).ok) return fn();
+  consentNext = fn;
+  $('consent').hidden = false;
+  $('cs-ok').focus();
+}
+$('cs-ok').addEventListener('click', ()=>{ lsSet(CKEY, {ok:true, at:today()}); $('consent').hidden = true; const f = consentNext; consentNext = null; if(f) f(); });
+$('cs-no').addEventListener('click', ()=>{ $('consent').hidden = true; consentNext = null; });
+
+/* ---------- 말로 적기 (링크 앱의 브라우저 음성 인식, 한국어) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if(!SR) document.body.classList.add('no-sr'); // 지원하지 않는 브라우저는 마이크 버튼을 숨겨요
+let memoSR = null;
+function stopMemoMic(){ if(memoSR) memoSR.stop(); }
+function toggleMic(btn){
+  if(memoSR){ memoSR.stop(); return; }
+  const ta = $(btn.dataset.mic), label = btn.querySelector('span');
+  const base = ta.value.trim() ? ta.value.replace(/\s*$/, ' ') : '';
+  let said = '';
+  memoSR = new SR();
+  memoSR.lang = 'ko-KR';
+  memoSR.interimResults = true;
+  memoSR.continuous = true;
+  memoSR.onresult = e=>{
+    let now = '';
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      if(e.results[i].isFinal) said += e.results[i][0].transcript + ' ';
+      else now += e.results[i][0].transcript;
+    }
+    ta.value = (base + said + now).slice(0, ta.maxLength);
+    ta.dispatchEvent(new Event('input', {bubbles:true}));
+  };
+  memoSR.onerror = e=>{
+    if(e.error === 'not-allowed' || e.error === 'service-not-allowed') toast('마이크를 쓸 수 없어요. 브라우저에서 마이크 권한을 허용해 주세요.');
+    else if(e.error === 'no-speech') toast('말소리가 들리지 않았어요. 다시 눌러 말해 주세요.');
+  };
+  memoSR.onend = ()=>{ btn.classList.remove('rec'); label.textContent = btn.dataset.label; memoSR = null; };
+  try { memoSR.start(); btn.classList.add('rec'); label.textContent = '그만 듣기'; }
+  catch(err){ memoSR = null; toast('음성 인식을 시작하지 못했어요.'); }
+}
+document.addEventListener('click', e=>{ const b = e.target.closest('[data-mic]'); if(b) toggleMic(b); });
+
+/* ---------- 대화 분석: 녹음(16kHz로 줄여 약 100초씩 나눠 받아쓰기) · 실시간 받아쓰기 · 녹음 파일 · 글 ---------- */
+const RATE = 16000, SEG = RATE * 100;
+const T = {phase:'start', text:'', live:'', segs:0, done:0, fail:0, texts:[], result:null, at:'', err:''};
+let R = null, queue = [], pumping = false, liveSR = null, liveOn = false, wake = null, tick = null;
+const paBody = () => $('pa-body');
+
+function histRow(s){
+  const r = s.result || {}, fr = (r.fraud || []).length;
+  return '<button type="button" class="hist" data-hist="' + s.id + '"><b>' + esc((r.summary || s.text || '').slice(0, 40)) + '…</b><span>' + esc(s.at) + ' · 더 물어볼 질문 ' + (r.followups || []).length + '개' + (fr ? ' · 사기 신호 ' + fr + '개' : '') + '</span></button>';
+}
+function openHist(id){
+  const s = lsGet(TKEY, []).find(x=>String(x.id) === String(id)); if(!s) return;
+  Object.assign(T, {phase:'done', text:s.text, result:s.result, at:s.at});
+}
+function fmtTime(sec){ sec = Math.floor(sec); return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0'); }
+
+function renderTalk(){
+  const b = paBody(), ph = T.phase;
+  if(ph === 'start'){
+    const sessions = lsGet(TKEY, []);
+    b.innerHTML = '<div class="large"><h1>중개사 대화 분석</h1><p>중개사·집주인과 나눈 대화를 녹음하면, AI가 더 물어볼 질문과 다시 따져 볼 말, 사기 신호를 찾아 줘요.</p></div>' +
+      '<div class="grp"><div class="ways">' +
+      '<button type="button" class="way main" data-way="rec"><span class="re-ic">' + ICON_MIC + '</span><span class="re-t"><b>지금 녹음하기</b><span>대화가 끝나면 AI가 받아 적고 분석해요</span></span></button>' +
+      '<button type="button" class="way sr" data-way="live"><span class="re-ic">' + ICON_WAVE + '</span><span class="re-t"><b>말하는 대로 바로 글자로 받기</b><span>크롬에서 잘 돼요. 조용하면 다시 이어서 들어요</span></span></button>' +
+      '<label class="way"><span class="re-ic">' + ICON_FILE + '</span><span class="re-t"><b>휴대폰 녹음 파일 올리기</b><span>녹음 앱으로 녹음한 파일 (60분까지)</span></span><input type="file" id="t-file" accept="audio/*,.m4a,.mp3,.wav,.aac,.ogg,.webm"></label>' +
+      '<button type="button" class="way" data-way="paste"><span class="re-ic">' + ICON_PEN + '</span><span class="re-t"><b>들은 말을 글로 적기</b><span>메모하거나 문자로 받은 내용을 붙여 넣어요</span></span></button>' +
+      '</div></div>' +
+      '<p class="fh">녹음은 내가 참여한 대화만 하고, 시작하기 전에 "기록용으로 녹음해도 될까요?"라고 알려 주세요.</p>' +
+      (sessions.length ? '<div class="grp"><div class="card-t">최근 대화 분석<button type="button" class="ftag" data-clear-hist>기록 지우기</button></div><div class="card">' + sessions.map(histRow).join('') + '</div></div>' : '') +
+      '<p class="note">녹음 소리는 저장하지 않고, 받아 적은 글과 결과만 이 기기에 저장해요. AI 결과는 참고용이며 법률 자문이 아니에요.</p>';
+    return;
+  }
+  if(ph === 'rec'){
+    b.innerHTML = '<div class="grp"><div class="card rec-box"><span class="rec-dot" id="t-dot">녹음 중</span><p class="rec-time" id="t-time">00:00</p><div class="rec-lv"><i id="t-lv"></i></div>' +
+      '<p class="rec-note">휴대폰 화면을 켜 둔 채로 두세요. 화면이 꺼지거나 다른 앱으로 가면 녹음이 멈출 수 있어요.</p><p class="prog" id="t-prog"></p>' +
+      '<button type="button" class="btn rec-stop" data-t="stop">녹음 끝내고 분석하기</button><button type="button" class="btn plain" data-t="cancel">녹음 버리기</button></div></div>';
+    recTick();
+    return;
+  }
+  if(ph === 'live'){
+    b.innerHTML = '<div class="grp"><div class="card rec-box"><span class="rec-dot" id="t-dot">듣는 중</span><p class="rec-note">말하는 대로 아래에 글자가 생겨요. 조용해서 멈추면 다시 이어서 들어요.</p></div></div>' +
+      '<div class="grp"><div class="answer"><textarea class="tx" id="t-live" readonly aria-label="받아 적은 글">' + esc(T.text + T.live) + '</textarea></div></div>' +
+      '<div class="grp"><button type="button" class="btn" data-t="stoplive">그만 듣고 다음으로</button></div>';
+    return;
+  }
+  if(ph === 'work'){
+    b.innerHTML = '<div class="grp"><div class="card busy" id="t-work">' + (T.segs ? '받아 적는 중이에요 (' + T.done + ' / ' + T.segs + ')' : esc(T.err || '녹음을 준비하는 중이에요')) + '</div>' +
+      '<p class="fh">100초씩 나눠서 받아 적어요. 이 화면을 나가도 계속돼요.</p></div>';
+    return;
+  }
+  if(ph === 'edit'){
+    b.innerHTML = '<div class="large"><h1>받아 적은 대화</h1><p>잘못 받아 적은 곳은 고쳐도 돼요. 이름·전화번호·계좌번호는 지워 주세요.</p></div>' +
+      (T.fail ? '<p class="fh">' + T.fail + '조각은 받아 적지 못했어요. 그 부분은 "(받아 적지 못했어요)"로 표시돼 있어요.</p>' : '') +
+      '<div class="grp"><div class="answer"><textarea class="tx" id="t-text" maxlength="20000" placeholder="들은 말을 적거나 붙여 넣어 주세요. 예) 보증금 천에 월세 오십이고, 근저당은 조금 있는데 집주인이 부자라 괜찮대요.">' + esc(T.text) + '</textarea><span class="cnt" id="t-cnt">' + T.text.length + ' / 20000</span></div></div>' +
+      '<p class="lk-send">분석하기를 누르면 이 글만 Google Gemini로 보내요. 전화번호·주민등록번호·계좌번호처럼 보이는 숫자는 가려서 보내요.</p>' +
+      '<div class="grp"><button type="button" class="btn" data-t="analyze">AI로 분석하기</button><button type="button" class="btn plain" data-t="restart">처음으로</button></div>';
+    return;
+  }
+  if(ph === 'busy'){ b.innerHTML = '<div class="grp"><div class="card busy">대화를 분석하고 있어요</div></div>'; return; }
+  if(ph === 'fail'){
+    b.innerHTML = '<div class="grp"><div class="card r-empty"><b>' + esc(T.err || '분석하지 못했어요.') + '</b><br>잠시 뒤 다시 해 주세요.</div></div>' +
+      '<div class="grp">' + (T.text ? '<button type="button" class="btn" data-t="toedit">받아 적은 글로 돌아가기</button>' : '') + '<button type="button" class="btn plain" data-t="restart">처음으로</button></div>';
+    return;
+  }
+  if(ph === 'done') return drawResult();
+}
+
+function drawResult(){
+  const r = T.result || {};
+  let h = '<div class="large"><h1>대화 분석 결과</h1><p>' + esc(T.at) + ' 분석 · AI 참고 의견이에요.</p></div>';
+  if(r.urgent) h += '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>';
+  if(r.summary) h += '<div class="grp"><div class="card-t">한눈에 보기</div><div class="card pad"><p class="res-sum">' + esc(r.summary) + '</p>' +
+    ((r.facts || []).length ? '<dl class="facts" style="margin-top:14px">' + r.facts.map(f=>'<dt>' + esc(f.k) + '</dt><dd>' + esc(f.v) + '</dd>').join('') + '</dl>' : '') + '</div></div>';
+  h += '<div class="grp"><div class="card-t">사기 신호<small>' + ((r.fraud || []).length ? r.fraud.length + '개' : '없음') + '</small></div><div class="card">' +
+    ((r.fraud || []).length ? r.fraud.map(f=>'<div class="fr-hit"><b>' + esc((FR[f.id] || {}).name || '') + '</b><span>' + esc(f.why) + '</span><button type="button" class="ai-btn" data-frgo="' + f.id + '">이 수법과 막는 질문 보기</button></div>').join('')
+      : '<p class="r-empty">대화에서 뚜렷한 사기 신호는 찾지 못했어요. 그래도 아래 질문은 꼭 확인하세요.</p>') + '</div></div>';
+  if((r.followups || []).length) h += '<div class="grp"><div class="card-t">더 물어볼 질문<small>' + r.followups.length + '개</small></div><div class="card">' +
+    r.followups.map(f=>'<div class="fu"><b>“' + esc(f.q) + '”</b><span>' + esc(f.why) + '</span></div>').join('') + '</div></div>';
+  if((r.recheck || []).length) h += '<div class="grp"><div class="card-t">다시 따져 볼 말<small>' + r.recheck.length + '개</small></div><div class="card">' +
+    r.recheck.map(f=>'<div class="fu"><span class="said">“' + esc(f.said) + '”</span><dl><dt>왜 따져 봐야 하나요</dt><dd>' + esc(f.why) + '</dd><dt>이렇게 확인하세요</dt><dd>' + esc(f.how) + '</dd></dl></div>').join('') + '</div></div>';
+  if((r.checklist || []).length) h += '<div class="grp"><div class="card-t">계약 체크에서 판단받기</div><div class="card"><div class="ck-links">' +
+    r.checklist.filter(id=>BY_ID[id]).map(id=>'<button type="button" class="hbtn" data-goq="' + id + '">' + BY_ID[id].n + '. ' + esc(BY_ID[id].tag) + '</button>').join('') + '</div></div></div>';
+  h += '<p class="ai-note">' + AI_NOTE + '</p>' +
+    '<div class="grp"><button type="button" class="btn" data-t="new">새로 녹음하기</button><button type="button" class="btn plain" data-t="toedit">받아 적은 글 보기</button></div>';
+  paBody().innerHTML = h;
+}
+
+paBody().addEventListener('click', e=>{
+  const w = e.target.closest('[data-way]');
+  if(w){
+    const k = w.dataset.way;
+    if(k === 'paste'){ Object.assign(T, {phase:'edit', text:'', fail:0}); return renderTalk(); }
+    return ensureConsent(()=>k === 'rec' ? startRec() : startLive());
+  }
+  const t = e.target.closest('[data-t]');
+  if(t){
+    const k = t.dataset.t;
+    if(k === 'stop') stopRec(true);
+    if(k === 'cancel'){ if(confirm('녹음을 버릴까요? 되돌릴 수 없어요.')){ stopRec(false); T.phase = 'start'; renderTalk(); } }
+    if(k === 'stoplive') stopLive();
+    if(k === 'analyze') analyzeTalk();
+    if(k === 'restart' || k === 'new'){ Object.assign(T, {phase:'start', text:'', result:null, fail:0}); renderTalk(); $('pa').querySelector('.scroll').scrollTop = 0; }
+    if(k === 'toedit'){ T.phase = 'edit'; renderTalk(); }
+    return;
+  }
+  const gq = e.target.closest('[data-goq]');
+  if(gq){ state.sel = gq.dataset.goq; renderAnswer(); return go('p2'); }
+  const fg = e.target.closest('[data-frgo]');
+  if(fg){ const id = fg.dataset.frgo; history.back(); setTimeout(()=>{ const d = $('fr-' + id); if(d){ d.open = true; scrollIn(d, true); flash(d); } }, 450); return; }
+  const hs = e.target.closest('[data-hist]');
+  if(hs){ openHist(hs.dataset.hist); renderTalk(); $('pa').querySelector('.scroll').scrollTop = 0; return; }
+  if(e.target.closest('[data-clear-hist]') && confirm('최근 대화 분석 기록을 모두 지울까요?')){ lsSet(TKEY, []); renderTalk(); }
+});
+paBody().addEventListener('change', e=>{
+  if(e.target.id !== 't-file') return;
+  const f = e.target.files && e.target.files[0]; e.target.value = '';
+  if(f) ensureConsent(()=>fromFile(f));
+});
+paBody().addEventListener('input', e=>{
+  if(e.target.id === 't-text'){ T.text = e.target.value; $('t-cnt').textContent = T.text.length + ' / 20000'; }
+});
+
+// --- 녹음 ---
+async function startRec(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ toast('이 브라우저는 녹음을 지원하지 않아요. 휴대폰 녹음 앱으로 녹음해서 파일을 올려 주세요.'); return; }
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({audio:{channelCount:1, echoCancellation:true, noiseSuppression:true, autoGainControl:true}}); }
+  catch(err){ toast('마이크를 쓸 수 없어요. 브라우저 설정에서 마이크 권한을 허용해 주세요.'); return; }
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AC();
+  try { await ctx.resume(); } catch(e) {}
+  const src = ctx.createMediaStreamSource(stream), node = ctx.createScriptProcessor(4096, 1, 1);
+  R = {stream, ctx, src, node, ratio:ctx.sampleRate / RATE, acc:0, cnt:0, pos:0, buf:new Int16Array(SEG), n:0, peak:0, segPeak:0, i:0, t0:Date.now()};
+  node.onaudioprocess = ev=>{
+    if(!R) return;
+    const d = ev.inputBuffer.getChannelData(0);
+    let pk = 0;
+    for(let i = 0; i < d.length; i++){
+      const v = d[i], a = v < 0 ? -v : v; if(a > pk) pk = a;
+      R.acc += v; R.cnt++; R.pos += 1;
+      if(R.pos >= R.ratio){
+        const s = Math.max(-1, Math.min(1, R.acc / R.cnt));
+        R.buf[R.n++] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+        R.acc = 0; R.cnt = 0; R.pos -= R.ratio;
+        if(R.n === SEG) cutSeg();
+      }
+    }
+    R.peak = pk; if(pk > R.segPeak) R.segPeak = pk;
+  };
+  src.connect(node); node.connect(ctx.destination);
+  Object.assign(T, {phase:'rec', text:'', segs:0, done:0, fail:0, texts:[], result:null});
+  try { if(navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch(e) {}
+  renderTalk();
+  clearInterval(tick); tick = setInterval(recTick, 300);
+}
+function recTick(){
+  if(!R || T.phase !== 'rec') return;
+  const tm = $('t-time'); if(tm) tm.textContent = fmtTime((Date.now() - R.t0) / 1000);
+  const lv = $('t-lv'); if(lv) lv.style.width = Math.min(100, Math.round(R.peak * 160)) + '%';
+  const pg = $('t-prog'); if(pg) pg.textContent = T.segs ? '받아 적은 조각 ' + T.done + ' / ' + T.segs : '';
+}
+// 모인 소리를 한 조각(WAV)으로 잘라 받아쓰기 줄에 세워요. 거의 조용한 조각은 보내지 않아요
+function cutSeg(last){
+  if(!R) return;
+  const n = R.n, pk = R.segPeak;
+  if(n >= RATE){
+    const idx = T.segs++;
+    if(pk < 0.02){ T.texts[idx] = ''; T.done++; }
+    else queue.push({idx, wav:wav(R.buf.slice(0, n))});
+  }
+  R.buf = new Int16Array(SEG); R.n = 0; R.segPeak = 0;
+  if(!last) pump();
+}
+function wav(pcm){
+  const b = new ArrayBuffer(44 + pcm.length * 2), v = new DataView(b);
+  const str = (o, s) => { for(let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  str(0, 'RIFF'); v.setUint32(4, 36 + pcm.length * 2, true); str(8, 'WAVE'); str(12, 'fmt ');
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, RATE, true);
+  v.setUint32(28, RATE * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); str(36, 'data'); v.setUint32(40, pcm.length * 2, true);
+  for(let i = 0; i < pcm.length; i++) v.setInt16(44 + i * 2, pcm[i], true);
+  return new Blob([b], {type:'application/octet-stream'});
+}
+function releaseRec(){
+  if(!R) return;
+  try { R.node.disconnect(); R.src.disconnect(); } catch(e) {}
+  R.stream.getTracks().forEach(t=>t.stop());
+  try { R.ctx.close(); } catch(e) {}
+  R = null;
+  clearInterval(tick);
+  if(wake){ try { wake.release(); } catch(e) {} wake = null; }
+}
+function stopRec(keep){
+  if(!R) return;
+  if(keep) cutSeg(true);
+  releaseRec();
+  if(!keep){ queue = []; return; }
+  if(!T.segs){ T.phase = 'start'; renderTalk(); toast('녹음이 너무 짧아요. 1초 넘게 녹음해 주세요.'); return; }
+  T.phase = 'work';
+  if(curView === 'pa') renderTalk();
+  pump();
+}
+// 받아쓰기 줄: 한 조각씩 차례로 보내요
+async function pump(){
+  if(pumping) return;
+  pumping = true;
+  while(queue.length){
+    const s = queue.shift();
+    T.texts[s.idx] = await sendSeg(s.wav);
+    T.done++;
+    if(T.phase === 'work' && $('t-work')) $('t-work').textContent = '받아 적는 중이에요 (' + T.done + ' / ' + T.segs + ')';
+    recTick();
+  }
+  pumping = false;
+  if(T.phase === 'work' && T.done >= T.segs) finishText();
+}
+async function sendSeg(blob){
+  for(let tryNo = 0; tryNo < 3; tryNo++){
+    try {
+      const r = await fetch('/api/transcribe', {method:'POST', headers:{'Content-Type':'application/octet-stream'}, body:blob});
+      if(r.ok){ const d = await r.json(); return typeof d.text === 'string' ? d.text.trim() : ''; }
+      if(r.status === 413 || r.status === 400) break;
+      await new Promise(ok=>setTimeout(ok, r.status === 429 ? 15000 : 2000));
+    } catch(e) { await new Promise(ok=>setTimeout(ok, 2000)); }
+  }
+  T.fail++;
+  return '(받아 적지 못했어요)';
+}
+function finishText(){
+  T.text = T.texts.filter(Boolean).join('\n').trim();
+  if(!T.text || T.text.replace(/\(받아 적지 못했어요\)/g, '').trim().length < 2){
+    Object.assign(T, {phase:'fail', err:T.fail ? '받아 적지 못했어요. 인터넷 연결을 확인해 주세요.' : '말소리를 찾지 못했어요. 휴대폰을 대화하는 사람 가까이에 두고 다시 녹음해 주세요.', text:''});
+  } else T.phase = 'edit';
+  if(curView === 'pa') renderTalk(); else toast('대화를 다 받아 적었어요. 집 보러 가기 → 대화 분석에서 확인하세요.');
+}
+// --- 녹음 파일: 16kHz 한 줄 소리로 바꿔 100초씩 나눠요 ---
+async function fromFile(file){
+  if(file.size > 120 * 1024 * 1024){ toast('파일이 너무 커요. 60분 이하 녹음만 올려 주세요.'); return; }
+  Object.assign(T, {phase:'work', segs:0, done:0, fail:0, texts:[], text:'', result:null, err:'녹음 파일을 여는 중이에요'});
+  renderTalk();
+  try {
+    const buf = await file.arrayBuffer();
+    const AC = window.AudioContext || window.webkitAudioContext, ctx = new AC();
+    const audio = await new Promise((ok, no)=>{ const p = ctx.decodeAudioData(buf, ok, no); if(p && p.catch) p.catch(no); });
+    try { ctx.close(); } catch(e) {}
+    if(audio.duration > 3600){ Object.assign(T, {phase:'fail', err:'60분이 넘는 녹음은 올릴 수 없어요.'}); return renderTalk(); }
+    const OC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    const oc = new OC(1, Math.max(1, Math.ceil(audio.duration * RATE)), RATE);
+    const s = oc.createBufferSource(); s.buffer = audio; s.connect(oc.destination); s.start(0);
+    const out = await new Promise(ok=>{ oc.oncomplete = ev=>ok(ev.renderedBuffer); const p = oc.startRendering(); if(p && p.then) p.then(ok); });
+    const d = out.getChannelData(0);
+    for(let a = 0; a < d.length; a += SEG){
+      const part = d.subarray(a, Math.min(d.length, a + SEG));
+      if(part.length < RATE) continue;
+      let pk = 0; const pcm = new Int16Array(part.length);
+      for(let i = 0; i < part.length; i++){ const v = Math.max(-1, Math.min(1, part[i])); const ab = v < 0 ? -v : v; if(ab > pk) pk = ab; pcm[i] = v < 0 ? v * 0x8000 : v * 0x7FFF; }
+      const idx = T.segs++;
+      if(pk < 0.02){ T.texts[idx] = ''; T.done++; } else queue.push({idx, wav:wav(pcm)});
+    }
+    if(!T.segs){ Object.assign(T, {phase:'fail', err:'녹음이 너무 짧아요.'}); return renderTalk(); }
+    T.err = '';
+    renderTalk();
+    pump();
+  } catch(err) {
+    Object.assign(T, {phase:'fail', err:'이 파일은 열 수 없어요. m4a·mp3·wav 녹음 파일인지 확인해 주세요.'});
+    renderTalk();
+  }
+}
+// --- 실시간 받아쓰기 (링크 앱의 음성 인식 + 끊기면 자동으로 다시 듣기) ---
+function startLive(){
+  if(!SR){ toast('이 브라우저는 실시간 받아쓰기를 지원하지 않아요. 녹음하기를 써 주세요.'); return; }
+  Object.assign(T, {phase:'live', text:'', live:'', result:null, fail:0});
+  liveOn = true;
+  renderTalk();
+  listen();
+  (async()=>{ try { if(navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch(e) {} })();
+}
+function listen(){
+  if(!liveOn) return;
+  liveSR = new SR();
+  liveSR.lang = 'ko-KR'; liveSR.interimResults = true; liveSR.continuous = true;
+  liveSR.onresult = e=>{
+    let now = '';
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      if(e.results[i].isFinal) T.text += e.results[i][0].transcript.trim() + '\n';
+      else now += e.results[i][0].transcript;
+    }
+    T.live = now;
+    const ta = $('t-live'); if(ta){ ta.value = T.text + now; ta.scrollTop = ta.scrollHeight; }
+  };
+  liveSR.onerror = e=>{
+    if(e.error === 'not-allowed' || e.error === 'service-not-allowed'){ liveOn = false; toast('마이크를 쓸 수 없어요. 브라우저에서 마이크 권한을 허용해 주세요.'); }
+  };
+  // 조용해서 멈추거나 끊기면 듣는 중일 때만 다시 시작해요
+  liveSR.onend = ()=>{ liveSR = null; if(liveOn) setTimeout(listen, 300); else if(T.phase === 'live') stopLive(); };
+  try { liveSR.start(); } catch(err) { liveSR = null; if(liveOn) setTimeout(listen, 1000); }
+}
+function stopLive(){
+  liveOn = false;
+  if(liveSR){ try { liveSR.stop(); } catch(e) {} liveSR = null; }
+  if(wake){ try { wake.release(); } catch(e) {} wake = null; }
+  T.text = (T.text + (T.live || '')).trim(); T.live = '';
+  T.phase = 'edit';
+  if(curView === 'pa') renderTalk();
+}
+// 대화 분석 화면을 떠나면: 녹음은 멈추고 지금까지 녹음한 것을 받아 적어요. 실시간 받아쓰기도 멈춰요
+function leaveTalk(){
+  if(R && T.phase === 'rec') stopRec(true);
+  if(liveOn) stopLive();
+}
+// --- AI 분석 ---
+async function analyzeTalk(){
+  const text = (T.text || '').trim();
+  if(text.length < 10){ toast('분석할 대화를 10글자 넘게 적어 주세요.'); return; }
+  ensureConsent(async ()=>{
+    T.phase = 'busy'; renderTalk();
+    let data = null, code = 0;
+    try {
+      const r = await fetch('/api/talk', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text:maskMemo(text)})});
+      code = r.status;
+      try { data = await r.json(); } catch(e) {}
+    } catch(e) {}
+    if(code === 200 && data && typeof data.summary === 'string'){
+      const at = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'2-digit'});
+      Object.assign(T, {phase:'done', result:data, at});
+      const list = lsGet(TKEY, []).filter(Boolean);
+      list.unshift({id:Date.now(), at, text, result:data});
+      lsSet(TKEY, list.slice(0, 5));
+    } else Object.assign(T, {phase:'fail', err:code === 429 ? '잠깐 사이에 너무 많이 분석했어요. 몇 분 뒤 다시 해 주세요.' : '분석하지 못했어요.'});
+    if(curView === 'pa'){ renderTalk(); $('pa').querySelector('.scroll').scrollTop = 0; }
+  });
+}
+
+
 function toast(msg){
   const t = $('toast');
   t.textContent = msg;
@@ -1666,7 +2638,7 @@ $('toNext').addEventListener('click', ()=>{
   doneTag = null;
   state.sel = nextOpen();
   if(!state.sel) return;
-  if(depth === 3) history.back(); else { renderAnswer(); show('p2'); }
+  if(curView === 'p3') history.back(); else { renderAnswer(); show('p2'); }
   toast('"' + tag + '" 확인 완료! 다음 질문이에요.');
 });
 
@@ -1676,7 +2648,7 @@ $('toList').addEventListener('click', ()=>{
   doneTag = null;
   state.sel = nextOpen();
   renderList();
-  if(depth > 1) history.go(1 - depth); else show('p1');
+  if(depth > 1){ wantList = true; history.go(1 - depth); } else show('p1');
   toast(doneMsg(tag));
 });
 
@@ -1706,30 +2678,33 @@ function renderStart(){
   $('savedCount').innerHTML = '<em>' + n + '</em> / ' + Q.length + ' 확인' + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
   $('savedFill').style.width = Math.round(n / Q.length * 100) + '%';
   $('savedNext').innerHTML = nx ? '다음: <b>' + BY_ID[nx].n + '. ' + esc(BY_ID[nx].tag) + '</b>' : '<b>15개 질문을 모두 확인했어요</b>';
-  $('startGo').textContent = saved ? '이어서 하기' : '시작하기';
+  $('startGo').textContent = saved ? '계약 체크 이어서 하기' : '집 찾기부터 시작하기';
   $('startNew').hidden = !saved;
-  $('wipeAll').hidden = !saved;
+  $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
 }
 // 시작 화면 맨 아래 「기록 모두 지우기」: 한 번 더 묻고 지운 뒤 처음 온 사람 화면을 보여 줘요
 $('wipeAll').addEventListener('click', ()=>{
-  if(!confirm('적어 둔 답, 메모, AI 참고 의견을 모두 지울까요? 지우면 되돌릴 수 없어요.')) return;
+  if(!confirm('적어 둔 답, 메모, AI 참고 의견, 현장 질문 체크, 대화 분석 기록, 집 찾기 조건을 모두 지울까요? 지우면 되돌릴 수 없어요.')) return;
   clearAll();
+  // 2026-11-20에 더한 기록도 함께 지워요 (동의 기록은 남겨요)
+  [VKEY, TKEY, FKEY].forEach(k=>{ try { localStorage.removeItem(k); } catch(e) {} });
+  visit = {asked:{}}; fp = {near:'sinchon', deal:'monthly', dep:'', rent:'', type:'all', wants:[], note:''}; findOut = null;
+  Object.assign(T, {phase:'start', text:'', result:null});
   renderStart();
   $('p0').querySelector('.scroll').scrollTop = 0;
 });
-$('startGo').addEventListener('click', ()=>{ state.sel = nextOpen(); renderList(); go('p1'); });
-$('saved').addEventListener('click', ()=>$('startGo').click());
+$('startGo').addEventListener('click', ()=>{ if(hasSaved()){ state.sel = nextOpen(); go('p1'); } else go('pf'); });
+$('saved').addEventListener('click', ()=>{ state.sel = nextOpen(); go('p1'); });
 // 첫 화면 바로가기 4칸
 document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click', ()=>{
   const k = b.dataset.quick;
-  if(k === 'list') return $('startGo').click();
-  if(k === 'rent'){ rentFrom = 'p0'; return go('pr'); }
-  // 무료 상담·서류 떼기: 질문 목록 위에 기타 서비스를 쌓아 탭 구조를 그대로 써요
-  state.sel = nextOpen(); renderList(); go('p1'); go('ps');
-  const t = $(k === 'docs' ? 'ps-docs' : 'ps-help');
-  if(t) $('ps').querySelector('.scroll').scrollTop = t.offsetTop - 12;
+  if(k === 'list'){ state.sel = nextOpen(); return go('p1'); }
+  if(k === 'find') return go('pf');
+  if(k === 'visit') return go('pv');
+  // 대화 분석: 집 보러 가기 위에 쌓아서 뒤로 가면 질문 목록으로 와요
+  if(k === 'talk'){ go('pv'); go('pa'); }
 }));
-$('startNew').addEventListener('click', ()=>{ clearAll(); go('p1'); });
+$('startNew').addEventListener('click', ()=>{ clearAll(); go('pf'); });
 
 history.replaceState({v:'p0', d:0}, '');
 { const f = document.querySelector('footer'); $('footM').innerHTML = f.firstChild.textContent + '<br>' + f.querySelector('small').textContent; }
