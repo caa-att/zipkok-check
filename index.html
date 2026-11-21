@@ -926,7 +926,8 @@
   .docs-box .hrow{display:block;padding:12px 16px}
   .docs-box .hb{width:auto;margin-top:8px}
   .docs-box .hbtn{border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
-  .rec-opt{display:flex;align-items:center;justify-content:center;gap:6px}
+  .rec-opt{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+  .rec-opt small{padding:1px 7px;border-radius:999px;background:#fff;font-size:12px;font-weight:700;line-height:18px;color:var(--brand-press)}
   .rec-opt svg{width:18px;height:18px}
   /* ---------- 아래 탭 3개 (2026-11-20, 2026-11-21에 내 계약 · 동네 시세 · 더보기로 바꿈) ---------- */
   .tabbar{display:grid;grid-template-columns:repeat(3,1fr)}
@@ -3654,7 +3655,7 @@ function renderDealCard(){
   const recOn = (R && T.phase === 'rec') || liveOn;
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
   if(now === 1) h += '<button type="button" class="btn" data-quick="ask" style="margin-top:16px">질문 보면서 답 고르기</button>' +
-    (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '대화 녹음으로 빠르게 채우기 (선택)</button>');
+    (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '녹음으로 빠르게 채우기<small>선택</small></button>');
   else if(now === 2) h += '<button type="button" class="btn" data-quick="docs" style="margin-top:16px">서류 보면서 답 고르기</button>';
   else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>';
   h += '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지 · 물어볼 질문 · 어려운 말</span></div>' + ARROW + '</button>';
