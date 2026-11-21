@@ -734,8 +734,15 @@
   .seg{display:flex;margin-top:22px;padding:4px;border-radius:12px;background:var(--ds-gray-200)}
   .seg button{flex:1;height:38px;border:0;border-radius:9px;background:none;font:inherit;font-size:14px;font-weight:600;color:var(--ds-text-secondary);cursor:pointer}
   .seg button.on{background:#fff;color:var(--ds-text-strong)}
-  #list.f-first .item:not(.lv-bad):not(.lv-unsure),#list.f-left .item.done,#list.f-left .item.na{display:none}
-  #list .grp.empty{display:none}
+  /* 골라 보기 4칸 (2026-11-21): 보여 줄 질문은 JS가 답을 보고 직접 정해요 */
+  .seg button{height:auto;min-height:46px;padding:5px 2px;line-height:1.25;font-size:13px}
+  .seg button small{display:block;font-size:12px;font-weight:700;color:inherit}
+  .item.pend .ck{border:2px dashed var(--pink)}
+  .lv.pend{background:var(--pink-50);color:var(--pink)}
+  .hst[data-quick]{cursor:pointer}
+  .hc-rename{display:inline-block;margin-top:2px;border:0;background:none;padding:2px 0;font:inherit;font-size:14px;font-weight:700;color:var(--brand-press);cursor:pointer}
+  .btn.sub2{margin-top:10px;background:var(--brand-50);color:var(--brand-press)}
+  .btn.sub2:active{background:#DCE6F9}
   .list-empty{margin-top:20px;padding:24px 18px;border-radius:16px;background:#fff;text-align:center;font-size:15px;line-height:23px;color:var(--ds-text-primary)}
   .list-empty[hidden]{display:none}
   .item .ck{width:30px;height:30px}
@@ -1041,9 +1048,10 @@
           </div>
           <div class="rep-bar"><i id="repFill"></i></div>
           <div class="seg" role="tablist" aria-label="질문 골라 보기">
-            <button type="button" data-lf="first" role="tab">먼저 볼 것</button>
-            <button type="button" data-lf="left" role="tab">남은 질문</button>
-            <button type="button" data-lf="all" role="tab">전체 15</button>
+            <button type="button" data-lf="first" role="tab">먼저 볼 것<small id="lfc-first"></small></button>
+            <button type="button" data-lf="left" role="tab">남은 질문<small id="lfc-left"></small></button>
+            <button type="button" data-lf="done" role="tab">확인한 질문<small id="lfc-done"></small></button>
+            <button type="button" data-lf="all" role="tab">전체<small>15</small></button>
           </div>
           <div id="list"></div>
           <p class="list-empty" id="listEmpty" hidden></p>
@@ -1599,6 +1607,18 @@ function useHouse(id){
   save();
   state.sel = nextOpen();
 }
+// 녹음·분석을 시작한 집을 기억해요. 결과가 늦게 와도 그 집에만 들어가요. 관심 매물이던 집은 「내 계약」으로 옮겨요 (2026-11-21)
+function talkFor(){
+  T.hid = house.id;
+  if(house.status !== 'deal'){ house.status = 'deal'; save(); }
+}
+function intoHouse(id, fn){
+  const h = houses.list.find(x=>x.id === id); if(!h) return null;
+  if(h === house){ const r = fn(h); save(); return r; }
+  const ph = house, a = answers, c = ctx;
+  house = h; answers = h.answers || (h.answers = {}); ctx = h.ctx || (h.ctx = {});
+  try { return fn(h); } finally { save(); house = ph; answers = a; ctx = c; save(); }
+}
 function addHouse(name){
   const id = Math.max(0, ...houses.list.map(h=>h.id)) + 1;
   houses.list.push({id, name:String(name).trim().slice(0, 20) || '집 ' + id, answers:{}, ctx:{}});
@@ -1633,8 +1653,10 @@ const ready = id => visible(BY_ID[id], fv(id)).every(x=>x.type === 'money' || va
 // 앞선 답 때문에 필요 없는 질문 (회색 '해당 없음', 확인한 개수에 셈)
 const na = id => id === 'q6' && ctx.bldg === 'single';
 const isDone = id => na(id) || (!!(answers[id] && answers[id].done) && ready(id));
+// 내가 확인한 질문: AI가 채운 답은 내가 열어 「판단 결과 보기」를 눌러야 확인으로 쳐요 (2026-11-21 사용자와 정함)
+const seen = id => na(id) || (isDone(id) && (!(answers[id].aiq && Object.keys(answers[id].aiq).length) || !!answers[id].ok));
 const naCount = () => Q.filter(q=>na(q.id)).length; // 확인한 개수에 들어간 "해당 없음" 질문 수
-const nextOpen = skip => (Q.find(q=>q.id !== skip && !isDone(q.id)) || {}).id || null;
+const nextOpen = skip => (Q.find(q=>q.id !== skip && !seen(q.id)) || {}).id || null;
 
 function judge(id){
   const r = BY_ID[id].judge(fv(id)).filter(Boolean);
@@ -1669,48 +1691,67 @@ let listFilter = null; // 계약 체크 골라 보기 (사용자가 고르기 �
 document.addEventListener('click', e=>{
   const b = e.target.closest('[data-lf]'); if(!b) return;
   listFilter = b.dataset.lf; renderList();
+  const sc = $('p1').querySelector('.scroll'), d = b.parentNode.getBoundingClientRect().top - sc.getBoundingClientRect().top;
+  if(d < 0) sc.scrollBy({top:d - 12, behavior:'smooth'});
 });
 function renderList(){
   const next = nextOpen();
+  const lvOf = id => isDone(id) && !na(id) ? judge(id).level : '';
   document.querySelectorAll('.item').forEach(el=>{
-    const id = el.dataset.id, skip = na(id), d = isDone(id) && !skip, cur = id === next, lv = d ? judge(id).level : '';
-    el.className = 'item' + (d ? ' done lv-' + lv : '') + (skip ? ' na' : '') + (cur ? ' cur' : '');
+    const id = el.dataset.id, skip = na(id), lv = lvOf(id), d = !!lv && seen(id), pend = !!lv && !d, cur = id === next;
+    el.className = 'item' + (d ? ' done lv-' + lv : '') + (pend ? ' pend' : '') + (skip ? ' na' : '') + (cur ? ' cur' : '');
     el.querySelector('.ck').innerHTML = d ? (lv === 'ok' ? CK : '!') : '';
     el.querySelector('.tg').innerHTML = BY_ID[id].n + '. ' + BY_ID[id].tag +
-      (d ? '<span class="lv ' + lv + '">' + LEVEL[lv][1] + '</span>' : '') + (aiFilled(id) ? '<span class="lv ai">' + (d ? 'AI가 채움' : 'AI가 일부 채움') + '</span>' : '') +
+      (lv ? '<span class="lv ' + lv + '">' + LEVEL[lv][1] + '</span>' : '') +
+      (pend ? '<span class="lv pend">AI가 채움 · 확인 전</span>' : aiFilled(id) ? '<span class="lv ai">' + (d ? 'AI가 채움' : 'AI가 일부 채움') + '</span>' : '') +
       (skip ? '<span class="lv skip">해당 없음</span>' : '') +
       (cur ? '<span class="now">다음 질문</span>' : '');
     el.querySelector('.qt').textContent = BY_ID[id].q;
   });
-  document.querySelectorAll('[data-sec]').forEach(c=>{
-    const items = [...c.querySelectorAll('.item')];
-    const n = items.filter(i=>isDone(i.dataset.id)).length;
-    c.querySelector('.card-t small').textContent = n + '/' + items.length + (n === items.length ? ' 완료' : '');
-  });
-  const n = Q.filter(q=>isDone(q.id)).length, k = naCount(), c = levelCount(), warn = c.bad + c.unsure, left = Q.length - n;
+  const n = Q.filter(q=>seen(q.id)).length, k = naCount(), c = levelCount(), warn = c.bad + c.unsure, left = Q.length - n;
+  const pendN = Q.filter(q=>isDone(q.id) && !seen(q.id)).length;
   $('p1-house').innerHTML = ''; $('p1').querySelector('.nav .title').textContent = blankHouse(house) ? '계약 체크' : house.name;
-  // 안전 리포트 머리: 결론부터
-  $('repT').innerHTML = !n ? '계약 전에 물어볼 15개,<br>하나씩 확인해요'
+  // 안전 리포트 머리: 결론부터 (위험·확인 필요 개수에는 AI가 채운 답도 넣어요)
+  $('repT').innerHTML = !n && !pendN ? '계약 전에 물어볼 15개,<br>하나씩 확인해요'
     : warn ? '계약금 보내기 전에<br><em>' + warn + '개</em>를 먼저 확인하세요'
     : left ? '지금까지 큰 문제는 없어요<br>남은 ' + left + '개도 확인해요'
     : '15개를 모두 확인했어요<br>큰 문제는 보이지 않아요';
-  $('repS').textContent = Q.length + '개 중 ' + n + '개 확인 · ' + (left ? left + '개 남았어요' : '모두 확인했어요') + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
+  $('repS').textContent = Q.length + '개 중 ' + n + '개 확인 · ' + (left ? left + '개 남았어요' : '모두 확인했어요') +
+    (pendN ? ' (AI가 채운 ' + pendN + '개는 확인 전)' : '') + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
   $('repBad').textContent = c.bad; $('repUnsure').textContent = c.unsure; $('repOk').textContent = c.ok;
   $('repFill').style.width = (n / Q.length * 100) + '%';
-  // 골라 보기: 처음에는 위험·확인 필요가 있으면 "먼저 볼 것", 없으면 "전체"
-  const lf = listFilter || (warn ? 'first' : 'all');
+  // 골라 보기 (2026-11-21): 화면 계산(브라우저에 묻기) 대신 답을 보고 직접 정해요. 아이폰 카카오톡 브라우저에서 목록이 통째로 비던 문제 때문이에요.
+  const F = {
+    first: id => ['bad', 'unsure'].includes(lvOf(id)),
+    left: id => !seen(id),
+    done: id => seen(id),
+    all: () => true
+  };
+  const lf = F[listFilter] ? listFilter : (warn ? 'first' : 'all');
+  ['first', 'left', 'done'].forEach(f=>{ const e = $('lfc-' + f); if(e) e.textContent = Q.filter(q=>F[f](q.id)).length; });
   $('list').className = 'f-' + lf;
   document.querySelectorAll('[data-lf]').forEach(b=>{ b.classList.toggle('on', b.dataset.lf === lf); b.setAttribute('aria-selected', b.dataset.lf === lf); });
   let shown = 0;
   document.querySelectorAll('#list [data-sec]').forEach(s=>{
-    const vis = [...s.querySelectorAll('.item')].filter(i=>getComputedStyle(i).display !== 'none').length;
-    s.classList.toggle('empty', !vis); shown += vis;
+    let vis = 0;
+    s.querySelectorAll('.item').forEach(i=>{ const on = F[lf](i.dataset.id); i.style.display = on ? '' : 'none'; if(on) vis++; });
+    s.style.display = vis ? '' : 'none';
+    shown += vis;
   });
   $('listEmpty').hidden = !!shown;
-  $('listEmpty').textContent = lf === 'first' ? '위험하거나 더 확인할 답이 아직 없어요. 질문에 답하면 여기에 모아 보여 드려요.' : '15개 질문을 모두 확인했어요.';
+  $('listEmpty').textContent = {
+    first:'위험하거나 더 확인할 답이 아직 없어요. 질문에 답하면 여기에 모아 보여 드려요.',
+    left:'남은 질문이 없어요. 15개를 모두 확인했어요.',
+    done:'아직 확인한 질문이 없어요. 질문을 열어 「판단 결과 보기」를 누르면 여기에 모여요.'
+  }[lf] || '';
+  document.querySelectorAll('[data-sec]').forEach(c=>{
+    const items = [...c.querySelectorAll('.item')];
+    const m = items.filter(i=>seen(i.dataset.id)).length;
+    c.querySelector('.card-t small').textContent = m + '/' + items.length + (m === items.length ? ' 완료' : '');
+  });
   const btn = $('toAnswer');
   btn.disabled = !next;
-  btn.textContent = next ? (n ? '다음 추천 질문 보기' : '첫 질문부터 시작하기') : '모든 질문을 확인했어요';
+  btn.textContent = next ? (n || pendN ? '다음 추천 질문 보기' : '첫 질문부터 시작하기') : '모든 질문을 확인했어요';
 }
 
 /* ---------- ② 답변 입력 ---------- */
@@ -1750,7 +1791,7 @@ function renderAnswer(){
   });
   const aq = a.aiq ? Object.entries(a.aiq).filter(x=>x[1]) : [];
   $('a-ai').hidden = !aq.length;
-  $('a-ai').innerHTML = aq.length ? '<div class="aiq"><b>대화에서 찾은 답 · AI가 채웠어요</b>' + [...new Set(aq.map(x=>x[1]))].map(t=>'<q>' + esc(t) + '</q>').join('') + '<small>틀린 곳은 아래에서 직접 고쳐 주세요.</small></div>' : '';
+  $('a-ai').innerHTML = aq.length ? '<div class="aiq"><b>대화에서 찾은 답 · AI가 채웠어요</b>' + [...new Set(aq.map(x=>x[1]))].map(t=>'<q>' + esc(t) + '</q>').join('') + '<small>맞는지 보고, 틀린 곳은 아래에서 고친 뒤 「판단 결과 보기」를 눌러 확인해 주세요.</small></div>' : '';
   renderFields();
   renderLookup();
   updateAnswerUI();
@@ -2806,8 +2847,9 @@ paBody().addEventListener('click', e=>{
   const w = e.target.closest('[data-way]');
   if(w){
     const k = w.dataset.way;
-    if(k === 'paste'){ Object.assign(T, {phase:'edit', text:'', fail:0}); return renderTalk(); }
     if(blankHouse(house) && !askAddHouse()) return;
+    talkFor();
+    if(k === 'paste'){ Object.assign(T, {phase:'edit', text:'', fail:0}); return renderTalk(); }
     return ensureConsent(()=>k === 'rec' ? startRec() : startLive());
   }
   const t = e.target.closest('[data-t]');
@@ -2836,6 +2878,7 @@ paBody().addEventListener('change', e=>{
   if(e.target.id !== 't-file') return;
   const f = e.target.files && e.target.files[0]; e.target.value = '';
   if(f && blankHouse(house) && !askAddHouse()) return;
+  if(f) talkFor();
   if(f) ensureConsent(()=>fromFile(f));
 });
 paBody().addEventListener('input', e=>{
@@ -2886,8 +2929,9 @@ async function liveFill(){
     const r = await fetch('/api/talk', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({mode:'fill', text:maskMemo(text).slice(-20000), form:buildForm()})});
     if(!r.ok) fillLen = before; // 실패하면 다음 조각 때 다시 보내요
     if(r.ok){
-      const d = await r.json(), t = applyFills(d.fills);
-      if(t.size){ T.newly = [...t]; drawChecks(); renderList(); const k = [...t].filter(isDone).length; toast(k ? '대화에서 ' + k + '개 질문의 답을 찾아 체크했어요.' : '대화에서 답의 일부를 찾았어요.'); }
+      const d = await r.json(), got = intoHouse(T.hid || house.id, ()=>{ const t = applyFills(d.fills); return {t, k:[...t].filter(isDone).length}; }) || {t:new Set(), k:0};
+      const t = got.t, k = got.k;
+      if(t.size){ T.newly = [...t]; drawChecks(); renderList(); renderStart(); toast(k ? '대화에서 ' + k + '개 질문의 답을 찾아 체크했어요.' : '대화에서 답의 일부를 찾았어요.'); }
     }
   } catch(e) { fillLen = before; }
   fillBusy = false;
@@ -3137,6 +3181,7 @@ function leaveTalk(){
 async function analyzeTalk(){
   const text = (T.text || '').trim();
   if(text.length < 10){ toast('분석할 대화를 10글자 넘게 적어 주세요.'); return; }
+  if(!houses.list.some(h=>h.id === T.hid)){ if(blankHouse(house) && !askAddHouse()) return; talkFor(); }
   ensureConsent(async ()=>{
     T.phase = 'busy'; renderTalk();
     let data = null, code = 0;
@@ -3147,11 +3192,12 @@ async function analyzeTalk(){
     } catch(e) {}
     if(code === 200 && data && typeof data.summary === 'string'){
       const at = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'2-digit'});
-      T.newly = [...applyFills(data.fills)]; house.talked = true; save();
+      const got = intoHouse(T.hid, h=>{ h.talked = true; return {t:applyFills(data.fills), name:h.name}; }) || {t:new Set(), name:house.name};
+      T.newly = [...got.t];
       renderList(); renderStart();
       Object.assign(T, {phase:'done', result:data, at});
       const list = lsGet(TKEY, []).filter(Boolean);
-      list.unshift({id:Date.now(), at, house:house.name, text, result:data});
+      list.unshift({id:Date.now(), at, house:got.name, text, result:data});
       lsSet(TKEY, list.slice(0, 5));
     } else Object.assign(T, {phase:'fail', err:code === 429 ? '잠깐 사이에 너무 많이 분석했어요. 몇 분 뒤 다시 해 주세요.' : '분석하지 못했어요.'});
     if(curView === 'pa'){ renderTalk(); $('pa').querySelector('.scroll').scrollTop = 0; }
@@ -3185,6 +3231,7 @@ $('toResult').addEventListener('click', ()=>{
 function finish(){
   const tag = BY_ID[state.sel].tag;
   ans(state.sel).done = true;
+  ans(state.sel).ok = true;
   save();
   return tag;
 }
@@ -3441,19 +3488,19 @@ function withHouse(h, fn){
 }
 function stageOf(h){
   return withHouse(h, ()=>{
-    const n = Q.filter(q=>isDone(q.id)).length, talked = !!h.talked || Q.some(q=>aiFilled(q.id));
+    const n = Q.filter(q=>seen(q.id)).length, talked = !!h.talked || Q.some(q=>aiFilled(q.id));
     const now = !talked ? 1 : n < Q.length ? 2 : 3;
     return {n, left:Q.length - n, c:levelCount(), talked, now, sub:houseSub()};
   });
 }
-const STAGE_NAME = ['보러 갈 집 정하기', '중개사 만나서 녹음하기', '남은 질문 마저 묻기', '안전 리포트 보고 계약 결정'];
+const STAGE_NAME = ['보러 갈 집 정하기', '중개사 만나서 녹음하기', '남은 질문 확인하기', '안전 리포트 보고 계약 결정'];
 function renderDeals(){
   const D = houses.list.filter(h=>h.status !== 'like' && !blankHouse(h));
   let h = D.length ? D.map(x=>{
     const s = stageOf(x);
     return '<button type="button" class="deal" data-open-deal="' + x.id + '"><p class="dn">' + esc(x.name) + '</p>' + (s.sub ? '<p class="ds">' + esc(s.sub) + '</p>' : '') +
       '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (i < s.now ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
-      '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + (s.now === 2 ? '남은 질문 ' + s.left + '개 묻기' : STAGE_NAME[s.now]) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
+      '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + (s.now === 2 ? '남은 질문 ' + s.left + '개 확인' : STAGE_NAME[s.now]) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
       (s.n ? '<div class="rep-st sm"><div class="bad"><small>위험</small><b>' + s.c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + s.c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + s.c.ok + '</b></div></div>' : '') + '</button>';
   }).join('') : '<div class="card r-empty" style="margin-top:16px">계약을 진행 중인 집이 없어요.<br>관심 매물에서 「계약 진행하기」를 누르거나, 이미 정한 집을 바로 추가하세요.</div>';
   h += '<button type="button" class="save-like" data-add-house>+ 계약할 집 바로 추가</button>';
@@ -3472,31 +3519,37 @@ function renderDealCard(){
     $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
     return;
   }
-  const n = Q.filter(q=>isDone(q.id)).length, left = Q.length - n, c = levelCount(), warn = c.bad + c.unsure;
+  // n: 내가 확인한 질문, noAns: 답이 아직 안 나온 질문, pendN: AI가 채웠지만 확인 전 (2026-11-21)
+  const n = Q.filter(q=>seen(q.id)).length, left = Q.length - n, c = levelCount(), warn = c.bad + c.unsure;
+  const noAns = Q.filter(q=>!isDone(q.id)).length, pendN = left - noAns, any = Q.some(q=>isDone(q.id) && !na(q.id));
   const filled = Q.filter(q=>aiFilled(q.id) && isDone(q.id)).length, talked = !!house.talked || Q.some(q=>aiFilled(q.id));
+  const leftSub = [noAns ? '답이 안 나온 질문 ' + noAns + '개' : '', pendN ? 'AI가 채운 답 ' + pendN + '개 확인' : ''].filter(Boolean).join(' · ');
+  // [이름, 설명, 끝남, 누르면 갈 곳]
   const steps = [
-    ['보러 갈 집 정하기', house.from || '', true],
-    ['중개사 만나서 녹음하기', talked ? filled + '개 질문이 대화로 채워졌어요' : '대화만 녹음하면 질문 15개가 자동으로 채워져요', talked],
-    [talked && left ? '남은 질문 ' + left + '개 마저 묻기' : '남은 질문 마저 묻기', left ? (talked ? '전화로 물어보거나 다시 녹음해도 돼요' : '대화에서 답이 안 나온 것만') : '15개 모두 확인했어요', talked && !left],
-    ['안전 리포트 보고 계약 결정', '위험 · 확인 필요 · 안전', false]
+    ['보러 갈 집 정하기', house.from || '', true, ''],
+    ['중개사 만나서 녹음하기', talked ? filled + '개 질문이 대화로 채워졌어요' : '대화만 녹음하면 질문 15개가 자동으로 채워져요', talked, 'talk'],
+    [left ? '남은 질문 ' + left + '개 확인하기' : '남은 질문 확인하기', left ? leftSub : '15개 모두 확인했어요', talked && !left, 'left'],
+    ['안전 리포트 보고 계약 결정', '위험 · 확인 필요 · 안전', false, 'list']
   ];
   const now = steps.findIndex(x=>!x[2]);
-  let h = '<p class="hc-n">' + esc(house.name) + '</p>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
-    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>';
-  if(n) h += '<div class="hsum"><p class="hsum-t">' + (warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : left ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
+  let h = '<p class="hc-n">' + esc(house.name) + '</p><button type="button" class="hc-rename" data-rename>이름 바꾸기</button>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
+    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>';
+  if(any) h += '<div class="hsum"><p class="hsum-t">' + (warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : left ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
     '<div class="rep-st"><div class="bad"><small>위험</small><b>' + c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + c.ok + '</b></div></div></div>';
   const recOn = (R && T.phase === 'rec') || liveOn;
-  if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
-  else if(now === 1) h += '<button type="button" class="rec-big" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 시작</button>' +
+  const report = '<button type="button" class="btn sub2" data-quick="list">안전 리포트 보기</button>';
+  if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>' + (any ? report : '');
+  else if(now === 1) h += '<button type="button" class="rec-big" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 시작</button>' + (any ? report : '') +
     '<button type="button" class="hc-link" data-quick="prep">만나기 전에 물어볼 질문 미리 보기</button>';
-  else if(now === 2) h += '<button type="button" class="btn" data-quick="left" style="margin-top:16px">남은 질문 ' + left + '개 보기</button>' +
-    '<p class="hc-links"><button type="button" class="hc-link" data-quick="list">안전 리포트 자세히</button><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
+  else if(now === 2) h += '<button type="button" class="btn" data-quick="left" style="margin-top:16px">남은 질문 ' + left + '개 보기</button>' + report +
+    '<p class="hc-links"><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
   else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>' +
     '<p class="hc-links"><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
   h += '<button type="button" class="hc-del" data-del-house>이 집 지우기</button>';
   card.innerHTML = h;
   $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
 }
+
 function askAddHouse(name, from){
   name = prompt('보러 갈 집 이름을 적어 주세요. 예) 홍은동 투룸', name || '');
   if(!name || !name.trim()) return false;
@@ -3517,6 +3570,11 @@ $('wipeAll').addEventListener('click', ()=>{
   $('p0').querySelector('.scroll').scrollTop = 0;
 });
 function homeClick(e){
+  if(e.target.closest('[data-rename]')){
+    const nm = prompt('집 이름을 적어 주세요.', house.name);
+    if(nm && nm.trim()){ house.name = nm.trim().slice(0, 20); house.named = true; save(); renderList(); renderStart(); toast('이름을 바꿨어요.'); }
+    return;
+  }
   const od = e.target.closest('[data-open-deal]');
   if(od){ useHouse(+od.dataset.openDeal); renderList(); return go('pd'); }
   if(e.target.closest('[data-add-house]')){ if(askAddHouse() && curView !== 'pd') go('pd'); return; }
