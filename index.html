@@ -870,7 +870,18 @@
   .allq[open] summary{border-bottom:1px solid var(--ds-divider)}
   .allq .grp{margin:12px 12px 16px}
 
-  /* ---------- 아래 탭 3개: 둘러보기 · 관심 매물 · 내 계약 (2026-11-20) ---------- */
+  /* ---------- 팀 의견 반영 (2026-11-21): 내 계약 첫 화면 · 단계별 질문 ---------- */
+  #ps .scroll{padding-bottom:110px}
+  .lf-step{margin-top:16px;padding:12px 14px;border-radius:12px;background:var(--brand-50);font-size:15px;font-weight:700;line-height:22px;color:var(--brand-press)}
+  .lf-step span{display:block;font-size:13px;font-weight:600;color:var(--ds-text-secondary)}
+  .docs-box{margin-top:12px;border:1px solid var(--ds-divider);border-radius:16px;background:#fff;overflow:hidden}
+  .docs-t{padding:14px 16px 0;font-size:14px;font-weight:700;color:var(--ds-text-secondary)}
+  .docs-box .hrow{display:block;padding:12px 16px}
+  .docs-box .hb{width:auto;margin-top:8px}
+  .docs-box .hbtn{border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .rec-opt{display:flex;align-items:center;justify-content:center;gap:6px}
+  .rec-opt svg{width:18px;height:18px}
+  /* ---------- 아래 탭 3개 (2026-11-20, 2026-11-21에 내 계약 · 동네 시세 · 더보기로 바꿈) ---------- */
   .tabbar{display:grid;grid-template-columns:repeat(3,1fr)}
   #pb .scroll,#pl .scroll,#p0 .scroll{padding-bottom:110px}
   .ptag.ok{color:var(--ok);background:var(--ok-bg)}
@@ -943,19 +954,12 @@
   <div class="device"><div class="screen">
     <div class="views">
       <!-- 시작 화면 -->
-      <section class="view tabv" id="p0" aria-label="내 계약">
+      <section class="view on tabv" id="p0" aria-label="내 계약">
         <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll">
-          <div class="large"><h1>내 계약</h1><p>계약을 진행 중인 집이에요. 누르면 단계별로 이어서 해요.</p></div>
+          <div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>
+          <div class="large" style="padding-top:4px"><h1>내 계약</h1><p>후보 집을 저장하고, 계약 전에 확인할 것을 단계별로 챙겨요.</p></div>
           <div id="deals"></div>
-          <div class="h-blk" style="margin-top:16px">
-            <div class="h-head"><h2>도움 기능</h2></div>
-            <div style="margin-top:8px">
-              <button type="button" class="h-row" data-quick="find"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></i><div><b>동네 추천받기</b><span>예산으로 최근 실거래 동네 찾기</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-              <button type="button" class="h-row" data-rent><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><div><b>동네 전월세 시세</b><span>구·동별 최근 3달 실제 거래</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-              <button type="button" class="h-row" data-quick="help"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.3 3 7.8 7 9.5 4-1.7 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg></i><div><b>무료 상담·서류 떼기</b><span>법률구조공단·HUG·인터넷등기소</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-            </div>
-          </div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
           <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
           <p class="note"><a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--ds-primary-heavy);font-weight:600">개인정보 처리 안내</a></p>
@@ -964,22 +968,15 @@
               <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
-      <!-- ① 둘러보기 (첫 화면) -->
-      <section class="view on tabv" id="pb" aria-label="둘러보기">
+      <!-- ② 동네 시세 (2026-11-21: 첫 화면에서 두 번째 탭으로) -->
+      <section class="view tabv" id="pb" aria-label="동네 시세">
         <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll">
           <div id="pb-head"></div>
           <div id="pb-list"></div>
-          <button type="button" class="save-like" data-like-new>+ 본 매물 관심 목록에 저장</button>
+          <button type="button" class="save-like" data-like-new>+ 본 집을 후보로 저장</button>
           <p class="note">가격은 국토교통부 실거래가(이미 계약된 거래, 아파트 제외)의 가운데값이에요. 매물 앱 버튼은 그 동네와 예산을 맞춘 화면을 열어 줘요(제휴 아님). 동네 위치: © OpenStreetMap</p>
         </div>
-        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
-      </section>
-
-      <!-- ② 관심 매물 -->
-      <section class="view tabv" id="pl" aria-label="관심 매물">
-        <div class="nav"><span></span><span class="title"></span><span></span></div>
-        <div class="scroll" id="pl-body"></div>
         <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
@@ -1053,6 +1050,7 @@
             <button type="button" data-lf="done" role="tab">확인한 질문<small id="lfc-done"></small></button>
             <button type="button" data-lf="all" role="tab">전체<small>15</small></button>
           </div>
+          <p class="lf-step" id="lfStep" hidden></p>
           <div id="list"></div>
           <p class="list-empty" id="listEmpty" hidden></p>
           <div class="grp">
@@ -1063,9 +1061,10 @@
       </section>
 
       <!-- 기타 서비스: 무료 상담받을 곳 · 서류 떼기 -->
-      <section class="view" id="ps" aria-label="더보기">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">더보기</span><span></span></div>
+      <section class="view tabv" id="ps" aria-label="더보기">
+        <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll" id="ps-body"></div>
+        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
 
       <!-- 동네 전월세 시세 (기타 서비스에서 열어요) -->
@@ -1179,10 +1178,10 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <!-- 관심 매물 저장 창 -->
+    <!-- 후보 집 저장 창 -->
     <div class="modal" id="likeForm" role="dialog" aria-modal="true" aria-labelledby="lf-t" hidden>
       <div class="modal-box">
-        <h2 id="lf-t">본 매물 저장하기</h2>
+        <h2 id="lf-t">후보 집 저장하기</h2>
         <label class="lk-l" for="lf-url">매물 링크 <span class="opt-tag">선택</span></label>
         <input class="lk-in" id="lf-url" type="url" inputmode="url" autocomplete="off" placeholder="직방·다방·네이버에서 공유 → 링크 복사">
         <label class="lk-l" for="lf-name">집 이름</label>
@@ -1695,7 +1694,7 @@ document.addEventListener('click', e=>{
   if(d < 0) sc.scrollBy({top:d - 12, behavior:'smooth'});
 });
 function renderList(){
-  const next = nextOpen();
+  const next = nextFor();
   const lvOf = id => isDone(id) && !na(id) ? judge(id).level : '';
   document.querySelectorAll('.item').forEach(el=>{
     const id = el.dataset.id, skip = na(id), lv = lvOf(id), d = !!lv && seen(id), pend = !!lv && !d, cur = id === next;
@@ -1725,9 +1724,15 @@ function renderList(){
     first: id => ['bad', 'unsure'].includes(lvOf(id)),
     left: id => !seen(id),
     done: id => seen(id),
-    all: () => true
+    all: () => true,
+    ask: id => ASK.includes(id),
+    docs: id => DOCS.includes(id)
   };
   const lf = F[listFilter] ? listFilter : (warn ? 'first' : 'all');
+  // 집 진행 화면의 단계에서 열었으면 그 단계 질문만 (2026-11-21)
+  const g = GROUP[lf];
+  $('lfStep').hidden = !g;
+  if(g) $('lfStep').innerHTML = (lf === 'ask' ? '2' : '3') + '단계 · ' + STEP_NAME[lf] + '<span>' + g.length + '개 중 ' + g.filter(seen).length + '개 확인 · 위 칸을 누르면 전체를 봐요</span>';
   ['first', 'left', 'done'].forEach(f=>{ const e = $('lfc-' + f); if(e) e.textContent = Q.filter(q=>F[f](q.id)).length; });
   $('list').className = 'f-' + lf;
   document.querySelectorAll('[data-lf]').forEach(b=>{ b.classList.toggle('on', b.dataset.lf === lf); b.setAttribute('aria-selected', b.dataset.lf === lf); });
@@ -2123,21 +2128,21 @@ $('r-dong').addEventListener('change', e=>{ rf.dong = e.target.value; rSave(); r
 $('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown += RPAGE; drawRent(); } });
 // 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
 let rentFrom = 'ps';
-document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = ['p2','pf','p0'].includes(curView) ? curView : 'ps'; const d = e.target.closest('[data-rent]').dataset; if(d.gu){ rf.gu = d.gu; rf.dong = d.dong || 'all'; rf.type = d.type || 'all'; rf.deal = d.deal || rf.deal; rSave(); } go('pr'); } });
-const RENT_BACK = {p0:['홈','홈으로'], p2:['답변','답변으로'], ps:['더보기','더보기로'], pf:['집 찾기','집 찾기로']};
+document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = ['p2','pf','p0','pb','pd'].includes(curView) ? curView : 'ps'; const d = e.target.closest('[data-rent]').dataset; if(d.gu){ rf.gu = d.gu; rf.dong = d.dong || 'all'; rf.type = d.type || 'all'; rf.deal = d.deal || rf.deal; rSave(); } go('pr'); } });
+const RENT_BACK = {p0:['내 계약','내 계약으로'], pb:['동네 시세','동네 시세로'], pd:['집 진행','집 진행으로'], p2:['답변','답변으로'], ps:['더보기','더보기로'], pf:['집 찾기','집 찾기로']};
 function rentBack(){
   const b = RENT_BACK[rentFrom] || RENT_BACK.ps;
   $('r-back').querySelector('span').textContent = b[0];
   $('r-back').setAttribute('aria-label', b[1]);
 }
 
-/* ---------- 아래 탭 3개: 둘러보기 · 관심 매물 · 내 계약 (2026-11-20 사용자와 정함) ----------
+/* ---------- 아래 탭 3개: 내 계약 · 동네 시세 · 더보기 (2026-11-21 팀 의견 반영, 전에는 둘러보기 · 관심 매물 · 내 계약) ----------
    탭 화면은 뒤로 가기 기록 맨 밑(깊이 0)에 있고 탭끼리는 옆으로 넘기지 않고 바로 바꿔요. 다른 화면은 그 위에 한 칸씩 쌓여요. */
 const SVG = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
 const TABS = [
-  ['pb', '둘러보기', SVG('<path d="M9 4 3 6.5v13L9 17l6 3 6-2.5v-13L15 7z"/><path d="M9 4v13M15 7v13"/>')],
-  ['pl', '관심 매물', SVG('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>')],
-  ['p0', '내 계약', SVG('<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="m9 14.5 2 2 4-4"/>')]
+  ['p0', '내 계약', SVG('<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="m9 14.5 2 2 4-4"/>')],
+  ['pb', '동네 시세', SVG('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>')],
+  ['ps', '더보기', SVG('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>')]
 ];
 const TAB_VIEWS = TABS.map(t=>t[0]);
 document.querySelectorAll('.tabbar').forEach(nav=>{
@@ -2152,8 +2157,8 @@ document.addEventListener('click', e=>{
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const ORDER = ['pb','pl','p0','pd','pf','pv','p1','ps','pa','p2','pr','p3'];
-const DEPTH = {pb:0, pl:0, p0:0, pd:1, pf:1, ps:1, pv:2, p1:2, pa:2, pr:2, p2:3, p3:4};
+const ORDER = ['p0','pb','ps','pd','pf','pv','p1','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pb:0, ps:0, pd:1, pf:1, pv:2, p1:2, pa:2, pr:2, p2:3, p3:4};
 let depth = 0, trail = [], wantTab = null; // trail[i] = 깊이 i+1에 쌓인 화면
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null, wantList = false;
@@ -2165,7 +2170,7 @@ let busyUntil = 0;
   if(Date.now() < busyUntil && (t === 'click' || e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); e.stopPropagation(); }
 }, true));
 
-let curView = 'pb';
+let curView = 'p0';
 function show(id){
   busyUntil = Date.now() + 400;
   stopMemoMic();
@@ -2189,7 +2194,6 @@ function show(id){
 // 화면을 열 때 그 화면 내용을 새로 그려요
 function paint(id){
   if(id === 'pb') renderBrowse();
-  if(id === 'pl') renderLikes();
   if(id === 'p0' || id === 'pd') renderStart();
   if(id === 'pf') renderFind();
   if(id === 'pv') renderVisit();
@@ -2231,7 +2235,7 @@ function go(id){
 }
 
 window.addEventListener('popstate', e=>{
-  let v = (e.state && e.state.v) || 'pb';
+  let v = (e.state && e.state.v) || 'p0';
   if((v === 'p2' || v === 'p3') && !state.sel) v = 'p1';
   if(v === 'p3' && !ready(state.sel)) v = 'p2';
   depth = (e.state && e.state.d != null) ? e.state.d : DEPTH[v];
@@ -2694,7 +2698,7 @@ function drawFindOut(){
       '<div class="info"><span class="ptag b" style="margin-top:0">' + (o.ai ? 'AI 추천' : '거래 많은 동네') + '</span><div class="price">' + bigPrice(x, jeonse) + '</div>' +
       '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">' + Math.round(x.area / 3.3058) + '평(' + x.area + '㎡)' + (x.built ? ' · ' + x.built + '년' : '') + ' · 거래 ' + x.n + '건</div></div></div>' +
       '<div class="lwhy"><b>' + (x.why ? '추천 이유' : '이 동네는') + '</b><p>' + esc(x.why || '예산 안에서 최근 3달 거래가 많은 동네예요. 많은 건물 종류: ' + x.types) + '</p>' + (x.tip ? '<p>' + esc(x.tip) + '</p>' : '') + '</div>' +
-      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, o.p.deal, o.p.dep, o.p.rent) + '</div><div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">♡ 본 매물 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
+      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, o.p.deal, o.p.dep, o.p.rent) + '</div><div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">+ 후보 집으로 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
       '<a class="hbtn" href="https://search.naver.com/search.naver?query=' + encodeURIComponent(x.gu + ' ' + x.dong + ' ' + (jeonse ? '전세' : '월세') + ' 원룸') + '" target="_blank" rel="noopener">매물 검색</a></div></div>').join('') +
     (o.note ? '<p class="r-src">' + esc(o.note) + '</p>' : '') +
     (o.ai ? '' : '<p class="r-src">AI 추천을 받지 못해 예산 안 거래가 많은 순서로 보여 드려요.</p>') +
@@ -3214,7 +3218,7 @@ function toast(msg){
 }
 
 $('toAnswer').addEventListener('click', ()=>{
-  state.sel = nextOpen();
+  state.sel = nextFor();
   if(!state.sel) return;
   renderAnswer();
   go('p2');
@@ -3240,7 +3244,7 @@ function finish(){
 $('toNext').addEventListener('click', ()=>{
   const tag = finish();
   doneTag = null;
-  state.sel = nextOpen();
+  state.sel = nextFor();
   if(!state.sel) return;
   if(curView === 'p3') history.back(); else { renderAnswer(); show('p2'); }
   toast('"' + tag + '" 확인 완료! 다음 질문이에요.');
@@ -3368,7 +3372,7 @@ async function renderBrowse(){
   const turn = ++browseTurn, jeonse = fp.deal === 'jeonse';
   const bt = BTYPES.some(t=>t[0] === fp.type) ? fp.type : 'all';
   const TILE = {"sh": "<path d=\"M6 21V3h12v18\"/><path d=\"M14.5 12h.01M3 21h18\"/>", "rh": "<path d=\"M3 21h18M5 21V9l7-5 7 5v12\"/><path d=\"M9 21v-5h6v5M9 11h.01M15 11h.01\"/>", "offi": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.5\"/><path d=\"M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1\"/>", "all": "<rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"13\" y=\"13\" width=\"7\" height=\"7\" rx=\"2\"/>"};
-  $('pb-head').innerHTML = '<div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>' +
+  $('pb-head').innerHTML = '<div class="large" style="padding-top:12px"><h1>동네 시세</h1><p>최근 3달 실제 거래로 동네와 적정 가격을 봐요.</p></div>' +
     '<button type="button" class="reco" data-go-find><span class="reco-ic">AI</span><span class="reco-t"><b>내 조건에 맞는 집 추천받기</b><span>학교·예산만 넣으면 실제 거래로 동네와 적정 가격을 골라 드려요</span></span>' + ARROW + '</button>' +
     '<div class="cats4">' + [['sh','원룸·다가구'],['rh','빌라·투룸'],['offi','오피스텔'],['all','전체']].map(t=>'<button type="button" class="cat4' + (bt === t[0] ? ' on' : '') + '" data-btype="' + t[0] + '" aria-pressed="' + (bt === t[0]) + '"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + TILE[t[0]] + '</svg></i>' + t[1] + '</button>').join('') + '</div>' +
     '<div class="lhead"><h2>동네 둘러보기</h2><select class="near-sel" id="b-near" aria-label="찾는 곳">' + nearOpts() + '</select></div>' +
@@ -3390,7 +3394,7 @@ async function renderBrowse(){
     return '<div class="lcard"><div class="lrow">' + mapThumb(i, '') + '<div class="info"><div class="price" style="margin-top:0">' + bigPrice(x, jeonse) + '</div>' +
       '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">최근 3달 ' + x.n + '건 · ' + Math.round(x.area / 3.3058) + '평쯤</div><div>' + tags + '</div></div></div>' +
       '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, fp.deal, fp.dep, fp.rent) + '</div>' +
-      '<div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">♡ 본 매물 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="all" data-deal="' + fp.deal + '">시세 자세히</button></div></div>';
+      '<div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">+ 후보 집으로 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="all" data-deal="' + fp.deal + '">시세 자세히</button></div></div>';
   }).join('');
 }
 $('pb').addEventListener('change', e=>{ if(e.target.id === 'b-near'){ fp.near = e.target.value; saveFind(); renderBrowse(); } });
@@ -3409,144 +3413,158 @@ function safeLink(u){
   try { const x = new URL(m[0]); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : null; } catch(e) { return null; }
 }
 let likePre = null;
-function openLikeForm(pre){
+// 동네 고르기: 동네 시세에서 본 동네를 먼저, 그 밑에 서울 모든 동(구별)
+async function openLikeForm(pre){
   likePre = pre || null;
-  $('lf-where').innerHTML = '<option value="">모르겠어요</option>' + browseDongs.map(x=>'<option value="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">' + esc(x.gu + ' ' + x.dong) + '</option>').join('') +
-    (pre && !browseDongs.some(x=>x.code + '|' + x.gu + '|' + x.dong === pre) ? '<option value="' + esc(pre) + '">' + esc(pre.split('|').slice(1).join(' ')) + '</option>' : '');
-  $('lf-where').value = pre || '';
   ['lf-url','lf-name','lf-dep','lf-rent'].forEach(id=>$(id).value = '');
   if(pre) $('lf-name').value = pre.split('|')[2] + ' ';
+  const opt = (v, t) => '<option value="' + esc(v) + '">' + esc(t) + '</option>';
+  const fill = () => {
+    const xy = dongXY || {}, gname = Object.fromEntries(SEOUL_GU);
+    const near = browseDongs.map(x=>opt(x.code + '|' + x.gu + '|' + x.dong, x.gu + ' ' + x.dong)).join('');
+    const all = SEOUL_GU.map(g=>{
+      const ds = Object.keys(xy).filter(k=>k.split('|')[0] === g[0]).map(k=>k.split('|')[1]).sort((a,b)=>a.localeCompare(b, 'ko'));
+      return ds.length ? '<optgroup label="' + esc(g[1]) + '">' + ds.map(d=>opt(g[0] + '|' + g[1] + '|' + d, g[1] + ' ' + d)).join('') + '</optgroup>' : '';
+    }).join('');
+    const extra = pre && !(pre.split('|')[0] + '|' + pre.split('|')[2] in xy) && !browseDongs.some(x=>x.code + '|' + x.gu + '|' + x.dong === pre) ? opt(pre, pre.split('|').slice(1).join(' ')) : '';
+    $('lf-where').innerHTML = '<option value="">모르겠어요</option>' + extra + (near ? '<optgroup label="동네 시세에서 본 동네">' + near + '</optgroup>' : '') + all;
+    $('lf-where').value = pre || '';
+  };
+  fill();
   $('likeForm').hidden = false;
+  if(!dongXY){ await loadXY(); if(!$('likeForm').hidden && !$('lf-where').value) fill(); }
 }
 document.addEventListener('click', e=>{
   const d = e.target.closest('[data-like-dong]'); if(d) return openLikeForm(d.dataset.likeDong);
   if(e.target.closest('[data-like-new]')) return openLikeForm(null);
 });
 $('lf-no').addEventListener('click', ()=>{ $('likeForm').hidden = true; });
+// 저장하면 「내 계약」의 후보 집이 돼요 (2026-11-21: 관심 매물 탭을 내 계약에 합침)
 $('lf-ok').addEventListener('click', ()=>{
   const link = safeLink($('lf-url').value);
   if(link === null){ toast('링크가 http로 시작하는 주소인지 확인해 주세요.'); return; }
   const name = $('lf-name').value.trim().slice(0, 20);
   if(!name){ toast('집 이름을 적어 주세요. 예) 창천동 원룸'); return; }
   const num = id => { const v = $(id).value.replace(/[^0-9.]/g, ''); return v === '' ? null : Math.min(+v, 9999999); };
-  const where = $('lf-where').value.split('|');
-  const id = Math.max(0, ...houses.list.map(h=>h.id)) + 1;
-  houses.list.push({id, name, named:true, status:'like', link, site:siteOf(link), code:where[0] || '', gu:where[1] || '', dong:where[2] || '',
-    deal:fp.deal, answers:{}, ctx:{deposit:num('lf-dep'), rent:fp.deal === 'jeonse' ? 0 : num('lf-rent')}, from:(where[2] ? where[2] + ' · ' : '') + '관심 매물에서 골랐어요'});
-  save();
+  const where = $('lf-where').value.split('|'), dep = num('lf-dep'), rent = num('lf-rent');
+  const jeonse = dep != null && rent == null, site = siteOf(link);
+  const info = {name, named:true, status:'deal', link, site, code:where[0] || '', gu:where[1] || '', dong:where[2] || '', deal:jeonse ? 'jeonse' : 'monthly',
+    from:[where[2] || '', site ? site + '에서 저장' : ''].filter(Boolean).join(' · ')};
+  const price = {deposit:dep, rent:jeonse ? 0 : rent};
+  let id;
+  if(blankHouse(house)){ Object.assign(house, info); Object.assign(ctx, price); id = house.id; }
+  else { id = Math.max(0, ...houses.list.map(h=>h.id)) + 1; houses.list.push(Object.assign({id, answers:{}, ctx:price}, info)); }
+  useHouse(id); save();
   $('likeForm').hidden = true;
-  toast('관심 매물에 저장했어요.');
-  goTab('pl');
+  renderList(); renderStart();
+  toast('"' + name + '"을 내 계약에 저장했어요.');
+  if(curView === 'p0') go('pd');
 });
 
-// ---------- ② 관심 매물 ----------
-function renderLikes(){
-  const L = houses.list.filter(h=>h.status === 'like');
-  let h = '<div class="large"><h1>관심 매물 ' + L.length + '</h1><p>다른 앱에서 본 집의 링크와 가격을 저장하면 동네 실거래와 비교해 드려요.</p></div>';
-  h += L.length ? L.map((x,i)=>{
-    const c = x.ctx || {}, jeonse = x.deal === 'jeonse' || c.rent === 0;
-    const price = c.deposit != null ? (jeonse ? '전세 ' + shortMan(c.deposit) : '월세 ' + shortMan(c.deposit) + '<span>/</span>' + (c.rent != null ? shortMan(c.rent) : '?')) : '가격 미입력';
-    return '<div class="lcard"><div class="lrow">' + mapThumb(i + 1, '') + '<div class="info"><div class="price" style="margin-top:0">' + price + '</div>' +
-      '<div class="loc">' + esc(x.name) + '</div><div class="lsub">' + esc([x.site ? x.site + '에서 저장' : '', x.dong].filter(Boolean).join(' · ')) + '</div>' +
-      '<div id="cmp-' + x.id + '"></div>' + (jeonse ? '<span class="ptag">전세는 깡통전세부터 확인</span>' : '') + '</div></div>' +
-      '<div class="pick-btns">' + (x.link ? '<a class="hbtn" href="' + esc(x.link) + '" target="_blank" rel="noopener">' + esc(x.site || '원래') + ' 매물 보기</a>' : '') +
-      '<button type="button" class="hbtn" data-like-prep="' + x.id + '">만나기 전 질문</button><button type="button" class="hbtn" data-like-del="' + x.id + '" aria-label="관심 매물에서 빼기">♥ 빼기</button></div>' +
-      '<button type="button" class="btn" data-like-deal="' + x.id + '" style="margin-top:10px;height:48px">계약 진행하기</button></div>';
-  }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 저장한 매물이 없어요.<br>둘러보기에서 동네 매물을 보고 마음에 드는 집을 저장해 보세요.</div>';
-  h += '<button type="button" class="save-like" data-like-new>+ 본 매물 저장하기</button>';
-  $('pl-body').innerHTML = h;
-  // 동네 실거래 가운데값과 비교
-  L.forEach(async x=>{
-    const c = x.ctx || {}; if(!x.code || !x.dong || c.deposit == null) return;
-    try {
-      const d = await loadGu(x.code), jeonse = x.deal === 'jeonse' || c.rent === 0;
-      // 월세는 보증금이 비슷한 거래(절반~1.5배, 1,000만 원 이하면 0~2,000만 원)끼리만 월세를 비교해요
-      const lo = jeonse ? 0 : (c.deposit <= 1000 ? 0 : c.deposit * 0.5), hi = jeonse ? Infinity : (c.deposit <= 1000 ? 2000 : c.deposit * 1.5);
-      const m = d.items.filter(t=>t[0] !== 'apt' && t[1] === x.dong && (t[6] === 0) === jeonse && t[5] >= lo && t[5] <= hi); if(m.length < 3) return;
-      const diff = jeonse ? c.deposit - median(m.map(t=>t[5])) : (c.rent == null ? null : c.rent - median(m.map(t=>t[6])));
-      if(diff == null) return;
-      const el = $('cmp-' + x.id); if(!el) return;
-      const a = Math.abs(Math.round(diff));
-      const w = jeonse ? '동네 전세' : '보증금 비슷한 거래';
-      el.innerHTML = a < (jeonse ? 500 : 2) ? '<span class="ptag b">' + w + '와 비슷해요</span>' : diff < 0 ? '<span class="ptag ok">' + w + '보다 ' + shortMan(a) + '만 원 쌈</span>' : '<span class="ptag warn">' + w + '보다 ' + shortMan(a) + '만 원 비쌈</span>';
-    } catch(e) {}
-  });
-}
-$('pl').addEventListener('click', e=>{
-  const dl = e.target.closest('[data-like-deal]');
-  if(dl){ const h = houses.list.find(x=>x.id === +dl.dataset.likeDeal); if(!h) return; h.status = 'deal'; useHouse(h.id); toast('"' + h.name + '" 계약을 시작해요. 중개사를 만나면 녹음을 켜세요.'); switchTab('p0'); return go('pd'); }
-  const pr = e.target.closest('[data-like-prep]');
-  if(pr){ useHouse(+pr.dataset.likePrep); return go('pv'); }
-  const del = e.target.closest('[data-like-del]');
-  if(del && confirm('관심 매물에서 뺄까요?')){ houses.list = houses.list.filter(x=>x.id !== +del.dataset.likeDel); if(!houses.list.length) houses.list.push({id:1, name:'내 집', answers:{}, ctx:{}}); if(!houses.list.includes(house)) useHouse(houses.list[0].id); save(); renderLikes(); }
-});
-
-// ---------- ③ 내 계약: 진행 중인 집 목록 ----------
+// ---------- ① 내 계약: 후보 집 목록 ----------
 function withHouse(h, fn){
   const a = answers, c = ctx; answers = h.answers || {}; ctx = h.ctx || {};
   try { return fn(); } finally { answers = a; ctx = c; }
 }
+// 집 진행 4단계 (2026-11-21 팀 의견 반영): ① 후보 집 정하기 ② 물어보고 계약서에 적기(10~15번) ③ 서류로 확인하기(1~9번) ④ 안전 리포트
+// 2·3단계는 순서 상관없이 해요. 녹음은 2단계 안의 선택지예요. 질문과 판단 기준은 그대로예요.
+const ASK = ['q10','q11','q12','q13','q14','q15'], DOCS = ['q1','q2','q3','q4','q5','q6','q7','q8','q9'];
+const GROUP = {ask:ASK, docs:DOCS};
+const STEP_NAME = {ask:'물어보고 계약서에 적기', docs:'서류로 확인하기'};
+// 다음에 볼 질문: 단계에서 열었으면 그 단계 안에서 먼저
+const nextFor = () => { const g = GROUP[listFilter]; return (g && g.find(id=>!seen(id))) || nextOpen(); };
 function stageOf(h){
   return withHouse(h, ()=>{
-    const n = Q.filter(q=>seen(q.id)).length, talked = !!h.talked || Q.some(q=>aiFilled(q.id));
-    const now = !talked ? 1 : n < Q.length ? 2 : 3;
-    return {n, left:Q.length - n, c:levelCount(), talked, now, sub:houseSub()};
+    const n = Q.filter(q=>seen(q.id)).length, a = ASK.filter(id=>!seen(id)).length, d = DOCS.filter(id=>!seen(id)).length;
+    const now = a ? 1 : d ? 2 : 3;
+    return {n, a, d, now, c:levelCount(), any:Q.some(q=>isDone(q.id) && !na(q.id)), sub:houseSub()};
   });
 }
-const STAGE_NAME = ['보러 갈 집 정하기', '중개사 만나서 녹음하기', '남은 질문 확인하기', '안전 리포트 보고 계약 결정'];
+// 동네 실거래와 가격 비교: 월세는 보증금이 비슷한 거래(절반~1.5배, 1,000만 원 이하면 0~2,000만 원)끼리, 전세는 전세끼리
+async function cmpHouse(x, elId){
+  const c = x.ctx || {}; if(!x.code || !x.dong || c.deposit == null) return;
+  try {
+    const d = await loadGu(x.code), jeonse = x.deal === 'jeonse' || c.rent === 0;
+    const lo = jeonse ? 0 : (c.deposit <= 1000 ? 0 : c.deposit * 0.5), hi = jeonse ? Infinity : (c.deposit <= 1000 ? 2000 : c.deposit * 1.5);
+    const m = d.items.filter(t=>t[0] !== 'apt' && t[1] === x.dong && (t[6] === 0) === jeonse && t[5] >= lo && t[5] <= hi); if(m.length < 3) return;
+    const diff = jeonse ? c.deposit - median(m.map(t=>t[5])) : (c.rent == null ? null : c.rent - median(m.map(t=>t[6])));
+    if(diff == null) return;
+    const el = $(elId); if(!el) return;
+    const a = Math.abs(Math.round(diff)), w = jeonse ? '동네 전세' : '보증금 비슷한 거래';
+    el.innerHTML = a < (jeonse ? 500 : 2) ? '<span class="ptag b">' + w + '와 비슷해요</span>' : diff < 0 ? '<span class="ptag ok">' + w + '보다 ' + shortMan(a) + '만 원 쌈</span>' : '<span class="ptag warn">' + w + '보다 ' + shortMan(a) + '만 원 비쌈</span>';
+  } catch(e) {}
+}
 function renderDeals(){
-  const D = houses.list.filter(h=>h.status !== 'like' && !blankHouse(h));
+  const D = houses.list.filter(h=>!blankHouse(h));
+  const label = s => s.now === 1 ? STEP_NAME.ask + ' · 남은 ' + s.a + '개' : s.now === 2 ? STEP_NAME.docs + ' · 남은 ' + s.d + '개' : '안전 리포트 보고 계약 결정';
   let h = D.length ? D.map(x=>{
-    const s = stageOf(x);
-    return '<button type="button" class="deal" data-open-deal="' + x.id + '"><p class="dn">' + esc(x.name) + '</p>' + (s.sub ? '<p class="ds">' + esc(s.sub) + '</p>' : '') +
-      '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (i < s.now ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
-      '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + (s.now === 2 ? '남은 질문 ' + s.left + '개 확인' : STAGE_NAME[s.now]) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
-      (s.n ? '<div class="rep-st sm"><div class="bad"><small>위험</small><b>' + s.c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + s.c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + s.c.ok + '</b></div></div>' : '') + '</button>';
-  }).join('') : '<div class="card r-empty" style="margin-top:16px">계약을 진행 중인 집이 없어요.<br>관심 매물에서 「계약 진행하기」를 누르거나, 이미 정한 집을 바로 추가하세요.</div>';
-  h += '<button type="button" class="save-like" data-add-house>+ 계약할 집 바로 추가</button>';
+    const s = stageOf(x), done = [true, !s.a, !s.d, false];
+    const sub = [s.sub, x.dong, x.site].filter(Boolean).join(' · ');
+    return '<button type="button" class="deal" data-open-deal="' + x.id + '"><p class="dn">' + esc(x.name) + '</p>' + (sub ? '<p class="ds">' + esc(sub) + '</p>' : '') +
+      '<div id="cmp-d' + x.id + '"></div>' +
+      '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (done[i] ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
+      '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + label(s) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
+      (s.any ? '<div class="rep-st sm"><div class="bad"><small>위험</small><b>' + s.c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + s.c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + s.c.ok + '</b></div></div>' : '') + '</button>';
+  }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 후보 집이 없어요.<br>직방·다방·네이버에서 본 집을 저장하면<br>계약 전에 확인할 것을 단계별로 챙겨 드려요.</div>';
+  h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
   $('deals').innerHTML = h;
+  D.forEach(x=>cmpHouse(x, 'cmp-d' + x.id));
 }
 
 function renderStart(){ renderDeals(); renderDealCard(); }
+// 3단계: 어디서 확인하나요 (앱에 이미 있는 사이트만 연결해요)
+const DOC_WHERE = [
+  ['등기부등본', '2·3·5번 · 소유자, 공동명의, 근저당', 'q2', 'iros'],
+  ['건축물대장', '9번 · 주택인지, 위반건축물인지', 'q9', 'gov24'],
+  ['중개사무소 등록', '4번 · 앱에서 바로 조회해요', 'q4', ''],
+  ['보증보험 가입 가능 여부', '7번', 'q7', 'hug'],
+  ['납세증명서', '8번 · 집주인에게 보여 달라고 해요', 'q8', ''],
+  ['위임장·인감증명서', '1번 · 대리인이 나오면 원본 확인', 'q1', ''],
+  ['다른 세입자 보증금', '6번 · 다가구라면 확인해요', 'q6', '']
+];
+const docsBox = () => '<div class="docs-box"><p class="docs-t">어디서 확인하나요</p>' + DOC_WHERE.map(x=>
+  '<div class="hrow"><div class="ht"><b>' + x[0] + '</b><span>' + x[1] + '</span></div><div class="hb"><button type="button" class="hbtn" data-goq="' + x[2] + '">답 고르기</button>' +
+  (x[3] ? '<a class="hbtn" href="' + HELP[x[3]].web + '" target="_blank" rel="noopener">' + ({iros:'인터넷등기소', gov24:'정부24', hug:'HUG'})[x[3]] + '</a>' : '') + '</div></div>').join('') + '</div>';
 function renderDealCard(){
   const saved = hasSaved();
   const card = $('hcard');
   $('pd').querySelector('.nav .title').textContent = blankHouse(house) ? '집 진행' : house.name;
   if(blankHouse(house)){
-    card.innerHTML = '<p class="hc-n">보러 갈 집이 있나요?</p><p class="hc-s">집을 추가하고 중개사를 만나면 녹음만 켜세요. 계약 전에 물어볼 15개 질문이 대화로 자동으로 채워져요.</p>' +
-      '<button type="button" class="btn" data-add-house style="margin-top:18px">보러 갈 집 추가하기</button>' +
-      '<button type="button" class="hc-link" data-quick="find">아직 없어요 · 예산으로 동네 추천받기</button>';
+    card.innerHTML = '<p class="hc-n">계약할 집이 있나요?</p><p class="hc-s">직방·다방·네이버에서 본 집을 저장하면 계약 전에 확인할 15개를 단계별로 챙겨 드려요.</p>' +
+      '<button type="button" class="btn" data-add-house style="margin-top:18px">후보 집 추가하기</button>';
     $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
     return;
   }
-  // n: 내가 확인한 질문, noAns: 답이 아직 안 나온 질문, pendN: AI가 채웠지만 확인 전 (2026-11-21)
-  const n = Q.filter(q=>seen(q.id)).length, left = Q.length - n, c = levelCount(), warn = c.bad + c.unsure;
-  const noAns = Q.filter(q=>!isDone(q.id)).length, pendN = left - noAns, any = Q.some(q=>isDone(q.id) && !na(q.id));
-  const filled = Q.filter(q=>aiFilled(q.id) && isDone(q.id)).length, talked = !!house.talked || Q.some(q=>aiFilled(q.id));
-  const leftSub = [noAns ? '답이 안 나온 질문 ' + noAns + '개' : '', pendN ? 'AI가 채운 답 ' + pendN + '개 확인' : ''].filter(Boolean).join(' · ');
+  const left = g => g.filter(id=>!seen(id)).length, pend = g => g.filter(id=>isDone(id) && !seen(id)).length;
+  const a = left(ASK), d = left(DOCS), c = levelCount(), warn = c.bad + c.unsure, any = Q.some(q=>isDone(q.id) && !na(q.id));
+  const stepSub = (g, k, range) => left(g) ? '남은 질문 ' + left(g) + '개' + (pend(g) ? ' · AI가 채운 답 ' + pend(g) + '개 확인' : '') + ' · ' + range : g.length + '개 모두 확인했어요';
   // [이름, 설명, 끝남, 누르면 갈 곳]
   const steps = [
-    ['보러 갈 집 정하기', house.from || '', true, ''],
-    ['중개사 만나서 녹음하기', talked ? filled + '개 질문이 대화로 채워졌어요' : '대화만 녹음하면 질문 15개가 자동으로 채워져요', talked, 'talk'],
-    [left ? '남은 질문 ' + left + '개 확인하기' : '남은 질문 확인하기', left ? leftSub : '15개 모두 확인했어요', talked && !left, 'left'],
+    ['후보 집 정하기', house.from || '', true, ''],
+    [STEP_NAME.ask, stepSub(ASK, 'ask', '10~15번'), !a, 'ask'],
+    [STEP_NAME.docs, stepSub(DOCS, 'docs', '1~9번'), !d, 'docs'],
     ['안전 리포트 보고 계약 결정', '위험 · 확인 필요 · 안전', false, 'list']
   ];
-  const now = steps.findIndex(x=>!x[2]);
+  const now = a ? 1 : d ? 2 : 3;
   let h = '<p class="hc-n">' + esc(house.name) + '</p><button type="button" class="hc-rename" data-rename>이름 바꾸기</button>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
+    '<div id="cmp-pd"></div>' + (house.link ? '<div class="pick-btns" style="margin-top:10px"><a class="hbtn" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기</a></div>' : '') +
     '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>';
-  if(any) h += '<div class="hsum"><p class="hsum-t">' + (warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : left ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
+  if(any) h += '<div class="hsum"><p class="hsum-t">' + (warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : a + d ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
     '<div class="rep-st"><div class="bad"><small>위험</small><b>' + c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + c.ok + '</b></div></div></div>';
   const recOn = (R && T.phase === 'rec') || liveOn;
   const report = '<button type="button" class="btn sub2" data-quick="list">안전 리포트 보기</button>';
-  if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>' + (any ? report : '');
-  else if(now === 1) h += '<button type="button" class="rec-big" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 시작</button>' + (any ? report : '') +
-    '<button type="button" class="hc-link" data-quick="prep">만나기 전에 물어볼 질문 미리 보기</button>';
-  else if(now === 2) h += '<button type="button" class="btn" data-quick="left" style="margin-top:16px">남은 질문 ' + left + '개 보기</button>' + report +
-    '<p class="hc-links"><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
+  const link = (k, t) => '<button type="button" class="hc-link" data-quick="' + k + '">' + t + '</button>';
+  if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
+  if(now === 1) h += '<button type="button" class="btn" data-quick="ask" style="margin-top:16px">질문 보면서 답 고르기</button>' +
+    (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '대화 녹음으로 빠르게 채우기 (선택)</button>') +
+    (any ? report : '') + '<p class="hc-links">' + link('prep', '만나기 전 질문 미리 보기') + link('docs', '서류로 확인하기') + '</p>';
+  else if(now === 2) h += '<button type="button" class="btn" data-quick="docs" style="margin-top:16px">서류 보면서 답 고르기</button>' + docsBox() + report +
+    '<p class="hc-links">' + link('ask', STEP_NAME.ask) + (recOn ? '' : link('talk', '대화 녹음하기')) + '</p>';
   else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>' +
-    '<p class="hc-links"><button type="button" class="hc-link" data-quick="talk">다시 녹음하기</button></p>';
+    '<p class="hc-links">' + link('ask', STEP_NAME.ask) + link('docs', STEP_NAME.docs) + '</p>';
   h += '<button type="button" class="hc-del" data-del-house>이 집 지우기</button>';
   card.innerHTML = h;
+  cmpHouse(house, 'cmp-pd');
   $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
 }
 
@@ -3577,7 +3595,9 @@ function homeClick(e){
   }
   const od = e.target.closest('[data-open-deal]');
   if(od){ useHouse(+od.dataset.openDeal); renderList(); return go('pd'); }
-  if(e.target.closest('[data-add-house]')){ if(askAddHouse() && curView !== 'pd') go('pd'); return; }
+  if(e.target.closest('[data-add-house]')) return openLikeForm(null);
+  const gq = e.target.closest('[data-goq]');
+  if(gq){ state.sel = gq.dataset.goq; renderAnswer(); return go('p2'); }
   if(e.target.closest('[data-del-house]')){
     if(!confirm('"' + house.name + '"의 답과 기록을 지울까요? 되돌릴 수 없어요.')) return;
     const id = house.id;
@@ -3588,11 +3608,11 @@ function homeClick(e){
   }
   const b = e.target.closest('[data-quick]'); if(!b) return;
   const k = b.dataset.quick;
-  if(k === 'list' || k === 'left'){ listFilter = k === 'left' ? 'left' : null; state.sel = nextOpen(); return go('p1'); }
+  if(['list', 'left', 'ask', 'docs'].includes(k)){ listFilter = k === 'list' ? null : k; state.sel = nextFor(); return go('p1'); }
   if(k === 'find') return go('pf');
   if(k === 'prep') return go('pv');
   if(k === 'talk') return go('pa');
-  if(k === 'help'){ go('ps'); requestAnimationFrame(()=>scrollIn($('ps-help'))); }
+  if(k === 'help') return goTab('ps');
 }
 $('p0').addEventListener('click', homeClick);
 $('pd').addEventListener('click', homeClick);
@@ -3600,13 +3620,13 @@ $('pd').addEventListener('click', homeClick);
 // 예전 집 기록은 「내 계약」으로 (2026-11-20)
 houses.list.forEach(h=>{ if(!h.status && !blankHouse(h)) h.status = 'deal'; });
 save();
-history.replaceState({v:'pb', d:0}, '');
+history.replaceState({v:'p0', d:0}, '');
 $('footM').textContent = document.querySelector('footer small').textContent;
 buildList();
 renderList();
 renderStart();
-paint('pb');
-show('pb');
+paint('p0');
+show('p0');
 </script>
 </body>
 </html>
