@@ -870,6 +870,27 @@
   .allq[open] summary{border-bottom:1px solid var(--ds-divider)}
   .allq .grp{margin:12px 12px 16px}
 
+  /* ---------- 화면 정리 (2026-11-21): 같은 일을 하는 버튼은 하나로 ---------- */
+  .hst > svg{flex:none;align-self:center;margin-left:auto;width:18px;height:18px;color:var(--ds-gray-400)}
+  .hst[data-quick]:active{opacity:.6}
+  .hc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+  .hc-meta:empty{display:none}
+  .hc-a{display:inline-flex;align-items:center;gap:2px;font-size:14px;font-weight:700;color:var(--brand-press);text-decoration:none}
+  .hc-a svg{width:14px;height:14px}
+  .sum-line{margin-top:8px;font-size:14px;font-weight:700;line-height:20px;color:var(--ds-text-secondary)}
+  .sl.bad{color:var(--bad)}
+  .sl.unsure{color:var(--unsure)}
+  .sl.ok{color:var(--ok)}
+  .hc-foot{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:20px;color:var(--ds-gray-400)}
+  .hc-foot .hc-link{margin:0;padding:4px 2px;font-weight:600;color:var(--ds-gray-500)}
+  .rt-ok{margin-top:12px;font-size:14px;font-weight:700;color:var(--ok)}
+  .lcard.tap{cursor:pointer}
+  .l-more{display:inline-flex;align-items:center;gap:2px;margin-top:6px;font-size:13px;font-weight:700;color:var(--brand-press)}
+  .l-more svg{width:14px;height:14px}
+  .ways-more{margin-top:4px}
+  .ways-more summary{list-style:none;cursor:pointer;padding:12px 4px;text-align:center;font-size:15px;font-weight:700;color:var(--brand-press)}
+  .ways-more summary::-webkit-details-marker{display:none}
+  .ways-more[open] summary{color:var(--ds-text-secondary)}
   /* ---------- 계약 준비물 한눈에 (2026-11-21) ---------- */
   .guide-entry{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:14px 16px;border:0;border-radius:16px;background:var(--brand-50);font:inherit;text-align:left;cursor:pointer;transition:transform .1s}
   .guide-entry b{display:block;font-size:15px;font-weight:800;line-height:22px;color:var(--brand-press)}
@@ -990,8 +1011,8 @@
         <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll">
           <div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>
-          <div class="large" style="padding-top:4px"><h1>내 계약</h1><p>후보 집을 저장하고, 계약 전에 확인할 것을 단계별로 챙겨요.</p></div>
-          <button type="button" class="guide-entry" data-go-guide><div><b>처음 계약이라면 · 필요한 것 한눈에 보기</b><span>언제 어떤 서류를 챙길지, 어려운 말 풀이</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+          <div class="large" style="padding-top:4px"><h1>내 계약</h1></div>
+          <button type="button" class="guide-entry" data-go-guide><div><b>계약 준비 가이드</b><span>처음 계약이라면 · 언제 무엇을 챙길지, 물어볼 질문, 어려운 말</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
           <div id="deals"></div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
           <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
@@ -1020,8 +1041,8 @@
       </section>
 
       <!-- 계약 준비물 한눈에 (2026-11-21) -->
-      <section class="view" id="pg" aria-label="계약 준비물">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">계약 준비물</span><span></span></div>
+      <section class="view" id="pg" aria-label="계약 준비 가이드">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">계약 준비 가이드</span><span></span></div>
         <div class="scroll" id="pg-body"></div>
       </section>
 
@@ -1077,15 +1098,9 @@
             <h1 class="rep-t" id="repT"></h1>
             <p class="rep-s" id="repS"></p>
           </div>
-          <div class="rep-st" aria-label="판단 결과 개수">
-            <div class="bad"><small>위험</small><b id="repBad">0</b></div>
-            <div class="unsure"><small>확인 필요</small><b id="repUnsure">0</b></div>
-            <div class="ok"><small>비교적 안전</small><b id="repOk">0</b></div>
-          </div>
           <div class="rep-top" id="repTop" hidden></div>
           <div class="rep-bar"><i id="repFill"></i></div>
           <div class="seg" role="tablist" aria-label="질문 골라 보기">
-            <button type="button" data-lf="first" role="tab">먼저 볼 것<small id="lfc-first"></small></button>
             <button type="button" data-lf="left" role="tab">남은 질문<small id="lfc-left"></small></button>
             <button type="button" data-lf="done" role="tab">확인한 질문<small id="lfc-done"></small></button>
             <button type="button" data-lf="all" role="tab">전체<small>15</small></button>
@@ -1093,9 +1108,6 @@
           <p class="lf-step" id="lfStep" hidden></p>
           <div id="list"></div>
           <p class="list-empty" id="listEmpty" hidden></p>
-          <div class="grp">
-            <div class="card"><button type="button" class="reset" id="reset">처음부터 다시 하기</button></div>
-          </div>
         </div>
         <div class="cta"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button></div>
       </section>
@@ -1762,14 +1774,14 @@ function renderList(){
     : '15개를 모두 확인했어요<br>큰 문제는 보이지 않아요';
   $('repS').textContent = Q.length + '개 중 ' + n + '개 확인 · ' + (left ? left + '개 남았어요' : '모두 확인했어요') +
     (pendN ? ' (AI가 채운 ' + pendN + '개는 확인 전)' : '') + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
-  $('repBad').textContent = c.bad; $('repUnsure').textContent = c.unsure; $('repOk').textContent = c.ok;
   // 위험은 따로 맨 위에, 확인 필요는 그 아래에 이름으로 보여 줘요. 누르면 그 질문 답 화면으로 (2026-11-21)
   const byLv = lv => Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === lv);
   const chips = (list, lv) => '<div class="rt-list">' + list.map(q=>'<button type="button" class="rt-i ' + lv + '" data-goq="' + q.id + '">' + q.n + '. ' + esc(q.tag) + '</button>').join('') + '</div>';
   const B = byLv('bad'), U = byLv('unsure');
-  $('repTop').hidden = !(B.length || U.length);
+  $('repTop').hidden = !(B.length || U.length || c.ok);
   $('repTop').innerHTML = (B.length ? '<p class="rt-h bad">위험 ' + B.length + '개<small>계약 전에 꼭 해결해요</small></p>' + chips(B, 'bad') : '') +
-    (U.length ? '<p class="rt-h unsure"' + (B.length ? '' : ' style="margin-top:0"') + '>확인 필요 ' + U.length + '개<small>더 확인하면 좋아요</small></p>' + chips(U, 'unsure') : '');
+    (U.length ? '<p class="rt-h unsure"' + (B.length ? '' : ' style="margin-top:0"') + '>확인 필요 ' + U.length + '개<small>더 확인하면 좋아요</small></p>' + chips(U, 'unsure') : '') +
+    (c.ok ? '<p class="rt-ok"' + (B.length || U.length ? '' : ' style="margin-top:0"') + '>비교적 안전 ' + c.ok + '개</p>' : '');
   $('repFill').style.width = (n / Q.length * 100) + '%';
   // 골라 보기 (2026-11-21): 화면 계산(브라우저에 묻기) 대신 답을 보고 직접 정해요. 아이폰 카카오톡 브라우저에서 목록이 통째로 비던 문제 때문이에요.
   const F = {
@@ -1780,7 +1792,7 @@ function renderList(){
     ask: id => ASK.includes(id),
     docs: id => DOCS.includes(id)
   };
-  const lf = F[listFilter] ? listFilter : (warn ? 'first' : 'all');
+  const lf = F[listFilter] ? listFilter : 'all';
   // 집 진행 화면의 단계에서 열었으면 그 단계 질문만 (2026-11-21)
   const g = GROUP[lf];
   $('lfStep').hidden = !g;
@@ -2081,7 +2093,6 @@ const helpRows = keys => keys.map(k=>{
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="large"><h1>더보기</h1></div>' +
-    '<button type="button" class="rent-entry" id="toRent" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 전월세 시세</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' +
     '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
       '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
     '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
@@ -2180,7 +2191,7 @@ $('r-dong').addEventListener('change', e=>{ rf.dong = e.target.value; rSave(); r
 $('r-out').addEventListener('click', e=>{ if(e.target.id === 'r-more'){ rShown += RPAGE; drawRent(); } });
 // 시세 화면은 기타 서비스와 12번 답 화면 두 곳에서 열어요. 연 곳으로 돌아가요
 let rentFrom = 'ps';
-document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]')){ rentFrom = ['p2','pf','p0','pb','pd'].includes(curView) ? curView : 'ps'; const d = e.target.closest('[data-rent]').dataset; if(d.gu){ rf.gu = d.gu; rf.dong = d.dong || 'all'; rf.type = d.type || 'all'; rf.deal = d.deal || rf.deal; rSave(); } go('pr'); } });
+document.addEventListener('click', e=>{ if(e.target.closest('[data-rent]') && !e.target.closest('a')){ rentFrom = ['p2','pf','p0','pb','pd'].includes(curView) ? curView : 'ps'; const d = e.target.closest('[data-rent]').dataset; if(d.gu){ rf.gu = d.gu; rf.dong = d.dong || 'all'; rf.type = d.type || 'all'; rf.deal = d.deal || rf.deal; rSave(); } go('pr'); } });
 const RENT_BACK = {p0:['내 계약','내 계약으로'], pb:['동네 시세','동네 시세로'], pd:['집 진행','집 진행으로'], p2:['답변','답변으로'], ps:['더보기','더보기로'], pf:['집 찾기','집 찾기로']};
 function rentBack(){
   const b = RENT_BACK[rentFrom] || RENT_BACK.ps;
@@ -2746,17 +2757,15 @@ function drawFindOut(){
   if(o.err === 'none'){ box.innerHTML = '<div class="grp"><div class="card r-empty"><b>이 조건으로 최근 3달 거래가 3건 넘는 동네가 없어요.</b><br>예산을 조금 올리거나 건물 종류를 "상관없음"으로 바꿔 보세요.</div></div>'; return; }
   const jeonse = o.p.deal === 'jeonse';
   let h = '<div class="grp"><div class="card-t">' + esc(nearName(o.p.near).replace(/\s*\(.*\)/, '')) + ' 추천 동네<small>' + (o.ai ? 'AI 추천' : '거래 많은 순') + '</small></div>' +
-    '<p class="f-count">최근 3달 실거래로 고른 <b>' + o.picks.length + '곳</b>이에요. 아래 매물 앱 버튼을 누르면 <em>이 동네 · 내 예산</em>으로 맞춘 매물이 열려요.</p>' +
-    o.picks.map((x,i)=>'<div class="lcard"><div class="lrow">' + mapThumb(i, String(i + 1)) +
+    '<p class="f-count">최근 3달 실거래로 고른 <b>' + o.picks.length + '곳</b>이에요. 카드를 누르면 동네 시세, 앱 버튼을 누르면 <em>이 동네 · 내 예산</em>으로 맞춘 매물이 열려요.</p>' +
+    o.picks.map((x,i)=>'<div class="lcard tap" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '"><div class="lrow">' + mapThumb(i, String(i + 1)) +
       '<div class="info"><span class="ptag b" style="margin-top:0">' + (o.ai ? 'AI 추천' : '거래 많은 동네') + '</span><div class="price">' + bigPrice(x, jeonse) + '</div>' +
-      '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">' + Math.round(x.area / 3.3058) + '평(' + x.area + '㎡)' + (x.built ? ' · ' + x.built + '년' : '') + ' · 거래 ' + x.n + '건</div></div></div>' +
+      '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">' + Math.round(x.area / 3.3058) + '평(' + x.area + '㎡)' + (x.built ? ' · ' + x.built + '년' : '') + ' · 거래 ' + x.n + '건</div><div class="l-more">시세 자세히' + ARROW + '</div></div></div>' +
       '<div class="lwhy"><b>' + (x.why ? '추천 이유' : '이 동네는') + '</b><p>' + esc(x.why || '예산 안에서 최근 3달 거래가 많은 동네예요. 많은 건물 종류: ' + x.types) + '</p>' + (x.tip ? '<p>' + esc(x.tip) + '</p>' : '') + '</div>' +
-      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, o.p.deal, o.p.dep, o.p.rent) + '</div><div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">+ 후보 집으로 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="' + o.p.type + '" data-deal="' + o.p.deal + '">이 동네 시세 보기</button>' +
-      '<a class="hbtn" href="https://search.naver.com/search.naver?query=' + encodeURIComponent(x.gu + ' ' + x.dong + ' ' + (jeonse ? '전세' : '월세') + ' 원룸') + '" target="_blank" rel="noopener">매물 검색</a></div></div>').join('') +
+      '<div class="pick-btns">' + appLinks(x, o.p.deal, o.p.dep, o.p.rent) + '</div></div>').join('') +
     (o.note ? '<p class="r-src">' + esc(o.note) + '</p>' : '') +
     (o.ai ? '' : '<p class="r-src">AI 추천을 받지 못해 예산 안 거래가 많은 순서로 보여 드려요.</p>') +
     '</div>' +
-    '<div class="r-link"><a class="hbtn" href="https://www.zigbang.com" target="_blank" rel="noopener">직방</a>&nbsp;<a class="hbtn" href="https://www.dabangapp.com" target="_blank" rel="noopener">다방</a>&nbsp;<a class="hbtn" href="https://land.naver.com" target="_blank" rel="noopener">네이버 부동산</a></div>' +
     '';
   box.innerHTML = h;
 }
@@ -2833,11 +2842,11 @@ function renderTalk(){
       '<div class="grp"><p class="rec-for">' + (blankHouse(house) ? '녹음을 시작하면 보러 갈 집 이름을 먼저 적어요.' : '<b>' + esc(house.name) + '</b> 대화를 녹음해요. 다른 집은 홈에서 골라요.') + '</p>' +
       '<p class="fh">' + (left ? '아직 답이 안 나온 질문이 ' + left + '개 있어요. <button type="button" class="linkb" data-go-prep>물어볼 질문 보기</button>' : '15개 질문의 답이 모두 채워졌어요.') + '</p></div>' +
       '<div class="grp"><button type="button" class="rec-big" data-way="rec"><span>' + ICON_MIC + '</span>녹음 시작</button></div>' +
-      '<div class="grp"><div class="ways">' +
+      '<details class="ways-more"><summary>다른 방법으로 채우기</summary><div class="ways">' +
       '<button type="button" class="way sr" data-way="live"><span class="re-ic">' + ICON_WAVE + '</span><span class="re-t"><b>말하는 대로 바로 글자로 받기</b><span>크롬에서 잘 돼요</span></span></button>' +
       '<label class="way"><span class="re-ic">' + ICON_FILE + '</span><span class="re-t"><b>녹음 파일 올리기</b><span>휴대폰 녹음 앱 파일 (60분까지)</span></span><input type="file" id="t-file" accept="audio/*,.m4a,.mp3,.wav,.aac,.ogg,.webm"></label>' +
       '<button type="button" class="way" data-way="paste"><span class="re-ic">' + ICON_PEN + '</span><span class="re-t"><b>글로 붙여 넣기</b><span>문자로 받은 내용이나 메모</span></span></button>' +
-      '</div></div>' +
+      '</div></details>' +
       '<p class="fh">내가 참여한 대화만 녹음하고, 시작하기 전에 "기록용으로 녹음해도 될까요?"라고 알려 주세요.</p>' +
       (sessions.length ? '<div class="grp"><div class="card-t">최근 대화<button type="button" class="ftag" data-clear-hist>기록 지우기</button></div><div class="card">' + sessions.map(histRow).join('') + '</div></div>' : '');
     return;
@@ -3322,10 +3331,6 @@ function clearAll(){
   toast('모든 답변을 지웠어요.');
 }
 
-$('reset').addEventListener('click', ()=>{
-  if(!confirm('적어 둔 답변을 모두 지우고 처음부터 다시 할까요?')) return;
-  clearAll();
-});
 
 // 시작 화면: 저장된 답이 있으면 "이어서 하기 / 새로 시작하기", 없으면 "시작하기"
 function hasSaved(){
@@ -3444,10 +3449,9 @@ async function renderBrowse(){
     const v = jeonse ? x.dep : x.rent, rank = ai.indexOf(x.key);
     const tags = (rank >= 0 ? '<span class="ptag b">AI 추천 ' + (rank + 1) + '순위</span> ' : '') + (i < 3 ? '<span class="ptag ok">거래 많음</span> ' : '') +
       (v >= mid * 1.1 ? '<span class="ptag warn">조금 비싼 편</span>' : v <= mid * 0.9 ? '<span class="ptag ok">싼 편</span>' : '');
-    return '<div class="lcard"><div class="lrow">' + mapThumb(i, '') + '<div class="info"><div class="price" style="margin-top:0">' + bigPrice(x, jeonse) + '</div>' +
-      '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">최근 3달 ' + x.n + '건 · ' + Math.round(x.area / 3.3058) + '평쯤</div><div>' + tags + '</div></div></div>' +
-      '<p class="b-apps-t">이 동네 실제 매물 보기</p><div class="pick-btns" style="margin-top:6px">' + appLinks(x, fp.deal, fp.dep, fp.rent) + '</div>' +
-      '<div class="pick-btns"><button type="button" class="hbtn call" data-like-dong="' + esc(x.code + '|' + x.gu + '|' + x.dong) + '">+ 후보 집으로 저장</button><button type="button" class="hbtn" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="all" data-deal="' + fp.deal + '">시세 자세히</button></div></div>';
+    return '<div class="lcard tap" data-rent data-gu="' + x.code + '" data-dong="' + esc(x.dong) + '" data-type="all" data-deal="' + fp.deal + '"><div class="lrow">' + mapThumb(i, '') + '<div class="info"><div class="price" style="margin-top:0">' + bigPrice(x, jeonse) + '</div>' +
+      '<div class="loc">' + esc(x.gu + ' ' + x.dong) + '</div><div class="lsub">최근 3달 ' + x.n + '건 · ' + Math.round(x.area / 3.3058) + '평쯤</div><div>' + tags + '</div><div class="l-more">시세 자세히' + ARROW + '</div></div></div>' +
+      '<div class="pick-btns">' + appLinks(x, fp.deal, fp.dep, fp.rent) + '</div></div>';
   }).join('');
 }
 $('pb').addEventListener('change', e=>{ if(e.target.id === 'b-near'){ fp.near = e.target.value; saveFind(); renderBrowse(); } });
@@ -3518,10 +3522,10 @@ $('lf-ok').addEventListener('click', ()=>{
 // 설명은 앱의 질문 설명과 판단기준.md에 있는 내용만 쉬운 말로 옮겼어요. 새 법 내용이나 숫자는 넣지 않아요.
 const GUIDE = [
   ['가계약금 보내기 전', [
-    ['등기부등본', '집주인이 누구인지, 집에 빚(근저당)이 걸려 있는지 보는 서류예요. 인터넷등기소에서 누구나 뗄 수 있어요.', ['q2','q3','q5']],
-    ['건축물대장', '사람이 사는 주택으로 등록된 건물인지, 위반건축물은 아닌지 보는 서류예요. 정부24에서 떼요.', ['q9']],
+    ['등기부등본', '집주인이 누구인지, 집에 빚(근저당)이 걸려 있는지 보는 서류예요. 인터넷등기소에서 누구나 뗄 수 있어요.', ['q2','q3','q5'], 'iros'],
+    ['건축물대장', '사람이 사는 주택으로 등록된 건물인지, 위반건축물은 아닌지 보는 서류예요. 정부24에서 떼요.', ['q9'], 'gov24'],
     ['중개사무소 등록 조회', '중개사무소가 정상 영업 중인지 앱에서 바로 조회해요.', ['q4']],
-    ['보증보험 가입 가능 여부', '보증금을 못 돌려받으면 보증기관이 대신 돌려주는 보험이에요. 가입할 수 있는 집인지 먼저 알아봐요.', ['q7']],
+    ['보증보험 가입 가능 여부', '보증금을 못 돌려받으면 보증기관이 대신 돌려주는 보험이에요. 가입할 수 있는 집인지 먼저 알아봐요.', ['q7'], 'hug'],
     ['시세 비교', '주변 거래보다 너무 비싸거나 너무 싸지 않은지 「동네 시세」에서 봐요.', ['q12']]
   ]],
   ['계약서 쓰는 날', [
@@ -3551,15 +3555,18 @@ const WORDS = [
 ];
 function renderGuide(){
   const has = !blankHouse(house);
-  $('pg-body').innerHTML = '<div class="large"><h1>계약 준비물 한눈에</h1><p>처음 계약해도 언제 무엇을 챙길지 차례대로 봐요.' + (has ? ' 「' + esc(house.name) + '」에서 확인한 것은 초록으로 보여요.' : '') + '</p></div>' +
+  $('pg-body').innerHTML = '<div class="large"><h1>계약 준비 가이드</h1><p>처음 계약해도 언제 무엇을 챙길지 차례대로 봐요.' + (has ? ' 「' + esc(house.name) + '」에서 확인한 것은 초록으로 보여요.' : '') + '</p></div>' +
+    '<button type="button" class="guide-entry" data-go-prep><div><b>만나서 물어볼 질문 · 사기 수법</b><span>그대로 읽을 질문과 조심할 사기 수법</span></div>' + ARROW + '</button>' +
     GUIDE.map((g,i)=>'<div class="grp"><div class="card-t">' + (i + 1) + '. ' + g[0] + '</div><div class="card">' + g[1].map(x=>
       '<div class="g-item"><b>' + x[0] + '</b><p>' + x[1] + '</p>' +
-      (x[2].length ? '<div class="g-q">' + x[2].map(id=>{ const ok = has && seen(id); return '<button type="button" class="g-chip' + (ok ? ' ok' : '') + '" data-goq="' + id + '">' + BY_ID[id].n + '번 ' + (ok ? '확인함' : '답하기') + '</button>'; }).join('') + '</div>' : '') + '</div>').join('') + '</div></div>').join('') +
+      (x[2].length || x[3] ? '<div class="g-q">' + x[2].map(id=>{ const ok = has && seen(id); return '<button type="button" class="g-chip' + (ok ? ' ok' : '') + '" data-goq="' + id + '">' + BY_ID[id].n + '번 ' + (ok ? '확인함' : '답하기') + '</button>'; }).join('') +
+      (x[3] ? '<a class="g-chip site" href="' + HELP[x[3]].web + '" target="_blank" rel="noopener">' + ({iros:'인터넷등기소', gov24:'정부24', hug:'HUG'})[x[3]] + ' 열기</a>' : '') + '</div>' : '') + '</div>').join('') + '</div></div>').join('') +
     '<div class="grp"><div class="card-t">어려운 말 풀이</div><div class="card">' + WORDS.map(w=>'<div class="g-item"><b>' + w[0] + '</b><p>' + w[1] + '</p></div>').join('') + '</div></div>' +
     '<p class="note">참고용 안내이며 법률 자문이 아니에요.</p>';
 }
 document.addEventListener('click', e=>{ if(e.target.closest('[data-go-guide]')) go('pg'); });
 $('pg').addEventListener('click', e=>{
+  if(e.target.closest('[data-go-prep]')) return go('pv');
   const g = e.target.closest('[data-goq]'); if(!g) return;
   state.sel = g.dataset.goq; renderAnswer(); go('p2');
 });
@@ -3597,6 +3604,7 @@ async function cmpHouse(x, elId){
     el.innerHTML = a < (jeonse ? 500 : 2) ? '<span class="ptag b">' + w + '와 비슷해요</span>' : diff < 0 ? '<span class="ptag ok">' + w + '보다 ' + shortMan(a) + '만 원 쌈</span>' : '<span class="ptag warn">' + w + '보다 ' + shortMan(a) + '만 원 비쌈</span>';
   } catch(e) {}
 }
+const sumLine = c => '<span class="sl bad">위험 ' + c.bad + '</span> · <span class="sl unsure">확인 필요 ' + c.unsure + '</span> · <span class="sl ok">안전 ' + c.ok + '</span>';
 function renderDeals(){
   const D = houses.list.filter(h=>!blankHouse(h));
   const label = s => s.now === 1 ? '물어보고 적기 · ' + s.a + '개 남음' : s.now === 2 ? '서류 확인 · ' + s.d + '개 남음' : '안전 리포트 보기';
@@ -3607,7 +3615,7 @@ function renderDeals(){
       '<div id="cmp-d' + x.id + '"></div>' +
       '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (done[i] ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
       '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + label(s) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
-      (s.any ? '<div class="rep-st sm"><div class="bad"><small>위험</small><b>' + s.c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + s.c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + s.c.ok + '</b></div></div>' : '') + '</button>';
+      (s.any ? '<p class="sum-line">' + sumLine(s.c) + '</p>' : '') + '</button>';
   }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 후보 집이 없어요.<br>직방·다방·네이버에서 본 집을 저장하면<br>계약 전에 확인할 것을 단계별로 챙겨 드려요.</div>';
   h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
   $('deals').innerHTML = h;
@@ -3615,19 +3623,7 @@ function renderDeals(){
 }
 
 function renderStart(){ renderDeals(); renderDealCard(); }
-// 3단계: 어디서 확인하나요 (앱에 이미 있는 사이트만 연결해요)
-const DOC_WHERE = [
-  ['등기부등본', '2·3·5번 · 소유자, 공동명의, 근저당', 'q2', 'iros'],
-  ['건축물대장', '9번 · 주택인지, 위반건축물인지', 'q9', 'gov24'],
-  ['중개사무소 등록', '4번 · 앱에서 바로 조회해요', 'q4', ''],
-  ['보증보험 가입 가능 여부', '7번', 'q7', 'hug'],
-  ['납세증명서', '8번 · 집주인에게 보여 달라고 해요', 'q8', ''],
-  ['위임장·인감증명서', '1번 · 대리인이 나오면 원본 확인', 'q1', ''],
-  ['다른 세입자 보증금', '6번 · 다가구라면 확인해요', 'q6', '']
-];
-const docsBox = () => '<div class="docs-box"><p class="docs-t">어디서 확인하나요</p>' + DOC_WHERE.map(x=>
-  '<div class="hrow"><div class="ht"><b>' + x[0] + '</b><span>' + x[1] + '</span></div><div class="hb"><button type="button" class="hbtn" data-goq="' + x[2] + '">답 고르기</button>' +
-  (x[3] ? '<a class="hbtn" href="' + HELP[x[3]].web + '" target="_blank" rel="noopener">' + ({iros:'인터넷등기소', gov24:'정부24', hug:'HUG'})[x[3]] + '</a>' : '') + '</div></div>').join('') + '</div>';
+// 집 진행 화면 (2026-11-21 정리: 큰 버튼은 지금 단계 하나, 단계 줄을 누르면 그 단계로, 가이드 입구는 하나)
 function renderDealCard(){
   const saved = hasSaved();
   const card = $('hcard');
@@ -3640,35 +3636,29 @@ function renderDealCard(){
   }
   const left = g => g.filter(id=>!seen(id)).length, pend = g => g.filter(id=>isDone(id) && !seen(id)).length;
   const a = left(ASK), d = left(DOCS), c = levelCount(), warn = c.bad + c.unsure, any = Q.some(q=>isDone(q.id) && !na(q.id));
-  const stepSub = (g, k, range) => left(g) ? '남은 질문 ' + left(g) + '개' + (pend(g) ? ' · AI가 채운 답 ' + pend(g) + '개 확인' : '') + ' · ' + range : g.length + '개 모두 확인했어요';
+  const stepSub = (g, range) => left(g) ? '남은 질문 ' + left(g) + '개' + (pend(g) ? ' · AI가 채운 답 ' + pend(g) + '개 확인' : '') + ' · ' + range : g.length + '개 모두 확인했어요';
   // [이름, 설명, 끝남, 누르면 갈 곳]
   const steps = [
     ['후보 집 정하기', house.from || '', true, ''],
-    [STEP_NAME.ask, stepSub(ASK, 'ask', '10~15번'), !a, 'ask'],
-    [STEP_NAME.docs, stepSub(DOCS, 'docs', '1~9번'), !d, 'docs'],
+    [STEP_NAME.ask, stepSub(ASK, '10~15번'), !a, 'ask'],
+    [STEP_NAME.docs, stepSub(DOCS, '1~9번'), !d, 'docs'],
     ['안전 리포트 보고 계약 결정', '위험 · 확인 필요 · 안전', false, 'list']
   ];
   const now = a ? 1 : d ? 2 : 3;
-  let h = '<p class="hc-n">' + esc(house.name) + '</p><button type="button" class="hc-rename" data-rename>이름 바꾸기</button>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
-    '<div id="cmp-pd"></div>' + (house.link ? '<div class="pick-btns" style="margin-top:10px"><a class="hbtn" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기</a></div>' : '') +
-    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>' +
-    '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비물 한눈에 보기</b><span>언제 무엇을 챙길지 · 어려운 말 풀이</span></div>' + ARROW + '</button>';
   const badQ = Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === 'bad');
+  let h = '<p class="hc-n">' + esc(house.name) + '</p>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
+    '<div class="hc-meta"><span id="cmp-pd"></span>' + (house.link ? '<a class="hc-a" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기' + ARROW + '</a>' : '') + '</div>' +
+    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div>' + (x[3] ? ARROW : '') + '</div>').join('') + '</div>';
   if(any) h += '<div class="hsum"><p class="hsum-t">' + (c.bad ? '계약금 보내기 전에<br><em>위험 ' + c.bad + '개</em>부터 해결하세요' : warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : a + d ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
-    (badQ.length ? '<p class="hsum-bad">' + badQ.map(q=>esc(q.tag)).join(' · ') + '</p>' : '') +
-    '<div class="rep-st"><div class="bad"><small>위험</small><b>' + c.bad + '</b></div><div class="unsure"><small>확인 필요</small><b>' + c.unsure + '</b></div><div class="ok"><small>안전</small><b>' + c.ok + '</b></div></div></div>';
+    (badQ.length ? '<p class="hsum-bad">' + badQ.map(q=>esc(q.tag)).join(' · ') + '</p>' : '') + '<p class="sum-line">' + sumLine(c) + '</p></div>';
   const recOn = (R && T.phase === 'rec') || liveOn;
-  const report = '<button type="button" class="btn sub2" data-quick="list">안전 리포트 보기</button>';
-  const link = (k, t) => '<button type="button" class="hc-link" data-quick="' + k + '">' + t + '</button>';
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
   if(now === 1) h += '<button type="button" class="btn" data-quick="ask" style="margin-top:16px">질문 보면서 답 고르기</button>' +
-    (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '대화 녹음으로 빠르게 채우기 (선택)</button>') +
-    (any ? report : '') + '<p class="hc-links">' + link('prep', '만나기 전 질문 미리 보기') + link('docs', '서류로 확인하기') + '</p>';
-  else if(now === 2) h += '<button type="button" class="btn" data-quick="docs" style="margin-top:16px">서류 보면서 답 고르기</button>' + docsBox() + report +
-    '<p class="hc-links">' + link('ask', STEP_NAME.ask) + (recOn ? '' : link('talk', '대화 녹음하기')) + '</p>';
-  else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>' +
-    '<p class="hc-links">' + link('ask', STEP_NAME.ask) + link('docs', STEP_NAME.docs) + '</p>';
-  h += '<button type="button" class="hc-del" data-del-house>이 집 지우기</button>';
+    (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '대화 녹음으로 빠르게 채우기 (선택)</button>');
+  else if(now === 2) h += '<button type="button" class="btn" data-quick="docs" style="margin-top:16px">서류 보면서 답 고르기</button>';
+  else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>';
+  h += '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지 · 물어볼 질문 · 어려운 말</span></div>' + ARROW + '</button>';
+  h += '<p class="hc-foot"><button type="button" class="hc-link" data-rename>이름 바꾸기</button><span aria-hidden="true">·</span><button type="button" class="hc-link" data-del-house>이 집 지우기</button></p>';
   card.innerHTML = h;
   cmpHouse(house, 'cmp-pd');
   $('wipeAll').hidden = !(saved || Object.keys(visit.asked).length || lsGet(TKEY, []).length || findOut);
