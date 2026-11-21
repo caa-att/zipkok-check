@@ -1241,8 +1241,8 @@
         <input class="lk-in" id="lf-name" type="text" maxlength="20" autocomplete="off" placeholder="예) 창천동 원룸">
         <div class="lf-row"><div><label class="lk-l" for="lf-dep">보증금 (만 원)</label><input class="lk-in" id="lf-dep" type="text" inputmode="numeric" autocomplete="off" placeholder="예) 500"></div>
         <div><label class="lk-l" for="lf-rent">월세 (만 원)</label><input class="lk-in" id="lf-rent" type="text" inputmode="numeric" autocomplete="off" placeholder="전세면 비워 두기"></div></div>
-        <label class="lk-l" for="lf-where">동네 <span class="opt-tag">시세 비교에 써요</span></label>
-        <select class="lk-in" id="lf-where"></select>
+        <label class="lk-l" for="lf-gu">동네 <span class="opt-tag">시세 비교에 써요</span></label>
+        <div class="lf-row"><div><select class="lk-in" id="lf-gu" aria-label="구"></select></div><div><select class="lk-in" id="lf-where" aria-label="동"></select></div></div>
         <p class="fh">링크는 그 매물을 다시 열 때만 써요. 이 기기에만 저장돼요.</p>
         <div class="ai-row" style="margin-top:14px"><button type="button" class="ai-btn sub" id="lf-no">취소</button><button type="button" class="ai-btn fill" id="lf-ok">저장</button></div>
       </div>
@@ -2091,13 +2091,15 @@ const helpRows = keys => keys.map(k=>{
     (h.tel ? callBtn(h.tel, h.tel) : '') +
     (h.web ? '<a class="hbtn" href="' + h.web + '" target="_blank" rel="noopener">사이트</a>' : '') + '</div></div>';
 }).join('');
+// 더보기 순서 (2026-11-21 팀원 피드백으로 바꿈, 전에는 위급 칸이 맨 위): 계약 준비 가이드 → 서류 떼기 → 무료 상담 → 위급 칸
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="large"><h1>더보기</h1></div>' +
-    '<div class="urgent"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
-      '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>' +
+    '<button type="button" class="guide-entry" data-go-guide style="margin-bottom:8px"><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지 · 물어볼 질문 · 어려운 말</span></div>' + ARROW + '</button>' +
+    '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
-    '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>';
+    '<div class="urgent" style="margin-top:24px"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
+      '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>';
 }
 
 /* ---------- 동네 전월세 시세 ----------
@@ -3471,27 +3473,29 @@ function safeLink(u){
   try { const x = new URL(m[0]); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : null; } catch(e) { return null; }
 }
 let likePre = null;
-// 동네 고르기: 동네 시세에서 본 동네를 먼저, 그 밑에 서울 모든 동(구별)
+// 동네 고르기: ① 구(서울 25개) → ② 그 구의 동 (2026-11-21 팀원 피드백: 한 칸에 374개라 너무 길었어요)
+const lfOpt = (v, t) => '<option value="' + esc(v) + '">' + esc(t) + '</option>';
+function fillDongs(sel){
+  const code = $('lf-gu').value, g = SEOUL_GU.find(x=>x[0] === code), el = $('lf-where');
+  if(!g){ el.innerHTML = '<option value="">동 선택</option>'; el.disabled = true; return; }
+  const ds = new Set(Object.keys(dongXY || {}).filter(k=>k.split('|')[0] === code).map(k=>k.split('|')[1]));
+  browseDongs.filter(x=>x.code === code).forEach(x=>ds.add(x.dong));
+  if(sel && sel.split('|')[0] === code) ds.add(sel.split('|')[2]);
+  el.disabled = false;
+  el.innerHTML = '<option value="">동 선택</option>' + [...ds].sort((a,b)=>a.localeCompare(b, 'ko')).map(d=>lfOpt(code + '|' + g[1] + '|' + d, d)).join('');
+  el.value = sel && sel.split('|')[0] === code ? sel : '';
+}
 async function openLikeForm(pre){
   likePre = pre || null;
   ['lf-url','lf-name','lf-dep','lf-rent'].forEach(id=>$(id).value = '');
   if(pre) $('lf-name').value = pre.split('|')[2] + ' ';
-  const opt = (v, t) => '<option value="' + esc(v) + '">' + esc(t) + '</option>';
-  const fill = () => {
-    const xy = dongXY || {}, gname = Object.fromEntries(SEOUL_GU);
-    const near = browseDongs.map(x=>opt(x.code + '|' + x.gu + '|' + x.dong, x.gu + ' ' + x.dong)).join('');
-    const all = SEOUL_GU.map(g=>{
-      const ds = Object.keys(xy).filter(k=>k.split('|')[0] === g[0]).map(k=>k.split('|')[1]).sort((a,b)=>a.localeCompare(b, 'ko'));
-      return ds.length ? '<optgroup label="' + esc(g[1]) + '">' + ds.map(d=>opt(g[0] + '|' + g[1] + '|' + d, g[1] + ' ' + d)).join('') + '</optgroup>' : '';
-    }).join('');
-    const extra = pre && !(pre.split('|')[0] + '|' + pre.split('|')[2] in xy) && !browseDongs.some(x=>x.code + '|' + x.gu + '|' + x.dong === pre) ? opt(pre, pre.split('|').slice(1).join(' ')) : '';
-    $('lf-where').innerHTML = '<option value="">모르겠어요</option>' + extra + (near ? '<optgroup label="동네 시세에서 본 동네">' + near + '</optgroup>' : '') + all;
-    $('lf-where').value = pre || '';
-  };
-  fill();
+  $('lf-gu').innerHTML = '<option value="">구 선택</option>' + SEOUL_GU.map(g=>lfOpt(g[0], g[1])).join('');
+  $('lf-gu').value = pre ? pre.split('|')[0] : '';
+  fillDongs(pre);
   $('likeForm').hidden = false;
-  if(!dongXY){ await loadXY(); if(!$('likeForm').hidden && !$('lf-where').value) fill(); }
+  if(!dongXY){ await loadXY(); if(!$('likeForm').hidden) fillDongs($('lf-where').value || pre); }
 }
+$('lf-gu').addEventListener('change', ()=>fillDongs(null));
 document.addEventListener('click', e=>{
   const d = e.target.closest('[data-like-dong]'); if(d) return openLikeForm(d.dataset.likeDong);
   if(e.target.closest('[data-like-new]')) return openLikeForm(null);
@@ -3504,7 +3508,8 @@ $('lf-ok').addEventListener('click', ()=>{
   const name = $('lf-name').value.trim().slice(0, 20);
   if(!name){ toast('집 이름을 적어 주세요. 예) 창천동 원룸'); return; }
   const num = id => { const v = $(id).value.replace(/[^0-9.]/g, ''); return v === '' ? null : Math.min(+v, 9999999); };
-  const where = $('lf-where').value.split('|'), dep = num('lf-dep'), rent = num('lf-rent');
+  const gu = SEOUL_GU.find(x=>x[0] === $('lf-gu').value);
+  const where = $('lf-where').value ? $('lf-where').value.split('|') : gu ? [gu[0], gu[1], ''] : [], dep = num('lf-dep'), rent = num('lf-rent');
   const jeonse = dep != null && rent == null, site = siteOf(link);
   const info = {name, named:true, status:'deal', link, site, code:where[0] || '', gu:where[1] || '', dong:where[2] || '', deal:jeonse ? 'jeonse' : 'monthly',
     from:[where[2] || '', site ? site + '에서 저장' : ''].filter(Boolean).join(' · ')};
