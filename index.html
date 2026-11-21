@@ -926,6 +926,8 @@
   .dbar i.n{background:var(--brand)}
   .dl{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:700;color:var(--ds-text-secondary)}
   .dl b{color:var(--brand-press)}
+  .dl span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dl span:last-child{flex:none;margin-left:8px}
   .rep-st.sm{margin-top:12px}
   .rep-st.sm div{padding:8px 10px}
   .rep-st.sm b{font-size:18px}
@@ -3597,7 +3599,7 @@ async function cmpHouse(x, elId){
 }
 function renderDeals(){
   const D = houses.list.filter(h=>!blankHouse(h));
-  const label = s => s.now === 1 ? STEP_NAME.ask + ' · 남은 ' + s.a + '개' : s.now === 2 ? STEP_NAME.docs + ' · 남은 ' + s.d + '개' : '안전 리포트 보고 계약 결정';
+  const label = s => s.now === 1 ? '물어보고 적기 · ' + s.a + '개 남음' : s.now === 2 ? '서류 확인 · ' + s.d + '개 남음' : '안전 리포트 보기';
   let h = D.length ? D.map(x=>{
     const s = stageOf(x), done = [true, !s.a, !s.d, false];
     const sub = [s.sub, x.dong, x.site].filter(Boolean).join(' · ');
