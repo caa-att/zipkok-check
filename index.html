@@ -904,6 +904,7 @@
   .g-q{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .g-chip{border:0;border-radius:999px;padding:5px 11px;background:var(--brand-50);color:var(--brand-press);font:inherit;font-size:13px;font-weight:700;line-height:18px;cursor:pointer}
   .g-chip.ok{background:var(--ok-bg);color:var(--ok)}
+  a.g-chip{display:inline-block;text-decoration:none}
   .g-chip:active{transform:scale(.95)}
   /* ---------- 안전 리포트: 위험부터 따로 (2026-11-21) ---------- */
   .rep-top{margin-top:12px;padding:14px 16px;border-radius:16px;background:#fff}
@@ -3731,6 +3732,8 @@ renderList();
 renderStart();
 paint('p0');
 show('p0');
+// 오프라인 파일(sw.js): 앱으로 설치했을 때 인터넷이 잠깐 끊겨도 첫 화면이 열리게 (2026-11-21, 실제 사이트(https)에서만)
+if('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/sw.js').catch(()=>{});
 </script>
 </body>
 </html>
