@@ -333,3 +333,4 @@
 - 후보 집 저장 창의 동네는 두 칸: ① 구(서울 25개) → ② 그 구의 동(`fillDongs`). 동네 시세에서 연 창은 구·동이 미리 골라져요. 구만 고르면 구까지만 저장해요.
 - 더보기 순서: 계약 준비 가이드 → 서류 떼기 → 무료 상담 → 위급 칸(빨간 칸 그대로, 맨 아래). 2026-11-18의 "위급 칸 맨 위"를 바꿈.
 - 4번 「등록 조회해 보기」: 2026-11-21 실제 사이트(zipkok-check)에서 `no_key` 오류 확인. 새 Vercel 프로젝트에 `BROKER_KEY`·`BROKER_DOMAIN`이 없어서예요. 사용자가 Vercel zipkok-check 프로젝트에 두 값(Production·Preview)을 넣고 Function Region을 서울(icn1)로 바꾼 뒤 Redeploy해야 해요. 키 값은 Claude가 다루지 않아요.
+- 2026-11-21 해결: 사용자가 브이월드 인증키(서비스 URL zipkok-check.vercel.app, 국가중점 API)를 새로 받아 Vercel `BROKER_KEY`(Production·Preview)에 넣었고, Function Region을 서울(icn1)로 바꾼 뒤 Redeploy했어요. 실제 사이트에서 서대문구 조회가 200·20건으로 되는 걸 확인했어요. 서비스 URL을 새 주소로 등록해서 `BROKER_DOMAIN`은 넣지 않았어요.
