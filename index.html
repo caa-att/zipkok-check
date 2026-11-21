@@ -870,6 +870,20 @@
   .allq[open] summary{border-bottom:1px solid var(--ds-divider)}
   .allq .grp{margin:12px 12px 16px}
 
+  /* ---------- 계약 준비물 한눈에 (2026-11-21) ---------- */
+  .guide-entry{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:14px 16px;border:0;border-radius:16px;background:var(--brand-50);font:inherit;text-align:left;cursor:pointer;transition:transform .1s}
+  .guide-entry b{display:block;font-size:15px;font-weight:800;line-height:22px;color:var(--brand-press)}
+  .guide-entry span{display:block;font-size:13px;line-height:19px;color:var(--ds-text-secondary)}
+  .guide-entry svg{margin-left:auto;width:18px;height:18px;flex:none;color:var(--brand-press)}
+  .guide-entry:active{transform:scale(.97)}
+  .g-item{padding:14px 16px}
+  .g-item + .g-item{border-top:1px solid var(--ds-divider)}
+  .g-item b{display:block;font-size:16px;font-weight:700;line-height:24px;color:var(--ds-text-strong)}
+  .g-item p{margin-top:2px;font-size:14px;line-height:21px;color:var(--ds-text-primary)}
+  .g-q{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .g-chip{border:0;border-radius:999px;padding:5px 11px;background:var(--brand-50);color:var(--brand-press);font:inherit;font-size:13px;font-weight:700;line-height:18px;cursor:pointer}
+  .g-chip.ok{background:var(--ok-bg);color:var(--ok)}
+  .g-chip:active{transform:scale(.95)}
   /* ---------- 안전 리포트: 위험부터 따로 (2026-11-21) ---------- */
   .rep-top{margin-top:12px;padding:14px 16px;border-radius:16px;background:#fff}
   .rt-h{font-size:15px;font-weight:800;line-height:22px}
@@ -941,8 +955,8 @@
   .seg2{display:flex;margin-top:12px;padding:4px;border-radius:12px;background:var(--bg)}
   .seg2 button{flex:1;height:38px;border:0;border-radius:9px;background:none;font:inherit;font-size:15px;font-weight:700;color:var(--ds-text-secondary);cursor:pointer}
   .seg2 button.on{background:#fff;color:var(--ds-text-strong);box-shadow:0 1px 2px rgba(20,26,36,.08)}
-  /* 휴대폰에서는 화면 전체를 앱으로 */
-  @media (max-width:520px){
+  /* 휴대폰·태블릿에서는 화면 전체를 앱으로 (2026-11-21: 태블릿도. 전에는 폭 520px 이하만) */
+  @media (max-width:1024px), (hover:none) and (pointer:coarse){
     .view.tabv > .nav{height:calc(8px + env(safe-area-inset-top))}
     body{background:var(--bg)}
     .stage{display:block;padding:0}
@@ -955,6 +969,10 @@
     .cta{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
     .cta.tabbed{padding-bottom:0}
     .tabbar{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  }
+  /* 태블릿: 글은 가운데 640px 폭 안으로 모아요 */
+  @media (min-width:521px) and (max-width:1024px), (min-width:521px) and (hover:none) and (pointer:coarse){
+    :root{--pad:max(20px, calc((100vw - 640px) / 2))}
   }
   @media (prefers-reduced-motion:reduce){
     .view,.view.on{transition:none}
@@ -971,6 +989,7 @@
         <div class="scroll">
           <div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#2459D2"/><path d="M7.5 13.6 15 7.6l7.5 6v8.2a1.4 1.4 0 0 1-1.4 1.4H8.9a1.4 1.4 0 0 1-1.4-1.4z" fill="#fff"/><path d="m11.3 16.6 2.6 2.6 4.8-5.2" stroke="#E34C7F" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>집콕체크</div>
           <div class="large" style="padding-top:4px"><h1>내 계약</h1><p>후보 집을 저장하고, 계약 전에 확인할 것을 단계별로 챙겨요.</p></div>
+          <button type="button" class="guide-entry" data-go-guide><div><b>처음 계약이라면 · 필요한 것 한눈에 보기</b><span>언제 어떤 서류를 챙길지, 어려운 말 풀이</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
           <div id="deals"></div>
           <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
           <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
@@ -996,6 +1015,12 @@
       <section class="view" id="pd" aria-label="집 진행">
         <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title"></span><span></span></div>
         <div class="scroll"><div style="margin-top:8px"><div id="hcard"></div></div></div>
+      </section>
+
+      <!-- 계약 준비물 한눈에 (2026-11-21) -->
+      <section class="view" id="pg" aria-label="계약 준비물">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">계약 준비물</span><span></span></div>
+        <div class="scroll" id="pg-body"></div>
       </section>
 
       <!-- 1단계 집 찾기: 조건을 고르면 실거래로 어울리는 동네와 적정 가격을 AI가 추천해요 -->
@@ -2182,8 +2207,8 @@ document.addEventListener('click', e=>{
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const ORDER = ['p0','pb','ps','pd','pf','pv','p1','pa','p2','pr','p3'];
-const DEPTH = {p0:0, pb:0, ps:0, pd:1, pf:1, pv:2, p1:2, pa:2, pr:2, p2:3, p3:4};
+const ORDER = ['p0','pb','ps','pd','pg','pf','pv','p1','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pb:0, ps:0, pd:1, pg:1, pf:1, pv:2, p1:2, pa:2, pr:2, p2:3, p3:4};
 let depth = 0, trail = [], wantTab = null; // trail[i] = 깊이 i+1에 쌓인 화면
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null, wantList = false;
@@ -2221,6 +2246,7 @@ function paint(id){
   if(id === 'pb') renderBrowse();
   if(id === 'p0' || id === 'pd') renderStart();
   if(id === 'pf') renderFind();
+  if(id === 'pg') renderGuide();
   if(id === 'pv') renderVisit();
   if(id === 'pa') renderTalk();
   if(id === 'p1') renderList();
@@ -3486,6 +3512,56 @@ $('lf-ok').addEventListener('click', ()=>{
   if(curView === 'p0') go('pd');
 });
 
+// ---------- 계약 준비물 한눈에 (2026-11-21 팀원 피드백: 처음 계약하는 사람은 무엇이 필요한지, 서류 용어가 어려워요) ----------
+// 설명은 앱의 질문 설명과 판단기준.md에 있는 내용만 쉬운 말로 옮겼어요. 새 법 내용이나 숫자는 넣지 않아요.
+const GUIDE = [
+  ['가계약금 보내기 전', [
+    ['등기부등본', '집주인이 누구인지, 집에 빚(근저당)이 걸려 있는지 보는 서류예요. 인터넷등기소에서 누구나 뗄 수 있어요.', ['q2','q3','q5']],
+    ['건축물대장', '사람이 사는 주택으로 등록된 건물인지, 위반건축물은 아닌지 보는 서류예요. 정부24에서 떼요.', ['q9']],
+    ['중개사무소 등록 조회', '중개사무소가 정상 영업 중인지 앱에서 바로 조회해요.', ['q4']],
+    ['보증보험 가입 가능 여부', '보증금을 못 돌려받으면 보증기관이 대신 돌려주는 보험이에요. 가입할 수 있는 집인지 먼저 알아봐요.', ['q7']],
+    ['시세 비교', '주변 거래보다 너무 비싸거나 너무 싸지 않은지 「동네 시세」에서 봐요.', ['q12']]
+  ]],
+  ['계약서 쓰는 날', [
+    ['집주인 신분증', '계약하러 나온 사람이 등기부에 적힌 집주인과 같은 사람인지 확인해요.', ['q1','q2']],
+    ['위임장·인감증명서', '집주인 대신 대리인이 나오면 원본을 꼭 보고, 집주인과 통화도 해 봐요.', ['q1']],
+    ['납세증명서', '집주인이 세금을 밀리지 않았는지 보는 서류예요. 밀린 세금은 경매 때 내 보증금보다 먼저 빠져나갈 수 있어요.', ['q8']],
+    ['중개사 공제증서', '중개사 잘못으로 손해를 봤을 때 보상받을 수 있는 보증 증서예요.', ['q4']],
+    ['계약서 특약 3가지', '① 계약이 끝나면 다음 세입자가 없어도 보증금 돌려주기 ② 잔금일까지 추가 대출 받지 않기 ③ 중간에 나갈 때 조건. 말로 한 약속은 남지 않아서 계약서에 적어요.', ['q10','q14','q11']],
+    ['집주인 명의 계좌', '보증금과 월세는 등기부의 집주인 본인 이름 계좌로만 보내요.', ['q13']]
+  ]],
+  ['잔금·입주하는 날', [
+    ['등기부 다시 떼기', '계약한 뒤 잔금 전에 집에 빚이 새로 생기지 않았는지 다시 확인해요.', ['q5','q14']],
+    ['전입신고와 확정일자', '이사한 날 주민센터에서 함께 해요. 그래야 내 보증금이 법으로 보호받아요.', []],
+    ['중개보수 영수증', '법으로 정한 한도 안의 금액인지 보고, 영수증이나 현금영수증을 받아요.', ['q15']]
+  ]]
+];
+const WORDS = [
+  ['등기부등본', '집의 주인과 그 집에 걸린 빚(근저당 등)이 적힌 공식 기록이에요.'],
+  ['근저당 · 채권최고액', '집주인이 집을 담보로 돈을 빌린 기록이에요. 채권최고액은 경매 때 돈을 빌려준 쪽(은행 등)이 먼저 가져갈 수 있는 최대 금액이에요.'],
+  ['선순위 보증금', '나보다 먼저 이 건물에 들어와 사는 세입자들의 보증금이에요. 경매 때 나보다 먼저 받아요.'],
+  ['최우선변제 (소액임차인)', '서울은 보증금이 1억 6,500만 원 이하면 5,500만 원까지 근저당보다 먼저 돌려받아요(집값의 절반까지).'],
+  ['전입신고', '이 집으로 이사했다고 신고하는 거예요. 입주와 전입신고를 마치면 다음 날 0시부터 집주인이 바뀌어도 계속 살 수 있는 권리(대항력)가 생겨요.'],
+  ['확정일자', '계약서에 받는 날짜 도장이에요. 입주·전입신고와 함께 갖추면 경매 때 순서대로 보증금을 받을 수 있어요(우선변제권).'],
+  ['건축물대장', '건물이 주택인지 상가(근린생활시설)인지, 위반건축물인지 적힌 서류예요.'],
+  ['공제증서', '중개사가 가입한 손해배상 보증 증서예요. 중개사 잘못으로 손해를 보면 여기서 보상받아요.'],
+  ['특약', '계약서에 따로 적는 약속이에요. 말로 한 약속은 나중에 증명하기 어려워요.']
+];
+function renderGuide(){
+  const has = !blankHouse(house);
+  $('pg-body').innerHTML = '<div class="large"><h1>계약 준비물 한눈에</h1><p>처음 계약해도 언제 무엇을 챙길지 차례대로 봐요.' + (has ? ' 「' + esc(house.name) + '」에서 확인한 것은 초록으로 보여요.' : '') + '</p></div>' +
+    GUIDE.map((g,i)=>'<div class="grp"><div class="card-t">' + (i + 1) + '. ' + g[0] + '</div><div class="card">' + g[1].map(x=>
+      '<div class="g-item"><b>' + x[0] + '</b><p>' + x[1] + '</p>' +
+      (x[2].length ? '<div class="g-q">' + x[2].map(id=>{ const ok = has && seen(id); return '<button type="button" class="g-chip' + (ok ? ' ok' : '') + '" data-goq="' + id + '">' + BY_ID[id].n + '번 ' + (ok ? '확인함' : '답하기') + '</button>'; }).join('') + '</div>' : '') + '</div>').join('') + '</div></div>').join('') +
+    '<div class="grp"><div class="card-t">어려운 말 풀이</div><div class="card">' + WORDS.map(w=>'<div class="g-item"><b>' + w[0] + '</b><p>' + w[1] + '</p></div>').join('') + '</div></div>' +
+    '<p class="note">참고용 안내이며 법률 자문이 아니에요.</p>';
+}
+document.addEventListener('click', e=>{ if(e.target.closest('[data-go-guide]')) go('pg'); });
+$('pg').addEventListener('click', e=>{
+  const g = e.target.closest('[data-goq]'); if(!g) return;
+  state.sel = g.dataset.goq; renderAnswer(); go('p2');
+});
+
 // ---------- ① 내 계약: 후보 집 목록 ----------
 function withHouse(h, fn){
   const a = answers, c = ctx; answers = h.answers || {}; ctx = h.ctx || {};
@@ -3573,7 +3649,8 @@ function renderDealCard(){
   const now = a ? 1 : d ? 2 : 3;
   let h = '<p class="hc-n">' + esc(house.name) + '</p><button type="button" class="hc-rename" data-rename>이름 바꾸기</button>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
     '<div id="cmp-pd"></div>' + (house.link ? '<div class="pick-btns" style="margin-top:10px"><a class="hbtn" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기</a></div>' : '') +
-    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>';
+    '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div></div>').join('') + '</div>' +
+    '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비물 한눈에 보기</b><span>언제 무엇을 챙길지 · 어려운 말 풀이</span></div>' + ARROW + '</button>';
   const badQ = Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === 'bad');
   if(any) h += '<div class="hsum"><p class="hsum-t">' + (c.bad ? '계약금 보내기 전에<br><em>위험 ' + c.bad + '개</em>부터 해결하세요' : warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : a + d ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
     (badQ.length ? '<p class="hsum-bad">' + badQ.map(q=>esc(q.tag)).join(' · ') + '</p>' : '') +
