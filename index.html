@@ -3625,7 +3625,7 @@ function renderDeals(){
       '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (done[i] ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
       '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + label(s) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
       (s.any ? '<p class="sum-line">' + sumLine(s.c) + '</p>' : '') + '</button>';
-  }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 후보 집이 없어요.<br>직방·다방·네이버에서 본 집을 저장하면<br>계약 전에 확인할 것을 단계별로 챙겨 드려요.</div>';
+  }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 저장한 집이 없어요.<br>마음에 드는 집을 저장하면,<br>계약 전에 확인할 것을 단계별로 챙겨 드려요.</div>';
   h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
   $('deals').innerHTML = h;
   D.forEach(x=>cmpHouse(x, 'cmp-d' + x.id));
