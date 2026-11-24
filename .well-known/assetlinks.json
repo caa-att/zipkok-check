@@ -1,8 +1,11 @@
 [{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.zipkokcheck.app",
-        "sha256_cert_fingerprints": ["D5:1F:36:1D:F8:D3:82:6D:CF:B3:D6:DF:43:A1:11:0E:ED:79:9A:4B:67:CA:0D:A5:A8:8B:A0:5D:83:0D:D8:3D"]
-      }
-    }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.zipkokcheck.app",
+    "sha256_cert_fingerprints": [
+      "ED:5D:D3:42:64:BE:55:77:F5:2E:FE:39:E1:D4:B1:98:16:F9:57:A4:4E:17:A9:76:3A:2C:AB:4F:44:5D:31:75",
+      "D5:1F:36:1D:F8:D3:82:6D:CF:B3:D6:DF:43:A1:11:0E:ED:79:9A:4B:67:CA:0D:A5:A8:8B:A0:5D:83:0D:D8:3D"
+    ]
+  }
+}]
