@@ -1211,6 +1211,28 @@
   .ways-more{margin-top:16px}
   .ways-more + .fh{margin-top:16px}
   #ps .urgent{margin-top:28px}
+  /* ---------- 톤 통일 T1~T6 (2026-11-25 사용자와 정함, 토스 디자인 시스템처럼 부품 모양을 정해 두고 그것만) ----------
+     T1 모서리: 큰 카드 16 / 버튼·입력 14(큰)·10(작은) / 아이콘 칸 12 / 태그·배지 6 / 칩 알약
+     T2 버튼: 큰 56·16 · 중간 48·14 · 작은 40·10, 모양은 채움(파랑)·연한 두 가지 (회색 바탕 위의 보조 버튼은 흰색)
+     T3 입구 줄(›): 회색 바탕 위 = 흰 카드(16), 흰 카드 안 = 연한 파랑(14), 더보기 주인공만 파랑
+     T4 태그·배지 모서리 6  T5 테두리 1px, 고른 칸만 파랑 1.5px  T6 주의사항은 흰 카드 + 작은 주황 점 */
+  .deal,.fz-head,.reco,.lcard,.urgent,.intro{border-radius:16px}
+  .btn{height:56px;border-radius:16px}
+  .rec-big{height:56px;border-radius:16px}
+  .ai-btn,.lk-send{height:48px;border-radius:14px}
+  .ai-btn:not(.fill){border:0;background:var(--brand-50);color:var(--brand)}
+  .ai-btn.sub{background:var(--ds-gray-100);color:var(--ds-text-primary)}
+  .save-like{height:48px;border:0;border-radius:14px;background:#fff;color:var(--brand)}
+  .hbtn{height:40px;border-radius:10px}
+  .reco-ic,.re-ic,.cat4 i{border-radius:12px}
+  .ptag,.now,.qnum,.badge,.opt-tag,.ftag,.lv{border-radius:6px}
+  .cat4{border-width:1px}
+  .cat4.on,.chip.on{border-width:1.5px}
+  .guide-entry,.reg-entry,.way,.rent-entry{border:0;border-radius:16px;background:#fff;min-height:64px}
+  #ps .guide-entry{background:var(--brand)}
+  .deal-next,.rep-fin{border-radius:14px;min-height:48px;background:var(--brand-50)}
+  .risk{border-left:0}
+  .risk > span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--unsure-fill);vertical-align:2px}
   /* 탭 화면 맨 위 여백 (2026-11-25): 동네 시세·더보기는 큰 제목 없이 바로 내용 */
   .tab-top{height:12px}
   /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
