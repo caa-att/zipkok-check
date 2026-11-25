@@ -1079,9 +1079,13 @@
   .reg-tips p{margin-top:4px;font-size:14px;line-height:21px;color:var(--ds-text-primary)}
   .reg-close{margin-top:16px}
   /* D1·D2·D5 (2026-11-25) */
-  #p0 .h-brand{height:52px;font-size:22px;margin-top:19px;gap:9px} /* 2026-11-25: 아이콘 30px·글자 22px. 로고가 화면 위 끝과 첫 카드 사이 가운데에 오게(위 약 38px, 아래 약 40px) */
-  #p0 .h-brand + #deals > .intro,#p0 .h-brand + #deals > .deal:first-child{margin-top:28px}
-  #p0 .h-brand svg{width:30px;height:30px}
+  /* 2026-11-25 (사용자 휴대폰 화면 기준 다시 맞춤): 앱 머리 줄처럼 56px 줄 가운데에 로고(아이콘 32px·글자 24px),
+     첫 카드는 그 바로 아래 12px. 토스·머티리얼처럼 머리 줄 = 상태 표시줄 바로 아래 */
+  #p0 .h-brand{height:56px;font-size:24px;margin-top:0;gap:10px}
+  #p0 .h-brand + #deals > .intro,#p0 .h-brand + #deals > .deal:first-child{margin-top:12px}
+  /* 맨 아래 안내가 탭 위로 반쯤 걸쳐 보이지 않게, 내용이 짧아도 첫 화면 아래(스크롤해야 보이는 곳)에서 시작 */
+  #p0 #deals{min-height:calc(100% - 8px)} /* 스크롤 판 아래 여백(탭 자리) 때문에 100% 기준으로 맞춤 */
+  #p0 .h-brand svg{width:32px;height:32px}
   .sec-l{margin-top:14px;font-size:15px;font-weight:600;color:var(--ds-text-secondary)}
   .sec-l b{color:var(--brand-press)}
   .sec-l + .deal{margin-top:8px}
