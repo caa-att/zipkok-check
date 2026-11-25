@@ -1259,6 +1259,22 @@
   #pb .cat4:not(.on){border-color:transparent}
   #pb .seg2{background:#E7EAF0}
   .d-lead{margin:12px 2px 0;font-size:15px;line-height:22px;color:var(--ds-text-secondary)}
+  /* ---------- 내 계약 「계약 준비 순서」 M1 (2026-11-25) ---------- */
+  .prep-card{margin-top:28px;padding:4px 0 4px;border-radius:16px;background:#fff} /* 머리 줄이 44px(누르는 칸)라 위 여백은 4 → 제목 글자 위가 13px (사람 눈 보정 V1) */
+  .prep-h{display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 18px}
+  .prep-h b{font-size:18px;font-weight:800;line-height:26px;color:var(--ds-text-strong)}
+  .prep-all{min-height:44px;padding:0 10px;border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:var(--brand);cursor:pointer}
+  .prep-row{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 16px 10px 18px;border:0;background:none;font:inherit;text-align:left;cursor:pointer}
+  .prep-row + .prep-row{border-top:1px solid var(--ds-divider)}
+  .prep-row:active{background:var(--ds-gray-100)}
+  .prep-ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--brand-50);color:var(--brand);display:grid;place-items:center}
+  .prep-ic svg{width:22px;height:22px}
+  .prep-t{flex:1;min-width:0}
+  .prep-t b{display:block;font-size:16px;font-weight:600;line-height:23px;color:var(--ds-text-strong)}
+  .prep-t small{display:block;font-size:14px;line-height:20px;color:var(--ds-text-secondary)}
+  .prep-row > svg{flex:none;width:18px;height:18px;color:var(--ds-gray-400)}
+  #ps #ps-docs{margin-top:12px}
+  #ps #ps-docs > .card-t{margin-top:0}
   /* 탭 화면 맨 위 여백 (2026-11-25): 동네 시세·더보기는 큰 제목 없이 바로 내용 */
   .tab-top{height:12px}
   /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
@@ -2435,8 +2451,7 @@ const helpRows = keys => keys.map(k=>{
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="tab-head">더보기</div>' + // L2 (2026-11-25): 세 탭 모두 같은 56px 머리 줄 → 탭을 바꿔도 내용이 같은 자리에서 시작
-    // L5 (2026-11-25): 동네 추천 카드와 같은 주인공 카드(남색 + 아이콘 칸). 로고 파랑으로 칠한 큰 카드는 여기 하나뿐이라 혼자 튀었음
-    '<button type="button" class="reco" data-go-guide><span class="reco-ic g-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6M8 4H6a1 1 0 00-1 1v15a1 1 0 001 1h12a1 1 0 001-1V5a1 1 0 00-1-1h-2"/><path d="M9 11l2 2 4-4M9 17h6"/></svg></span><span class="reco-t"><b>계약 준비 가이드</b><span>언제 무엇을 챙길지</span></span>' + ARROW + '</button>' +
+    // M1 (2026-11-25): 계약 준비 가이드는 내 계약 「계약 준비 순서」로 옮김. 더보기는 밖에서 도움받을 곳(서류·상담·위급)만
     '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
     '<div class="urgent" style="margin-top:28px"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
@@ -3923,12 +3938,28 @@ function gChips(x){
     (x[3] ? '<a class="g-chip site" href="' + HELP[x[3]].web + '" target="_blank" rel="noopener">' + ({iros:'인터넷등기소', gov24:'정부24', hug:'HUG'})[x[3]] + ' 열기</a>' : '');
   return c ? '<div class="g-q">' + c + '</div>' : '';
 }
+// M1 (2026-11-25): 계약 준비 가이드는 내 계약의 「계약 준비 순서」 카드로 들어가요(더보기에서 옮김, 같은 입구는 한 곳에만).
+// 빈 공간을 꾸밈이 아니라 "계약까지 무엇을 챙기나"로 채워요. 소개 카드의 1·2·3과 헷갈리지 않게 숫자 대신 아이콘.
+const PREP_IC = ['<rect x="3" y="7" width="18" height="10" rx="1.5"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 10v4M17.5 10v4"/>',
+  '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>'];
+function prepCard(){
+  return '<div class="prep-card"><div class="prep-h"><b>계약 준비 순서</b><button type="button" class="prep-all" data-prep-sec="">전체 보기</button></div>' +
+    GUIDE.map((g,i)=>'<button type="button" class="prep-row" data-prep-sec="' + i + '"><span class="prep-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + PREP_IC[i] + '</svg></span>' +
+      '<span class="prep-t"><b>' + g[0] + '</b><small>' + g[1][0][0] + ' 외 ' + (g[1].length - 1) + '개</small></span>' + ARROW + '</button>').join('') + '</div>';
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-prep-sec]'); if(!b) return;
+  const i = b.dataset.prepSec; go('pg');
+  if(i !== '') setTimeout(()=>{ const el = $('g-sec-' + i); if(el) scrollIn(el); }, 450);
+  else setTimeout(()=>{ const sc = $('pg-body'); if(sc) sc.scrollTop = 0; }, 0);
+});
 function renderGuide(){
   // 2026-11-25: 이름과 짧은 풀이만 보이고, 누르면 설명·질문·사이트가 펼쳐져요
   const fold = (name, body) => '<details class="g-item g-fold"><summary><b>' + name + '</b><span>' + (GLOSS[name] || '') + '</span></summary>' + body + '</details>';
   $('pg-body').innerHTML =
     '<button type="button" class="guide-entry" data-go-prep><div><b>사기 예방 질문 · 수법</b><span>더 물어볼 것과 조심할 수법</span></div>' + ARROW + '</button>' +
-    GUIDE.map((g,i)=>'<div class="grp"><div class="card-t">' + (i + 1) + '. ' + g[0] + '</div><div class="card">' + g[1].map(x=>
+    GUIDE.map((g,i)=>'<div class="grp" id="g-sec-' + i + '"><div class="card-t">' + (i + 1) + '. ' + g[0] + '</div><div class="card">' + g[1].map(x=>
       fold(x[0], '<p>' + x[1] + '</p>' +
       // L1 (2026-11-25): 「n번 답하기」 칩은 갑자기 질문으로 넘어가 헷갈려서 뺌. 읽을거리와 사이트만
       gChips(x))).join('') + '</div></div>').join('') +
@@ -4127,9 +4158,8 @@ function renderDeals(){
       '<button type="button" class="deal-next" data-next-deal="' + x.id + '"><small>' + nx[0] + '</small><b>' + esc(nx[1]) + '</b>' + ARROW + '</button></div>';
   }).join('') : intro;
   if(D.length) h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
+  h += prepCard();
   $('deals').innerHTML = h;
-  // 집이 없을 때는 소개가 먼저 보이게 가이드 입구를 숨겨요(소개 아래 「동네 시세」와 더보기에서 들어갈 수 있어요)
-  const ge = $('p0').querySelector('.guide-entry'); if(ge) ge.style.display = D.length ? '' : 'none';
   D.forEach(x=>cmpHouse(x, 'cmp-d' + x.id));
 }
 
