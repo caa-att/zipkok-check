@@ -1079,7 +1079,8 @@
   .reg-tips p{margin-top:4px;font-size:14px;line-height:21px;color:var(--ds-text-primary)}
   .reg-close{margin-top:16px}
   /* D1·D2·D5 (2026-11-25) */
-  #p0 .h-brand{height:60px;font-size:22px;margin-top:4px;gap:9px} /* 2026-11-25: 앱 머리 높이(머티리얼 64dp 등)에 맞춰 로고 줄 60px, 아이콘 30px·글자 22px, 위 여백은 줄임 */
+  #p0 .h-brand{height:52px;font-size:22px;margin-top:19px;gap:9px} /* 2026-11-25: 아이콘 30px·글자 22px. 로고가 화면 위 끝과 첫 카드 사이 가운데에 오게(위 약 38px, 아래 약 40px) */
+  #p0 .h-brand + #deals > .intro,#p0 .h-brand + #deals > .deal:first-child{margin-top:28px}
   #p0 .h-brand svg{width:30px;height:30px}
   .sec-l{margin-top:14px;font-size:15px;font-weight:600;color:var(--ds-text-secondary)}
   .sec-l b{color:var(--brand-press)}
@@ -4030,7 +4031,8 @@ function renderDeals(){
     '<button type="button" class="btn" data-add-house>후보 집 추가하고 시작하기</button>' +
     '<button type="button" class="intro-sub" data-tab-go="pb">아직 집이 없어요 · 동네 시세부터 보기</button>' +
     '</div>';
-  let h = D.length ? '<p class="sec-l">후보 집 <b>' + D.length + '</b></p>' + D.map(x=>{
+  // 2026-11-25: 「후보 집 n」 작은 제목은 뺐어요. 로고와 첫 카드 사이에 끼어 로고가 위로 치우쳐 보였어요
+  let h = D.length ? D.map(x=>{
     const s = stageOf(x), done = [true, !s.d, !s.a, false], nx = nextStep(x);
     const sub = [s.sub, x.dong, x.site].filter(Boolean).join(' · ');
     const line = s.any ? sumLine(s.c) : '';
