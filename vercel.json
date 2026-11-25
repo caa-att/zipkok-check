@@ -4,6 +4,10 @@
     "api/talk.mjs": { "maxDuration": 60 },
     "api/recommend.mjs": { "maxDuration": 60 }
   },
+  "rewrites": [
+    { "source": "/ig", "destination": "/index.html" },
+    { "source": "/ig-story", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
