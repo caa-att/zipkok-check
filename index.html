@@ -1114,6 +1114,35 @@
   .fold-btn.src span{font-weight:600;color:var(--ds-text-secondary)}
   .fold-btn.src b{color:var(--brand-press)}
   .fold-btn[hidden]{display:none}
+  /* ---------- E1~E5 색 줄이기 (2026-11-25 사용자와 정함) ----------
+     강조색은 로고 파랑 하나. 분홍은 로고 그림 안에만(로고는 색을 직접 적어 둬서 그대로예요).
+     판단 색(초록·주황·빨강)은 동그라미와 작은 점에만 쓰고, 글씨·바탕은 칠하지 않아요. */
+  :root{--pink:var(--brand);--pink-50:var(--brand-50)}
+  .dbar i.d{background:var(--brand)}
+  .dbar i.n{background:#A9BFEF}
+  .rd-hl{background:var(--brand-50)}
+  .reg-tips div.on{background:var(--brand-50)}
+  /* E2 시세 태그는 회색 (초록·주황이면 안전·확인 필요처럼 보여서) */
+  .ptag,.ptag.ok,.ptag.warn{color:var(--ds-text-strong);background:#E7EAF0} /* 흰 카드와 회색 바탕 어디서나 보이는 회색 */
+  .ptag.b{color:var(--brand-press);background:var(--brand-50)}
+  /* E3·E4 판단 표시는 회색 바탕 + 작은 색 점 */
+  .rep-t em.unsure,.hsum-t em.unsure{color:inherit}
+  .rt-h.bad,.rt-h.unsure,.rt-ok{color:var(--ds-text-strong)}
+  .rt-i.bad,.rt-i.unsure{background:var(--ds-gray-100);color:var(--ds-text-strong);font-weight:600}
+  .lv.ok,.lv.unsure,.lv.bad{background:var(--ds-gray-100);color:var(--ds-text-strong)}
+  .sl.bad,.sl.unsure,.sl.ok{color:var(--ds-text-primary)}
+  .fz-cl small{background:var(--ds-gray-100);color:var(--ds-text-strong)}
+  .rt-h.bad::before,.rt-h.unsure::before,.rt-ok::before,.rt-i.bad::before,.rt-i.unsure::before,.lv.ok::before,.lv.unsure::before,.lv.bad::before,.sl::before{content:'';display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;vertical-align:1px;background:var(--ok-fill)}
+  .rt-h.unsure::before,.rt-i.unsure::before,.lv.unsure::before,.sl.unsure::before{background:var(--unsure-fill)}
+  .rt-h.bad::before,.rt-i.bad::before,.lv.bad::before,.sl.bad::before{background:var(--bad-fill)}
+  /* E5 남색 카드는 흰 카드·연한 파랑으로 */
+  .reco{background:#fff;color:var(--ds-text-strong);border:1.5px solid var(--ds-divider)}
+  .reco-ic{background:var(--brand-50);color:var(--brand-press)}
+  .reco-t span{color:var(--ds-text-secondary)}
+  .reco > svg{color:var(--ds-gray-500)}
+  .fz-head{background:var(--brand-50);color:var(--ds-text-strong)}
+  .fz-head p{opacity:1;color:var(--ds-text-secondary)}
+  .fz-head .fz-st i{opacity:1}
   /* 8 답을 다 고르면 버튼을 한 번 알려 줘요 */
   @keyframes readyPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
   .btn.pop{animation:readyPop .35s ease}
