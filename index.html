@@ -1143,6 +1143,19 @@
   .fz-head{background:var(--brand-50);color:var(--ds-text-strong)}
   .fz-head p{opacity:1;color:var(--ds-text-secondary)}
   .fz-head .fz-st i{opacity:1}
+  /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
+  #p0 .scroll{display:flex;flex-direction:column}
+  #p0 .scroll > *{flex-shrink:0}
+  .app-foot{margin-top:auto;padding:40px 4px 28px}
+  .app-foot p{font-size:12px;line-height:18px;color:var(--ds-gray-500);text-align:left}
+  .app-foot p + p{margin-top:6px}
+  .app-foot .af-links{display:flex;align-items:center;gap:4px;margin-bottom:10px}
+  .app-foot .af-links a,.app-foot .wipe{margin:0;padding:4px 0;font-size:13px;font-weight:600;color:var(--ds-gray-700);text-decoration:none;background:none;border:0}
+  .app-foot .wipe{display:inline-block;margin-left:8px}
+  .app-foot .wipe::before{content:'·';margin-right:8px;color:var(--ds-gray-400)}
+  .app-foot .wipe[hidden]{display:none}
+  /* 동네 시세 줄바꿈 (2026-11-25 실제 휴대폰 화면): 건물 종류 칸은 한 줄로 */
+  .cat4{white-space:nowrap;gap:10px;padding:0 14px}
   /* 8 답을 다 고르면 버튼을 한 번 알려 줘요 */
   @keyframes readyPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
   .btn.pop{animation:readyPop .35s ease}
@@ -1162,9 +1175,12 @@
         <div class="scroll">
           <div class="h-brand"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="7" fill="#2459D2"/><g transform="translate(-0.8 -0.1)"><path d="M8 22.5V13.5L15 7.8l4.2 3.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 22.5h12.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="m11.5 16.2 3 3 9-10" stroke="#E34C7F" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>집콕체크</div>
           <div id="deals"></div>
-          <p class="note">기준 시점 2026년 10월 · 서울 기준<br>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
-          <button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button>
-          <p class="note"><a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--ds-primary-heavy);font-weight:600">개인정보 처리 안내</a></p>
+          <!-- 2026-11-25: 다른 앱처럼 법적 안내·링크는 화면 맨 아래 작은 글씨로 (안내 문구는 지우지 않아요) -->
+          <div class="app-foot" role="contentinfo">
+            <p class="af-links"><a href="/privacy.html" target="_blank" rel="noopener">개인정보 처리 안내</a><button type="button" class="wipe" id="wipeAll" hidden>기록 모두 지우기</button></p>
+            <p>기준 시점 2026년 10월 · 서울 기준</p>
+            <p>참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>
+          </div>
         </div>
               <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
@@ -3665,7 +3681,7 @@ async function renderBrowse(){
   if(!list.length){ $('pb-list').innerHTML = '<div class="card r-empty" style="margin-top:16px">이 조건으로 최근 3달 거래가 많은 동네가 없어요. 건물 종류를 「전체」로 바꿔 보세요.</div>'; return; }
   const vals = list.map(x=>jeonse ? x.dep : x.rent).sort((a,b)=>a - b), mid = vals[vals.length >> 1];
   const ai = findOut && findOut.picks ? findOut.picks.map(p=>p.key) : [];
-  $('pb-list').innerHTML = '<p class="f-count" style="margin-top:16px">최근 3달 실거래가 많은 동네 <b>' + list.length + '곳</b> · 가격은 중간값(만 원)</p>' + list.map((x,i)=>{
+  $('pb-list').innerHTML = '<p class="f-count" style="margin-top:16px">거래 많은 동네 <b>' + list.length + '곳</b> · 최근 3달 중간값(만 원)</p>' + list.map((x,i)=>{
     const v = jeonse ? x.dep : x.rent, rank = ai.indexOf(x.key);
     const tags = (rank >= 0 ? '<span class="ptag b">AI 추천 ' + (rank + 1) + '순위</span> ' : '') + (i < 3 ? '<span class="ptag ok">거래 많음</span> ' : '') +
       (v >= mid * 1.1 ? '<span class="ptag warn">조금 비싼 편</span>' : v <= mid * 0.9 ? '<span class="ptag ok">싼 편</span>' : '');
@@ -3978,7 +3994,7 @@ function renderDeals(){
     '</ol>' +
     '<button type="button" class="btn" data-add-house>후보 집 추가하고 시작하기</button>' +
     '<button type="button" class="intro-sub" data-tab-go="pb">아직 집이 없어요 · 동네 시세부터 보기</button>' +
-    '<p class="intro-trust">무료 · 로그인 없음 · 답은 이 휴대폰에만 저장돼요</p></div>';
+    '</div>';
   let h = D.length ? '<p class="sec-l">후보 집 <b>' + D.length + '</b></p>' + D.map(x=>{
     const s = stageOf(x), done = [true, !s.d, !s.a, false], nx = nextStep(x);
     const sub = [s.sub, x.dong, x.site].filter(Boolean).join(' · ');
