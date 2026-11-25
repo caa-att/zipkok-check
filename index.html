@@ -1112,13 +1112,6 @@
   .laws-fold[open] summary::after{transform:rotate(-135deg);margin-top:4px}
   .laws-fold #r-laws{border-top:1px solid var(--ds-divider)}
   /* B6 답 고르기: 메모·누가 어떻게 접기 */
-  .fold-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-  .fold-btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 14px;border:1px solid var(--ds-divider);border-radius:999px;background:#fff;font:inherit;font-size:14px;font-weight:600;color:var(--ds-text-primary);cursor:pointer;transition:transform .1s}
-  .fold-btn:active{transform:scale(.96)}
-  .fold-btn .opt-tag{margin:0}
-  .fold-btn.src span{font-weight:600;color:var(--ds-text-secondary)}
-  .fold-btn.src b{color:var(--brand-press)}
-  .fold-btn[hidden]{display:none}
   /* ---------- E1~E5 색 줄이기 (2026-11-25 사용자와 정함) ----------
      강조색은 로고 파랑 하나. 분홍은 로고 그림 안에만(로고는 색을 직접 적어 둬서 그대로예요).
      판단 색(초록·주황·빨강)은 동그라미와 작은 점에만 쓰고, 글씨·바탕은 칠하지 않아요. */
@@ -1275,6 +1268,49 @@
   .prep-row > svg{flex:none;width:18px;height:18px;color:var(--ds-gray-400)}
   #ps #ps-docs{margin-top:12px}
   #ps #ps-docs > .card-t{margin-top:0}
+  /* ---------- N1·N2 (2026-11-25) ----------
+     N1 회색 바탕 위 보조 버튼은 흰색(규칙 그대로): 연한 파랑 #EDF2FC는 회색 바탕 #F3F4F7과 대비 1.03배라 안 보였음
+     N2 메모·누가어떻게: 흰 카드 한 장 두 줄(설정 목록 모양) */
+  #p1 .rec-opt,#pz .btn.sub2{background:#fff}
+  #p1 .rec-opt small{background:var(--ds-gray-100);color:var(--ds-text-secondary)}
+  .more-card{margin-top:28px;border-radius:16px;background:#fff;overflow:hidden}
+  .more-row{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:0 14px 0 18px;border:0;background:none;font:inherit;text-align:left;cursor:pointer}
+  .more-row:active{background:var(--ds-gray-100)}
+  .more-card > * + .more-row{border-top:1px solid var(--ds-divider)}
+  .more-row b{flex:none;font-size:16px;font-weight:600;color:var(--ds-text-strong)}
+  .more-row span{flex:1;min-width:0;text-align:right;font-size:15px;color:var(--ds-text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .more-row span.has{color:var(--ds-text-primary)}
+  .more-row .mr-ch{flex:none;width:18px;height:18px;color:var(--ds-gray-400);transition:transform .15s}
+  .more-row[aria-expanded="true"] .mr-ch{transform:rotate(180deg)}
+  .more-body{padding:0 18px 16px}
+  .more-body .lbl{margin:8px 0 8px}
+  .more-body .lbl + .chips{margin-bottom:8px}
+  .more-body .memo-tools{margin-top:8px}
+  /* ---------- 규칙 점검 R1~R9 (2026-11-25) ----------
+     모든 화면을 자동 검사로 돌려 규칙과 다른 곳을 찾고, 하나씩 "UI를 고칠지, 규칙을 고칠지" 정함 */
+  /* R1 회색 바탕 위 보조 버튼은 흰색(통일성: 「+ 후보 집 추가」와 같은 모양 / 연한 파랑은 회색과 대비 1.03배라 버튼인지 안 보임) */
+  #pr .pick-btns .hbtn,#pr a.hbtn{background:#fff}
+  /* R2 회색 바탕 위 보조 글씨는 #5B6475 (#697383은 회색 위에서 4.36:1로 4.5 미달) */
+  .d-lead,.b-apps-t,.ways-more[open] summary,#p1 .rec-opt small{color:#5B6475}
+  /* R3 판단 글씨 빨강은 대비 맞춘 #B42318 하나 */
+  .fq dt.red{color:#B42318}
+  /* R4 누르는 범위 44px: 「왜 물어보나요」 줄, 동네 고르기 칸(작은 칸 40) */
+  .fq summary{padding:11px 0}
+  .near-sel{height:40px;border-radius:20px}
+  /* R5 모서리: 토글 고른 칸 10(작은 버튼), 「선택」 태그 6 */
+  .seg2 button{border-radius:10px}
+  #p1 .rec-opt small{border-radius:6px}
+  /* R6 버튼 높이는 56/48/40만: 「안전 리포트로」 48, 최종 정리 아래 두 버튼 56 */
+  .btn.plain{height:48px}
+  .fz-btns .btn{height:56px}
+  /* R7 작은 버튼 모양 통일: 음성 입력도 작은 버튼(40·모서리 10). 알약은 고르는 칩에만 써서 "고르는 것"과 "누르면 일하는 것"을 구분 */
+  .mic{border-radius:10px}
+  /* R8 덩어리 간격 8/16/28: 등기부 입구 16 */
+  .reg-entry{margin-top:16px}
+  .field{margin-top:28px}
+  #p2 .grp{margin-top:28px}
+  .fz-opt{min-height:44px}
+  .more-body .chips + .lbl{margin-top:16px}
   /* 탭 화면 맨 위 여백 (2026-11-25): 동네 시세·더보기는 큰 제목 없이 바로 내용 */
   .tab-top{height:12px}
   /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
@@ -1466,28 +1502,23 @@
           <div class="grp" id="a-rent" hidden></div>
           <div class="grp" id="a-lookup" hidden></div>
           <div id="a-fields"></div>
-          <!-- 2026-11-25: 메모와 누가·어떻게는 접어 두고, 필요할 때 펼쳐요 (답 고르기가 먼저 보이게) -->
-          <div class="fold-row">
-            <button type="button" class="fold-btn" id="a-memo-open">+ 들은 말 메모 <span class="opt-tag">선택</span></button>
-            <button type="button" class="fold-btn src" id="a-src-open" aria-expanded="false"><span id="a-src-sum"></span><b>바꾸기</b></button>
-          </div>
-          <div class="field" id="a-memo-box" hidden>
-            <label class="lbl" for="a-ans">들은 말 메모 <span class="opt-tag">선택</span></label>
-            <div class="answer"><textarea id="a-ans" maxlength="300" rows="3" placeholder="들은 말을 그대로 적어 주세요."></textarea><span class="cnt" id="a-cnt">0 / 300</span></div>
-            <div class="memo-tools"><button type="button" class="mic" data-mic="a-ans" data-label="음성 입력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg><span>음성 입력</span></button></div>
+          <!-- N2 (2026-11-25): 메모와 누가·어떻게는 흰 카드 한 장에 두 줄. 어느 질문에서나 같은 모양이고, 누르면 그 줄 아래가 펼쳐져요.
+               누가·어떻게는 판단(🟢🟠🔴)을 바꾸지 않고 결과 화면 보관 팁만 바꿔서 접어 둬요 -->
+          <div class="more-card">
+            <button type="button" class="more-row" id="a-memo-open" aria-expanded="false" aria-controls="a-memo-box"><b>들은 말 메모</b><span id="a-memo-sum">선택</span><svg class="mr-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="more-body" id="a-memo-box" hidden>
+              <div class="answer"><textarea id="a-ans" maxlength="300" rows="3" aria-label="들은 말 메모" placeholder="들은 말을 그대로 적어 주세요."></textarea><span class="cnt" id="a-cnt">0 / 300</span></div>
+              <div class="memo-tools"><button type="button" class="mic" data-mic="a-ans" data-label="음성 입력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg><span>음성 입력</span></button></div>
             <p class="fh">이름·주민번호·계좌번호는 적지 마세요.</p>
+            </div>
+            <button type="button" class="more-row" id="a-src-open" aria-expanded="false" aria-controls="a-src-box"><b>누가·어떻게</b><span id="a-src-sum"></span><svg class="mr-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="more-body" id="a-src-box" hidden>
+              <p class="lbl">누가 답했나요?</p>
+              <div class="chips" data-group="who"><button type="button" class="chip" data-v="공인중개사">공인중개사</button><button type="button" class="chip" data-v="집주인">집주인</button></div>
+              <p class="lbl">어떻게 들었나요?</p>
+              <div class="chips" data-group="how"><button type="button" class="chip" data-v="구두로 들음">구두로 들음</button><button type="button" class="chip" data-v="문자·메신저">문자·메신저</button><button type="button" class="chip" data-v="서류로 확인">서류로 확인</button></div>
+            </div>
           </div>
-          <div id="a-src-box" hidden>
-          <div class="field">
-            <p class="lbl">누가 답했나요?</p>
-            <div class="chips" data-group="who"><button type="button" class="chip" data-v="공인중개사">공인중개사</button><button type="button" class="chip" data-v="집주인">집주인</button></div>
-          </div>
-          <div class="field">
-            <p class="lbl">어떻게 들었나요?</p>
-            <div class="chips" data-group="how"><button type="button" class="chip" data-v="구두로 들음">구두로 들음</button><button type="button" class="chip" data-v="문자·메신저">문자·메신저</button><button type="button" class="chip" data-v="서류로 확인">서류로 확인</button></div>
-          </div>
-          </div>
-        </div>
         <div class="cta"><button type="button" class="btn" id="toResult">판단 결과 보기</button></div>
       </section>
 
@@ -2177,8 +2208,8 @@ function renderAnswer(){
   // 등기부로 확인하는 질문에는 「등기부 어디를 보나요?」 (2026-11-25)
   $('a-reg').innerHTML = REG_FOCUS[q.id] ? '<button type="button" class="reg-entry" data-reg="' + q.id + '">' + REG_ICON + '<span>등기부등본 어디를 보나요?</span>' + ARROW + '</button>' : '';
   $('a-ans').value = a.memo;
-  $('a-memo-box').hidden = !a.memo; $('a-memo-open').hidden = !!a.memo;
-  $('a-src-box').hidden = true; $('a-src-open').setAttribute('aria-expanded', 'false'); $('a-src-open').querySelector('b').textContent = '바꾸기';
+  $('a-memo-box').hidden = true; $('a-memo-open').setAttribute('aria-expanded', 'false'); memoSum();
+  $('a-src-box').hidden = true; $('a-src-open').setAttribute('aria-expanded', 'false');
   srcSum();
   $('a-cnt').textContent = a.memo.length + ' / 300';
   document.querySelectorAll('#p2 .chips').forEach(g=>{
@@ -2248,7 +2279,7 @@ $('a-fields').addEventListener('input', e=>{
 $('a-ans').addEventListener('input', e=>{
   ans(state.sel).memo = e.target.value;
   $('a-cnt').textContent = e.target.value.length + ' / 300';
-  save();
+  memoSum(); save();
 });
 
 document.querySelectorAll('#p2 .chips').forEach(g=>{
@@ -2261,16 +2292,16 @@ document.querySelectorAll('#p2 .chips').forEach(g=>{
   });
 });
 // 누가·어떻게 들었나요 한 줄 요약과 펼치기 (2026-11-25)
-function srcSum(){ const a = ans(state.sel); $('a-src-sum').textContent = '누가·어떻게: ' + a.who + ' · ' + a.how; }
+function srcSum(){ const a = ans(state.sel); $('a-src-sum').textContent = a.who + ' · ' + a.how; }
+function memoSum(){ const m = (ans(state.sel).memo || '').trim(); $('a-memo-sum').textContent = m ? m.replace(/\s+/g, ' ') : '선택'; $('a-memo-sum').classList.toggle('has', !!m); }
 $('a-src-open').addEventListener('click', ()=>{
   const box = $('a-src-box'), open = box.hidden;
   box.hidden = !open; $('a-src-open').setAttribute('aria-expanded', open);
-  $('a-src-open').querySelector('b').textContent = open ? '접기' : '바꾸기';
 });
 $('a-memo-open').addEventListener('click', ()=>{
-  $('a-memo-box').hidden = false; $('a-memo-open').hidden = true;
-  $('a-ans').focus({preventScroll:true});
-  $('a-memo-box').scrollIntoView({block:'center', behavior:'smooth'});
+  const box = $('a-memo-box'), open = box.hidden;
+  box.hidden = !open; $('a-memo-open').setAttribute('aria-expanded', open);
+  if(open){ $('a-ans').focus({preventScroll:true}); box.scrollIntoView({block:'center', behavior:'smooth'}); }
 });
 
 /* ---------- 중개사무소 등록 조회 (4번 질문) ----------
