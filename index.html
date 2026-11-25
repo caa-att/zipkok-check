@@ -1181,6 +1181,36 @@
      굵기 3단계: 18px 이상 제목 800 / 그보다 작은 강조(질문·버튼·라벨) 600 / 본문·보조 400.
      글자 회색 3단계: 제목 #141A24 / 본문 #354153 / 보조 #697383 (회색 바탕 위 보조만 같은 계열 #5B6475). */
   b,strong{font-weight:600}
+  /* ---------- H1 누르는 범위 · H2 간격 (2026-11-25 사용자와 정함) ----------
+     H1: 보이는 크기는 그대로, 누르는 범위만 44px 이상(애플 44pt·안드로이드 48dp 권장).
+     H2: 덩어리 사이 간격은 작은 8·16px, 큰 28px 세 가지만. */
+  .fq-ck,button.ftag,.g-chip,.hc-foot .hc-link,.linkb,.app-foot .af-links a,.app-foot .wipe{position:relative}
+  .fq-ck::after{content:'';position:absolute;inset:-8px}
+  button.ftag::after,.g-chip::after{content:'';position:absolute;left:-2px;right:-2px;top:-11px;bottom:-11px}
+  .hc-foot .hc-link{padding:12px 6px}
+  .linkb{padding:11px 2px;margin:-11px -2px}
+  #p0 .app-foot .af-links a,#p0 .app-foot .wipe{padding:12px 0}
+  #p0 .app-foot .af-links{margin-bottom:0}
+  .seg2 button{height:44px}
+  .ways-more summary{padding:14px 4px}
+  /* 가이드 항목은 줄 전체를 누르면 펼쳐지게(전에는 글자 줄 24px만 눌렸어요) */
+  .g-item.g-fold{padding:0}
+  .g-fold summary{position:relative;padding:14px 40px 14px 16px;min-height:48px;flex-wrap:wrap;row-gap:2px}
+  .g-fold summary::after{position:absolute;right:18px;top:50%;margin:-6px 0 0 0;transform:rotate(45deg)}
+  .g-fold[open] summary::after{margin-top:-2px;transform:rotate(-135deg)}
+  .g-fold summary span{flex:1 1 150px} /* 이름이 길면 풀이가 다음 줄로(세 줄로 쪼개지지 않게) */
+  .g-fold > p,.g-fold > .g-q{margin-left:16px;margin-right:16px}
+  .g-fold > p{margin-top:0}
+  .g-fold > :last-child{margin-bottom:14px}
+  /* 간격 */
+  #p1-tools .rec-opt,#p1-tools .rec-big{margin-top:16px}
+  #p1-foot{margin-top:16px}
+  .fz-opt{margin-top:16px}
+  .note{margin-top:28px}
+  #pz .grp + .note{margin-top:8px}
+  .ways-more{margin-top:16px}
+  .ways-more + .fh{margin-top:16px}
+  #ps .urgent{margin-top:28px}
   /* 탭 화면 맨 위 여백 (2026-11-25): 동네 시세·더보기는 큰 제목 없이 바로 내용 */
   .tab-top{height:12px}
   /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
@@ -2361,7 +2391,7 @@ function renderServices(){
     '<button type="button" class="guide-entry" data-go-guide style="margin-bottom:8px"><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지</span></div>' + ARROW + '</button>' +
     '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
-    '<div class="urgent" style="margin-top:24px"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
+    '<div class="urgent" style="margin-top:28px"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
       '<div class="hbtns">' + callBtn('112', '경찰 112') + callBtn('132', '법률구조공단 132') + '</div></div>';
 }
 
