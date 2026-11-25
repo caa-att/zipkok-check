@@ -999,8 +999,91 @@
   @media (min-width:521px) and (max-width:1024px), (min-width:521px) and (hover:none) and (pointer:coarse){
     :root{--pad:max(20px, calc((100vw - 640px) / 2))}
   }
+  /* ---------- 2026-11-25 사용자 친화 개선 1~8 ---------- */
+  /* 1 첫 화면 소개 (집이 없을 때) */
+  .intro{margin-top:16px;padding:22px 20px 20px;border-radius:20px;background:#fff}
+  .intro-t{font-size:22px;font-weight:800;line-height:31px;letter-spacing:-.6px;color:var(--ds-text-strong)}
+  .intro-t em{font-style:normal;color:var(--pink)}
+  .intro-steps{margin:18px 0 4px;padding:0;list-style:none;display:grid;gap:14px}
+  .intro-steps li{display:flex;gap:12px;align-items:flex-start}
+  .intro-steps .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--brand-50);color:var(--brand-press);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .intro-steps b{display:block;font-size:16px;font-weight:700;line-height:24px;color:var(--ds-text-strong)}
+  .intro-steps span{display:block;font-size:14px;line-height:21px;color:var(--ds-text-secondary)}
+  .intro .btn{margin-top:18px}
+  .intro-sub{display:block;width:100%;margin-top:6px;padding:12px 0;border:0;background:none;font:inherit;font-size:15px;font-weight:700;color:var(--brand-press);cursor:pointer}
+  .intro-trust{margin-top:8px;text-align:center;font-size:13px;font-weight:600;line-height:19px;color:var(--ds-text-secondary)}
+  /* 2 집 카드: 다음 할 일 */
+  .deal[role=button]:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .deal-next{display:flex;align-items:center;gap:6px;width:100%;margin-top:14px;padding:12px 14px;border:0;border-radius:14px;background:var(--brand-50);font:inherit;text-align:left;cursor:pointer;transition:transform .1s}
+  .deal-next:active{transform:scale(.97)}
+  .deal-next small{flex:none;font-size:13px;font-weight:700;color:var(--ds-text-secondary)}
+  .deal-next b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px;font-weight:800;color:var(--brand-press)}
+  .deal-next svg{flex:none;width:16px;height:16px;color:var(--brand-press)}
+  /* 3 리포트 머리: 숫자는 판단 색으로 */
+  .rep-t em.unsure,.hsum-t em.unsure{color:var(--unsure)}
+  .rep-t em.ok,.hsum-t em.ok{color:var(--ok)}
+  .rep-bar{height:10px}
+  .lf-step{display:flex;align-items:center;gap:10px}
+  .lf-step[hidden]{display:none}
+  .lf-step > div{flex:1;min-width:0}
+  .lf-step .lf-all{flex:none;border:0;border-radius:10px;background:#fff;padding:8px 10px;font:inherit;font-size:13px;font-weight:700;color:var(--brand-press);cursor:pointer}
+  .rep-fin{display:flex;align-items:center;gap:6px;width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:14px;background:var(--brand-50);font:inherit;font-size:15px;font-weight:800;color:var(--brand-press);text-align:left;cursor:pointer}
+  .rep-fin span{flex:1}
+  .rep-fin svg{width:16px;height:16px}
+  /* 6 계약 전 최종 정리 */
+  .fz-head{margin-top:8px;padding:20px;border-radius:20px;background:var(--navy-b);color:#fff}
+  .fz-head p{font-size:14px;font-weight:600;opacity:.85}
+  .fz-head h2{margin-top:4px;font-size:22px;font-weight:800;line-height:31px;letter-spacing:-.5px}
+  .fz-head .fz-st{margin-top:10px;font-size:15px;font-weight:700;line-height:22px}
+  .fz-head .fz-st i{font-style:normal;padding:0 4px;opacity:.6}
+  .fz-row{display:block;width:100%;padding:14px 16px;border:0;border-top:1px solid var(--ds-divider);background:none;font:inherit;text-align:left;cursor:pointer}
+  .fz-row:first-child{border-top:0}
+  .fz-row b{display:block;font-size:15px;font-weight:700;line-height:22px;color:var(--ds-text-strong)}
+  .fz-row span{display:block;margin-top:2px;font-size:14px;line-height:21px;color:var(--ds-text-secondary)}
+  .fz-row span.lv{display:inline-block;margin:0 0 0 6px;font-size:12px;line-height:18px;vertical-align:1px}
+  .fz-cl{padding:14px 16px;border-top:1px solid var(--ds-divider)}
+  .fz-cl:first-child{border-top:0}
+  .fz-cl p{font-size:15px;font-weight:600;line-height:23px;color:var(--ds-text-strong)}
+  .fz-cl small{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;border-radius:6px;padding:2px 6px;background:var(--bad-bg,#FDECEA);color:var(--bad)}
+  .fz-cl small.why{background:var(--ds-gray-100);color:var(--ds-text-secondary)}
+  .fz-docs{padding:14px 16px}
+  .fz-docs p{font-size:14px;font-weight:700;color:var(--ds-text-secondary)}
+  .fz-docs p + p{margin-top:12px}
+  .fz-docs span{display:block;margin-top:4px;font-size:15px;font-weight:600;line-height:23px;color:var(--ds-text-strong)}
+  .fz-empty{padding:16px;font-size:15px;line-height:23px;color:var(--ds-text-secondary)}
+  .fz-opt{display:flex;align-items:center;gap:10px;margin-top:14px;padding:4px 2px;font-size:15px;font-weight:600;color:var(--ds-text-strong);cursor:pointer}
+  .fz-opt input{width:20px;height:20px;accent-color:var(--brand)}
+  .fz-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .fz-btns .btn{height:52px}
+  .fz-btns .btn.sub2{margin-top:0}
+  /* 7 등기부 어디를 보나요 */
+  .reg-entry{display:flex;align-items:center;gap:8px;width:100%;margin-top:10px;padding:12px 14px;border:1px solid var(--ds-divider);border-radius:14px;background:#fff;font:inherit;font-size:15px;font-weight:700;color:var(--brand-press);text-align:left;cursor:pointer;transition:transform .1s}
+  .reg-entry:active{transform:scale(.97)}
+  .reg-entry span{flex:1}
+  .reg-entry svg{flex:none;width:18px;height:18px}
+  .reg-doc{margin-top:14px;padding:14px 12px;border:1px solid var(--ds-gray-300,#C9CED8);border-radius:6px;background:#FCFCFA;font-size:12px;line-height:17px;color:#333}
+  .reg-doc .rd-h{text-align:center;font-size:14px;font-weight:800;letter-spacing:-.2px}
+  .reg-doc .rd-s{margin-top:2px;text-align:center;font-size:11px;color:#777}
+  .rd-sec{position:relative;margin-top:10px;border:1px solid #BFC4CC;border-radius:4px;background:#fff}
+  .rd-sec > p{padding:5px 8px;border-bottom:1px solid #D7DAE0;background:#F3F4F6;font-weight:800}
+  .rd-sec > p small{font-weight:500;color:#666}
+  .rd-r{display:grid;grid-template-columns:26px 1fr;gap:6px;padding:5px 8px;border-top:1px solid #ECEEF1}
+  .rd-r:first-of-type{border-top:0}
+  .rd-r.del{color:#999;text-decoration:line-through;text-decoration-color:#E0473E}
+  .rd-hl{outline:3px solid var(--pink);outline-offset:-1px;border-radius:3px;background:#FFF2F6}
+  .rd-mk{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-right:4px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;font-weight:800;vertical-align:-3px}
+  .reg-tips{margin-top:14px;display:grid;gap:12px}
+  .reg-tips div{padding:14px;border-radius:14px;background:var(--bg)}
+  .reg-tips div.on{background:#FFF2F6}
+  .reg-tips b{display:block;font-size:15px;font-weight:800;line-height:22px;color:var(--ds-text-strong)}
+  .reg-tips p{margin-top:4px;font-size:14px;line-height:21px;color:var(--ds-text-primary)}
+  .reg-close{margin-top:16px}
+  /* 8 답을 다 고르면 버튼을 한 번 알려 줘요 */
+  @keyframes readyPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
+  .btn.pop{animation:readyPop .35s ease}
   @media (prefers-reduced-motion:reduce){
     .view,.view.on{transition:none}
+    .btn.pop{animation:none}
   }
 </style>
 </head>
@@ -1114,6 +1197,13 @@
         <div class="cta"><button type="button" class="btn" id="toAnswer">이어서 확인하기</button></div>
       </section>
 
+      <!-- 계약 전 최종 정리 (2026-11-25): 해결할 것 · 계약서에 넣을 특약 · 챙길 것 · 복사·공유 -->
+      <section class="view" id="pz" aria-label="계약 전 최종 정리">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">최종 정리</span><span></span></div>
+        <div class="scroll" id="pz-body"></div>
+        <div class="cta"><div class="fz-btns"><button type="button" class="btn sub2" id="fzCopy">특약 복사</button><button type="button" class="btn" id="fzShare">공유하기</button></div></div>
+      </section>
+
       <!-- 기타 서비스: 무료 상담받을 곳 · 서류 떼기 -->
       <section class="view tabv" id="ps" aria-label="더보기">
         <div class="nav"><span></span><span class="title"></span><span></span></div>
@@ -1159,6 +1249,7 @@
               <div class="why"><b>왜 물어봐야 하나요?</b><span id="a-why"></span></div>
             </div>
           </div>
+          <div id="a-reg"></div>
           <div class="grp" id="a-ai" hidden></div>
           <div class="grp" id="a-rent" hidden></div>
           <div class="grp" id="a-lookup" hidden></div>
@@ -1769,11 +1860,7 @@ function renderList(){
   const pendN = Q.filter(q=>isDone(q.id) && !seen(q.id)).length;
   $('p1-house').innerHTML = ''; $('p1').querySelector('.nav .title').textContent = blankHouse(house) ? '계약 체크' : house.name;
   // 안전 리포트 머리: 결론부터 (위험·확인 필요 개수에는 AI가 채운 답도 넣어요)
-  $('repT').innerHTML = !n && !pendN ? '계약 전에 물어볼 15개,<br>하나씩 확인해요'
-    : c.bad ? '계약금 보내기 전에<br><em>위험 ' + c.bad + '개</em>부터 해결하세요'
-    : warn ? '계약금 보내기 전에<br><em>' + warn + '개</em>를 먼저 확인하세요'
-    : left ? '지금까지 큰 문제는 없어요<br>남은 ' + left + '개도 확인해요'
-    : '15개를 모두 확인했어요<br>큰 문제는 보이지 않아요';
+  $('repT').innerHTML = !n && !pendN ? '계약 전에 물어볼 15개,<br>하나씩 확인해요' : headline(c, left, Q.length);
   $('repS').textContent = Q.length + '개 중 ' + n + '개 확인 · ' + (left ? left + '개 남았어요' : '모두 확인했어요') +
     (pendN ? ' (AI가 채운 ' + pendN + '개는 확인 전)' : '') + (k ? ' (해당 없음 ' + k + '개 포함)' : '');
   // 위험은 따로 맨 위에, 확인 필요는 그 아래에 이름으로 보여 줘요. 누르면 그 질문 답 화면으로 (2026-11-21)
@@ -1783,7 +1870,8 @@ function renderList(){
   $('repTop').hidden = !(B.length || U.length || c.ok);
   $('repTop').innerHTML = (B.length ? '<p class="rt-h bad">위험 ' + B.length + '개<small>계약 전에 꼭 해결해요</small></p>' + chips(B, 'bad') : '') +
     (U.length ? '<p class="rt-h unsure"' + (B.length ? '' : ' style="margin-top:0"') + '>확인 필요 ' + U.length + '개<small>더 확인하면 좋아요</small></p>' + chips(U, 'unsure') : '') +
-    (c.ok ? '<p class="rt-ok"' + (B.length || U.length ? '' : ' style="margin-top:0"') + '>비교적 안전 ' + c.ok + '개</p>' : '');
+    (c.ok ? '<p class="rt-ok"' + (B.length || U.length ? '' : ' style="margin-top:0"') + '>비교적 안전 ' + c.ok + '개</p>' : '') +
+    '<button type="button" class="rep-fin" data-go-final><span>계약 전 최종 정리 · 특약·공유</span>' + ARROW + '</button>';
   $('repFill').style.width = (n / Q.length * 100) + '%';
   // 골라 보기 (2026-11-21): 화면 계산(브라우저에 묻기) 대신 답을 보고 직접 정해요. 아이폰 카카오톡 브라우저에서 목록이 통째로 비던 문제 때문이에요.
   const F = {
@@ -1798,7 +1886,7 @@ function renderList(){
   // 집 진행 화면의 단계에서 열었으면 그 단계 질문만 (2026-11-21)
   const g = GROUP[lf];
   $('lfStep').hidden = !g;
-  if(g) $('lfStep').innerHTML = (lf === 'docs' ? '2' : '3') + '단계 · ' + STEP_NAME[lf] + '<span>' + g.length + '개 중 ' + g.filter(seen).length + '개 확인 · 위 칸을 누르면 전체를 봐요</span>';
+  if(g) $('lfStep').innerHTML = '<div>' + (lf === 'docs' ? '2' : '3') + '단계 · ' + STEP_NAME[lf] + '<span>' + g.length + '개 중 ' + g.filter(seen).length + '개 확인</span></div><button type="button" class="lf-all" data-lf="all">전체 보기</button>';
   ['first', 'left', 'done'].forEach(f=>{ const e = $('lfc-' + f); if(e) e.textContent = Q.filter(q=>F[f](q.id)).length; });
   $('list').className = 'f-' + lf;
   document.querySelectorAll('[data-lf]').forEach(b=>{ b.classList.toggle('on', b.dataset.lf === lf); b.setAttribute('aria-selected', b.dataset.lf === lf); });
@@ -1851,6 +1939,8 @@ function renderAnswer(){
   // 12번(시세 비교)에서만 동네 시세 화면으로 가는 칸을 보여 줘요
   $('a-rent').hidden = q.id !== 'q12';
   $('a-rent').innerHTML = q.id === 'q12' ? '<button type="button" class="rent-entry" data-rent><span class="re-ic">' + RENT_ICON + '</span><span class="re-t"><b>동네 시세 확인해 보기</b><span>서울 구·동별 최근 3달 실제 거래</span></span></button>' : '';
+  // 등기부로 확인하는 질문에는 「등기부 어디를 보나요?」 (2026-11-25)
+  $('a-reg').innerHTML = REG_FOCUS[q.id] ? '<button type="button" class="reg-entry" data-reg="' + q.id + '">' + REG_ICON + '<span>등기부등본 어디를 보나요?</span>' + ARROW + '</button>' : '';
   $('a-ans').value = a.memo;
   $('a-cnt').textContent = a.memo.length + ' / 300';
   document.querySelectorAll('#p2 .chips').forEach(g=>{
@@ -1882,13 +1972,25 @@ function mineField(k, shared){
 }
 $('a-fields').addEventListener('click', e=>{
   const b = e.target.closest('.opt'); if(!b) return;
+  const was = ready(state.sel);
   if(b.parentNode.dataset.shared) ctx[b.parentNode.dataset.k] = b.dataset.v; else ans(state.sel).f[b.parentNode.dataset.k] = b.dataset.v;
   mineField(b.parentNode.dataset.k, b.parentNode.dataset.shared);
   save();
-  const sc = $('p2').querySelector('.scroll'), y = sc.scrollTop;
+  const sc = $('p2').querySelector('.scroll'), y = sc.scrollTop, k = b.parentNode.dataset.k;
   renderFields();
   sc.scrollTop = y;
   updateAnswerUI();
+  // 답 고르기 빠르게 (2026-11-25): 고른 칸 다음에 아직 안 고른 칸이 있으면 그 칸이 보이게 내려 주고,
+  // 다 고르면 「판단 결과 보기」 버튼을 한 번 살짝 알려 줘요. 답을 미리 채우지는 않아요.
+  const groups = [...$('a-fields').querySelectorAll('.opts')], i = groups.findIndex(g=>g.dataset.k === k);
+  const nextG = groups.slice(i + 1).find(g=>!g.querySelector('.opt.on'));
+  if(nextG){
+    const f = nextG.closest('.field'), cta = $('p2').querySelector('.cta');
+    const r = f.getBoundingClientRect(), sr = sc.getBoundingClientRect(), bottom = sr.bottom - (cta ? cta.offsetHeight : 0);
+    if(r.top > bottom - 120 || r.top < sr.top) sc.scrollBy({top:r.top - sr.top - 72, behavior:'smooth'});
+  } else if(!was && ready(state.sel)){
+    const btn = $('toResult'); btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+  }
 });
 
 $('a-fields').addEventListener('input', e=>{
@@ -2224,8 +2326,8 @@ document.addEventListener('click', e=>{
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const ORDER = ['p0','pb','ps','pd','pg','pf','pv','p1','pa','p2','pr','p3'];
-const DEPTH = {p0:0, pb:0, ps:0, pd:1, pg:1, pf:1, pv:2, p1:2, pa:2, pr:2, p2:3, p3:4};
+const ORDER = ['p0','pb','ps','pd','pg','pf','pv','p1','pz','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pb:0, ps:0, pd:1, pg:1, pf:1, pv:2, p1:2, pz:2, pa:2, pr:2, p2:3, p3:4};
 let depth = 0, trail = [], wantTab = null; // trail[i] = 깊이 i+1에 쌓인 화면
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null, wantList = false;
@@ -2264,6 +2366,7 @@ function paint(id){
   if(id === 'p0' || id === 'pd') renderStart();
   if(id === 'pf') renderFind();
   if(id === 'pg') renderGuide();
+  if(id === 'pz') renderFinal();
   if(id === 'pv') renderVisit();
   if(id === 'pa') renderTalk();
   if(id === 'p1') renderList();
@@ -3277,6 +3380,9 @@ async function analyzeTalk(){
 
 function toast(msg){
   const t = $('toast');
+  // 알림이 아래 버튼을 가리지 않게, 지금 화면 아래 버튼 판 바로 위에 띄워요 (2026-11-25)
+  const cta = curView && $(curView) && $(curView).querySelector('.cta');
+  t.style.bottom = cta && cta.offsetHeight ? (cta.offsetHeight + 12) + 'px' : '';
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._h);
@@ -3572,6 +3678,7 @@ function renderGuide(){
     GUIDE.map((g,i)=>'<div class="grp"><div class="card-t">' + (i + 1) + '. ' + g[0] + '</div><div class="card">' + g[1].map(x=>
       '<div class="g-item"><b>' + x[0] + '</b><p>' + x[1] + '</p>' +
       (x[2].length || x[3] ? '<div class="g-q">' + x[2].map(id=>{ const ok = has && seen(id); return '<button type="button" class="g-chip' + (ok ? ' ok' : '') + '" data-goq="' + id + '">' + BY_ID[id].n + '번 ' + (ok ? '확인함' : '답하기') + '</button>'; }).join('') +
+      (x[0].indexOf('등기부') === 0 ? '<button type="button" class="g-chip" data-reg="' + (x[0] === '등기부등본' ? 'q2all' : 'q14') + '">어디를 보나요</button>' : '') +
       (x[3] ? '<a class="g-chip site" href="' + HELP[x[3]].web + '" target="_blank" rel="noopener">' + ({iros:'인터넷등기소', gov24:'정부24', hug:'HUG'})[x[3]] + ' 열기</a>' : '') + '</div>' : '') + '</div>').join('') + '</div></div>').join('') +
     '<div class="grp"><div class="card-t">어려운 말 풀이</div><div class="card">' + WORDS.map(w=>'<div class="g-item"><b>' + w[0] + '</b><p>' + w[1] + '</p></div>').join('') + '</div></div>' +
     '<p class="note">참고용 안내이며 법률 자문이 아니에요.</p>';
@@ -3581,6 +3688,115 @@ $('pg').addEventListener('click', e=>{
   if(e.target.closest('[data-go-prep]')) return go('pv');
   const g = e.target.closest('[data-goq]'); if(!g) return;
   state.sel = g.dataset.goq; renderAnswer(); go('p2');
+});
+
+// ---------- 등기부등본 어디를 보나요 (2026-11-25 사용자와 정함) ----------
+// 그린 예시 등기부(가짜 주소·이름 ○○○)에 질문과 관련된 곳을 표시해요. 서류를 받거나 보내지 않아요. 설명은 앱 질문·판단기준.md에 있는 내용만 써요.
+const REG_FOCUS = {q2:['pyo','gap'], q3:['gap'], q5:['eul'], q14:['eul'], q2all:['pyo','gap','eul']};
+const REG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
+const REG_TIPS = [
+  ['pyo', '표제부 · 어떤 집인지', '주소·층·호수가 계약서와 같은지 봐요. 맨 위에 [집합건물]이 있으면 호실마다 따로 등기된 집(다세대·오피스텔), 없으면 건물 전체가 한 등기인 집(다가구·단독)이에요.'],
+  ['gap', '갑구 · 집주인이 누구인지', '맨 아래 「소유권이전」 줄의 소유자가 지금 집주인이에요. 이 이름이 계약서의 임대인, 나온 사람의 신분증과 같아야 해요(2번). 소유자가 여러 명이면 지분과 함께 모두 적혀 있어요(3번). 「신탁」「압류」「가압류」「경매」 글자가 보이면 계약 전에 꼭 상담받으세요.'],
+  ['eul', '을구 · 집에 걸린 빚', '「근저당권설정」 줄의 채권최고액이 5번에 넣을 금액이에요. 여러 줄이면 모두 더해요. 줄이 그어진 기록은 이미 지워진(말소) 거라 빼요. 을구가 없으면 근저당이 없는 거예요. 잔금 직전에 다시 떼서 새 줄이 생기지 않았는지 봐요(14번).']
+];
+function openReg(qid){
+  const on = REG_FOCUS[qid] || [], hl = s => on.includes(s) ? ' rd-hl' : '', mk = s => on.includes(s) ? '<span class="rd-mk">' + (REG_TIPS.findIndex(t=>t[0] === s) + 1) + '</span>' : '';
+  let m = $('regSheet');
+  if(!m){ m = document.createElement('div'); m.className = 'modal'; m.id = 'regSheet'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'reg-t'); document.querySelector('.screen').appendChild(m); }
+  m.innerHTML = '<div class="modal-box"><h2 id="reg-t">등기부등본 어디를 보나요?</h2>' +
+    '<div class="reg-doc" aria-label="등기부등본 예시 그림"><p class="rd-h">등기사항전부증명서(말소사항 포함)</p><p class="rd-s">예시 · [집합건물] 서울특별시 ○○구 ○○동 000 ○○빌라 제2층 제201호</p>' +
+    '<div class="rd-sec"><p>【 표제부 】 <small>건물과 내 호실</small></p><div class="rd-r' + hl('pyo') + '"><span>1</span><span>' + mk('pyo') + '주소 · 건물 이름 · 층 · 호수 · 면적</span></div></div>' +
+    '<div class="rd-sec"><p>【 갑구 】 <small>소유권에 관한 사항</small></p><div class="rd-r"><span>1</span><span>소유권보존 · 소유자 ○○○</span></div><div class="rd-r' + hl('gap') + '"><span>2</span><span>' + mk('gap') + '소유권이전 · 소유자 ○○○ 지분 2분의 1, ○○○ 지분 2분의 1</span></div></div>' +
+    '<div class="rd-sec"><p>【 을구 】 <small>소유권 이외의 권리에 관한 사항</small></p><div class="rd-r del"><span>1</span><span>근저당권설정 · 채권최고액 금 60,000,000원</span></div><div class="rd-r' + hl('eul') + '"><span>2</span><span>' + mk('eul') + '근저당권설정 · 채권최고액 금 120,000,000원 · 근저당권자 ○○은행</span></div></div></div>' +
+    '<div class="reg-tips">' + REG_TIPS.map((t,i)=>'<div class="' + (on.includes(t[0]) ? 'on' : '') + '"><b>' + (i + 1) + '. ' + t[1] + '</b><p>' + t[2] + '</p></div>').join('') + '</div>' +
+    '<p class="note" style="text-align:left">등기부는 인터넷등기소에서 누구나 뗄 수 있어요. 중개사가 보여 준 것보다 내가 직접 최근에 뗀 것을 봐요. 위 그림은 예시예요.</p>' +
+    '<div class="fz-btns reg-close"><a class="btn sub2" href="' + HELP.iros.web + '" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none">인터넷등기소 열기</a><button type="button" class="btn" data-reg-close>닫기</button></div></div>';
+  m.hidden = false;
+  m.querySelector('.modal-box').scrollTop = 0;
+  m.querySelector('[data-reg-close]').focus({preventScroll:true});
+}
+function closeReg(){ const m = $('regSheet'); if(m) m.hidden = true; }
+document.addEventListener('click', e=>{
+  const r = e.target.closest('[data-reg]'); if(r){ e.preventDefault(); return openReg(r.dataset.reg); }
+  if(e.target.closest('[data-reg-close]') || e.target.id === 'regSheet') closeReg();
+});
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeReg(); });
+window.addEventListener('popstate', closeReg);
+
+// ---------- 계약 전 최종 정리 (2026-11-25 사용자와 정함) ----------
+// 이 집의 위험·확인 필요, 계약서에 넣을 특약, 계약하는 날·입주하는 날 챙길 것을 한 장으로 모아요.
+// 특약 문구는 질문마다 앱에 이미 있는 「추천 행동」 문장에서만 가져와요(새 문구를 만들지 않아요). 판단 기준은 그대로예요.
+// 공유는 휴대폰 공유 창(navigator.share)만 써요. 서버로 보내지 않아요. 금액은 사용자가 켤 때만 넣어요.
+let fzMoney = false;
+function finalClauses(){
+  const out = [];
+  Q.forEach(q=>{
+    if(na(q.id)) return;
+    // 5번: 근저당이 없다고 등기부로 확인했으면 "근저당 말소" 특약은 필요 없어요
+    if(q.id === 'q5' && fv('q5').has === 'none') return;
+    q.acts.forEach(a=>{
+      const m = a.match(/특약에\s*"([^"]+)"/); if(!m) return;
+      const lv = isDone(q.id) ? judge(q.id).level : '';
+      out.push({q, text:m[1], must:lv === 'bad' || lv === 'unsure'});
+    });
+  });
+  return out.sort((a,b)=>(b.must - a.must) || (a.q.n - b.q.n));
+}
+function renderFinal(){
+  const c = levelCount(), n = Q.filter(q=>seen(q.id)).length, left = Q.length - n;
+  const byLv = lv => Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === lv);
+  const B = byLv('bad'), U = byLv('unsure'), cl = finalClauses();
+  const firstReason = (q, lv) => { const r = judge(q.id).reasons.find(x=>x[0] === lv); return r ? r[1] : ''; };
+  const row = (q, lv) => '<button type="button" class="fz-row" data-goq="' + q.id + '"><b>' + q.n + '. ' + esc(q.tag) + '<span class="lv ' + lv + '">' + LEVEL[lv][1] + '</span></b><span>' + esc(firstReason(q, lv)) + '</span></button>';
+  const name = blankHouse(house) ? '내 계약' : house.name, sub = houseSub();
+  const any = Q.some(q=>isDone(q.id) && !na(q.id));
+  let h = '<div class="fz-head"><p>' + esc(name) + (sub ? ' · ' + esc(sub) : '') + '</p><h2>' + (any ? headline(c, left, Q.length).replace(/<em[^>]*>|<\/em>/g, '') : '아직 확인한 질문이 없어요') + '</h2>' +
+    '<p class="fz-st">' + n + ' / ' + Q.length + '개 확인' + (any && sumLine(c) ? '<i>·</i>' + sumLine(c).replace(/<[^>]+>/g, '') : '') + '</p></div>';
+  h += '<div class="grp"><div class="card-t">계약 전에 해결할 것<small>' + (B.length + U.length) + '개</small></div><div class="card">' +
+    (B.length + U.length ? B.map(q=>row(q, 'bad')).join('') + U.map(q=>row(q, 'unsure')).join('') : '<p class="fz-empty">' + (any ? '지금까지 위험하거나 더 확인할 답은 없어요.' + (left ? ' 남은 ' + left + '개도 확인해 주세요.' : '') : '질문에 답하면 위험한 것부터 여기에 모여요.') + '</p>') + '</div></div>';
+  h += '<div class="grp"><div class="card-t">계약서에 넣을 특약<small>' + cl.length + '개</small></div><div class="card">' +
+    cl.map(x=>'<div class="fz-cl"><p>' + esc(x.text) + '</p><small class="' + (x.must ? '' : 'why') + '">' + (x.must ? '꼭 · ' : '') + x.q.n + '. ' + esc(x.q.tag) + '</small></div>').join('') + '</div></div>';
+  h += '<p class="note" style="margin-top:8px;text-align:left">○ 표시는 중개사·집주인과 정해서 채워요. 말로 한 약속은 남지 않아서 계약서에 적어요.</p>';
+  const docs = i => GUIDE[i][1].map(x=>x[0]).filter(t=>t.indexOf('특약') < 0).join(' · '); // 특약은 위에 따로 있어요
+  h += '<div class="grp"><div class="card-t">챙길 것</div><div class="card fz-docs"><p>계약서 쓰는 날<span>' + docs(1) + '</span></p><p>잔금·입주하는 날<span>' + docs(2) + '</span></p></div></div>';
+  h += '<label class="fz-opt"><input type="checkbox" id="fzMoney"' + (fzMoney ? ' checked' : '') + '>공유할 때 보증금·월세도 넣기</label>';
+  h += '<p class="note">참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>';
+  $('pz-body').innerHTML = h;
+}
+function finalText(){
+  const c = levelCount(), n = Q.filter(q=>seen(q.id)).length;
+  const byLv = lv => Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === lv);
+  const B = byLv('bad'), U = byLv('unsure'), cl = finalClauses();
+  const name = blankHouse(house) ? '내 계약' : house.name, sub = fzMoney ? houseSub() : '';
+  const L = ['[집콕체크] ' + name + ' 계약 전 정리' + (sub ? ' (' + sub + ')' : ''), '확인한 질문 ' + n + ' / ' + Q.length];
+  if(B.length) L.push('', '위험 ' + B.length + '개', ...B.map(q=>'- ' + q.n + '. ' + q.tag));
+  if(U.length) L.push('', '확인 필요 ' + U.length + '개', ...U.map(q=>'- ' + q.n + '. ' + q.tag));
+  if(!B.length && !U.length && c.ok) L.push('', '지금까지 위험하거나 더 확인할 답은 없어요.');
+  L.push('', '계약서에 넣을 특약', ...cl.map((x,i)=>(i + 1) + '. ' + x.text));
+  L.push('', '참고용 안내이며 법률 자문이 아니에요.', 'https://zipkok-check.vercel.app');
+  return L.join('\n');
+}
+async function copyText(t){
+  try { await navigator.clipboard.writeText(t); return true; } catch(e) {}
+  try { const a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly', ''); a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; } catch(e) { return false; }
+}
+document.addEventListener('click', e=>{ if(e.target.closest('[data-go-final]')) go('pz'); });
+$('pz').addEventListener('click', e=>{
+  const g = e.target.closest('[data-goq]'); if(!g) return;
+  state.sel = g.dataset.goq; renderAnswer(); go('p2');
+});
+$('pz').addEventListener('change', e=>{ if(e.target.id === 'fzMoney') fzMoney = e.target.checked; });
+$('fzCopy').addEventListener('click', async ()=>{
+  const t = finalClauses().map((x,i)=>(i + 1) + '. ' + x.text).join('\n');
+  toast(await copyText(t) ? '특약 ' + finalClauses().length + '개를 복사했어요. 중개사에게 보내거나 계약서에 옮겨 적어요.' : '복사하지 못했어요. 글을 길게 눌러 복사해 주세요.');
+});
+$('fzShare').addEventListener('click', async ()=>{
+  const t = finalText();
+  if(navigator.share){
+    try { await navigator.share({title:'집콕체크 계약 전 정리', text:t}); return; }
+    catch(e){ if(e && e.name === 'AbortError') return; }
+  }
+  toast(await copyText(t) ? '정리한 내용을 복사했어요. 카카오톡에 붙여 넣어 보내세요.' : '공유하지 못했어요.');
 });
 
 // ---------- ① 내 계약: 후보 집 목록 ----------
@@ -3612,25 +3828,56 @@ async function cmpHouse(x, elId){
     const diff = jeonse ? c.deposit - median(m.map(t=>t[5])) : (c.rent == null ? null : c.rent - median(m.map(t=>t[6])));
     if(diff == null) return;
     const el = $(elId); if(!el) return;
-    const a = Math.abs(Math.round(diff)), w = jeonse ? '동네 전세' : '보증금 비슷한 거래';
-    el.innerHTML = a < (jeonse ? 500 : 2) ? '<span class="ptag b">' + w + '와 비슷해요</span>' : diff < 0 ? '<span class="ptag ok">' + w + '보다 ' + shortMan(a) + '만 원 쌈</span>' : '<span class="ptag warn">' + w + '보다 ' + shortMan(a) + '만 원 비쌈</span>';
+    // 문구 (2026-11-25): "보증금 비슷한 거래보다 n만 원 쌈"이 보증금이 싸다는 뜻으로 읽혀서 무엇이 싼지 적어요
+    const a = Math.abs(Math.round(diff)), w = jeonse ? '동네 전세보다' : '비슷한 보증금 집들보다 월세';
+    el.innerHTML = a < (jeonse ? 500 : 2) ? '<span class="ptag b">' + (jeonse ? '동네 전세와 비슷한 가격' : '비슷한 보증금 집들과 월세가 비슷해요') + '</span>' : diff < 0 ? '<span class="ptag ok">' + w + ' ' + shortMan(a) + '만 원 쌈</span>' : '<span class="ptag warn">' + w + ' ' + shortMan(a) + '만 원 비쌈</span>';
   } catch(e) {}
 }
-const sumLine = c => '<span class="sl bad">위험 ' + c.bad + '</span> · <span class="sl unsure">확인 필요 ' + c.unsure + '</span> · <span class="sl ok">안전 ' + c.ok + '</span>';
+// 위험·확인 필요·안전 한 줄: 0개는 빼요 (2026-11-25, "위험 0"이 빨간 글씨로 보여 겁나 보였어요)
+const sumLine = c => [['bad','위험'],['unsure','확인 필요'],['ok','안전']].filter(x=>c[x[0]]).map(x=>'<span class="sl ' + x[0] + '">' + x[1] + ' ' + c[x[0]] + '</span>').join(' · ');
+// 리포트 결론 문장 (계약 체크·집 진행 화면이 함께 써요, 2026-11-25): 남은 질문 수에 맞게, 숫자는 판단 색으로
+function headline(c, left, total){
+  if(c.bad) return '계약금 보내기 전에<br><em>위험 ' + c.bad + '개</em>부터 해결하세요';
+  if(c.unsure) return left ? '<em class="unsure">확인 필요 ' + c.unsure + '개</em>가 있어요<br>남은 ' + left + '개도 확인해요' : total + '개를 모두 확인했어요<br><em class="unsure">확인 필요 ' + c.unsure + '개</em>를 마저 챙겨요';
+  return left ? '지금까지 큰 문제는 없어요<br>남은 ' + left + '개도 확인해요' : total + '개를 모두 확인했어요<br>큰 문제는 보이지 않아요';
+}
+// 그 집에서 다음에 할 일: [설명, 보여 줄 말, 갈 질문(없으면 리포트)]
+function nextStep(h){
+  return withHouse(h, ()=>{
+    const pend = Q.find(q=>isDone(q.id) && !seen(q.id));
+    if(pend) return ['AI가 채운 답 확인', pend.n + '. ' + pend.tag, pend.id];
+    const q = BY_ID[nextOpen()];
+    return q ? ['다음 질문', q.n + '. ' + q.tag, q.id] : ['다 확인했어요', '계약 전 최종 정리 보기', null];
+  });
+}
 function renderDeals(){
   const D = houses.list.filter(h=>!blankHouse(h));
   const label = s => s.now === 1 ? '안전한 집 · ' + s.d + '개 남음' : s.now === 2 ? '안전한 계약 · ' + s.a + '개 남음' : '안전 리포트 보기';
+  // 집이 없을 때: 무엇을 해 주는 앱인지 먼저 보여 줘요 (2026-11-25 사용자와 정함)
+  const intro = '<div class="intro"><p class="intro-t">계약 전에 꼭 물어볼 <em>15가지</em>,<br>들은 답이 안전한지 바로 알려 드려요</p>' +
+    '<ol class="intro-steps">' +
+    '<li><span class="n">1</span><div><b>보러 갈 집 저장</b><span>직방·다방·네이버에서 본 집 이름과 가격만 적어요</span></div></li>' +
+    '<li><span class="n">2</span><div><b>들은 답 고르기</b><span>질문마다 고르기만 하면 돼요. 대화를 녹음하면 자동으로 채워져요</span></div></li>' +
+    '<li><span class="n">3</span><div><b>안전 리포트로 확인</b><span>위험한 것부터, 계약서에 넣을 특약까지 한 장으로</span></div></li>' +
+    '</ol>' +
+    '<button type="button" class="btn" data-add-house>보러 갈 집 추가하고 시작하기</button>' +
+    '<button type="button" class="intro-sub" data-tab-go="pb">아직 집이 없어요 · 동네 시세부터 보기</button>' +
+    '<p class="intro-trust">무료 · 로그인 없음 · 답은 이 휴대폰에만 저장돼요</p></div>';
   let h = D.length ? D.map(x=>{
-    const s = stageOf(x), done = [true, !s.d, !s.a, false];
+    const s = stageOf(x), done = [true, !s.d, !s.a, false], nx = nextStep(x);
     const sub = [s.sub, x.dong, x.site].filter(Boolean).join(' · ');
-    return '<button type="button" class="deal" data-open-deal="' + x.id + '"><p class="dn">' + esc(x.name) + '</p>' + (sub ? '<p class="ds">' + esc(sub) + '</p>' : '') +
+    const line = s.any ? sumLine(s.c) : '';
+    return '<div class="deal" role="button" tabindex="0" data-open-deal="' + x.id + '"><p class="dn">' + esc(x.name) + '</p>' + (sub ? '<p class="ds">' + esc(sub) + '</p>' : '') +
       '<div id="cmp-d' + x.id + '"></div>' +
       '<div class="dbar">' + [0,1,2,3].map(i=>'<i class="' + (done[i] ? 'd' : i === s.now ? 'n' : '') + '"></i>').join('') + '</div>' +
       '<p class="dl"><span>' + (s.now + 1) + '단계 · <b>' + label(s) + '</b></span><span>' + s.n + '/' + Q.length + '</span></p>' +
-      (s.any ? '<p class="sum-line">' + sumLine(s.c) + '</p>' : '') + '</button>';
-  }).join('') : '<div class="card r-empty" style="margin-top:16px">아직 저장한 집이 없어요.<br>마음에 드는 집을 저장하면,<br>계약 전에 확인할 것을 단계별로 챙겨 드려요.</div>';
-  h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
+      (line ? '<p class="sum-line">' + line + '</p>' : '') +
+      '<button type="button" class="deal-next" data-next-deal="' + x.id + '"><small>' + nx[0] + '</small><b>' + esc(nx[1]) + '</b>' + ARROW + '</button></div>';
+  }).join('') : intro;
+  if(D.length) h += '<button type="button" class="save-like" data-add-house>+ 후보 집 추가</button>';
   $('deals').innerHTML = h;
+  // 집이 없을 때는 소개가 먼저 보이게 가이드 입구를 숨겨요(소개 아래 「동네 시세」와 더보기에서 들어갈 수 있어요)
+  const ge = $('p0').querySelector('.guide-entry'); if(ge) ge.style.display = D.length ? '' : 'none';
   D.forEach(x=>cmpHouse(x, 'cmp-d' + x.id));
 }
 
@@ -3661,7 +3908,7 @@ function renderDealCard(){
   let h = '<p class="hc-n">' + esc(house.name) + '</p>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
     '<div class="hc-meta"><span id="cmp-pd"></span>' + (house.link ? '<a class="hc-a" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기' + ARROW + '</a>' : '') + '</div>' +
     '<div class="hsteps">' + steps.map((x,i)=>'<div class="hst' + (x[2] ? ' done' : i === now ? ' hcur' : '') + '"' + (x[3] ? ' data-quick="' + x[3] + '"' : '') + '><span class="hs-d">' + (x[2] ? CK : i + 1) + '</span><div><b>' + x[0] + '</b>' + (x[1] ? '<span>' + esc(x[1]) + '</span>' : '') + '</div>' + (x[3] ? ARROW : '') + '</div>').join('') + '</div>';
-  if(any) h += '<div class="hsum"><p class="hsum-t">' + (c.bad ? '계약금 보내기 전에<br><em>위험 ' + c.bad + '개</em>부터 해결하세요' : warn ? '계약금 보내기 전에 <em>' + warn + '개</em>를<br>먼저 확인하세요' : a + d ? '지금까지 큰 문제는 없어요' : '큰 문제는 보이지 않아요') + '</p>' +
+  if(any) h += '<div class="hsum"><p class="hsum-t">' + headline(c, a + d, Q.length) + '</p>' +
     (badQ.length ? '<p class="hsum-bad">' + badQ.map(q=>esc(q.tag)).join(' · ') + '</p>' : '') + '<p class="sum-line">' + sumLine(c) + '</p></div>';
   const recOn = (R && T.phase === 'rec') || liveOn;
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
@@ -3669,6 +3916,7 @@ function renderDealCard(){
   if(now < 3) h += '<button type="button" class="btn" data-quick="' + (now === 1 ? 'docs' : 'ask') + '" style="margin-top:16px">질문 보면서 답 고르기</button>' +
     (recOn ? '' : '<button type="button" class="btn sub2 rec-opt" data-quick="talk">' + ICON_MIC + '녹음으로 빠르게 채우기<small>선택</small></button>');
   else h += '<button type="button" class="btn" data-quick="list" style="margin-top:16px">안전 리포트 보기</button>';
+  h += '<button type="button" class="guide-entry" data-go-final><div><b>계약 전 최종 정리</b><span>해결할 것 · 계약서에 넣을 특약 · 부모님께 공유</span></div>' + ARROW + '</button>';
   h += '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지 · 물어볼 질문 · 어려운 말</span></div>' + ARROW + '</button>';
   h += '<p class="hc-foot"><button type="button" class="hc-link" data-rename>이름 바꾸기</button><span aria-hidden="true">·</span><button type="button" class="hc-link" data-del-house>이 집 지우기</button></p>';
   card.innerHTML = h;
@@ -3701,6 +3949,16 @@ function homeClick(e){
     if(nm && nm.trim()){ house.name = nm.trim().slice(0, 20); house.named = true; save(); renderList(); renderStart(); toast('이름을 바꿨어요.'); }
     return;
   }
+  // 집 카드의 「다음 질문」: 그 집으로 바꾸고 바로 그 질문으로 (2026-11-25)
+  const nd = e.target.closest('[data-next-deal]');
+  if(nd){
+    useHouse(+nd.dataset.nextDeal); listFilter = null;
+    const nx = nextStep(house); renderList();
+    if(!nx[2]) return go('pz');
+    state.sel = nx[2]; renderAnswer(); return go('p2');
+  }
+  const tg = e.target.closest('[data-tab-go]');
+  if(tg) return goTab(tg.dataset.tabGo);
   const od = e.target.closest('[data-open-deal]');
   if(od){ useHouse(+od.dataset.openDeal); renderList(); return go('pd'); }
   if(e.target.closest('[data-add-house]')) return openLikeForm(null);
@@ -3723,6 +3981,10 @@ function homeClick(e){
   if(k === 'help') return goTab('ps');
 }
 $('p0').addEventListener('click', homeClick);
+// 집 카드는 안에 버튼이 있어 div예요. 키보드 Enter·Space로도 열려요
+$('p0').addEventListener('keydown', e=>{
+  if((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-open-deal]')){ e.preventDefault(); e.target.click(); }
+});
 $('pd').addEventListener('click', homeClick);
 
 // 예전 집 기록은 「내 계약」으로 (2026-11-20)
