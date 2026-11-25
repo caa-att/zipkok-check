@@ -1135,14 +1135,14 @@
   .rt-h.bad::before,.rt-h.unsure::before,.rt-ok::before,.rt-i.bad::before,.rt-i.unsure::before,.lv.ok::before,.lv.unsure::before,.lv.bad::before,.sl::before{content:'';display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;vertical-align:1px;background:var(--ok-fill)}
   .rt-h.unsure::before,.rt-i.unsure::before,.lv.unsure::before,.sl.unsure::before{background:var(--unsure-fill)}
   .rt-h.bad::before,.rt-i.bad::before,.lv.bad::before,.sl.bad::before{background:var(--bad-fill)}
-  /* E5 남색 카드는 흰 카드·연한 파랑으로 */
-  .reco{background:#fff;color:var(--ds-text-strong);border:1.5px solid var(--ds-divider)}
-  .reco-ic{background:var(--brand-50);color:var(--brand-press)}
-  .reco-t span{color:var(--ds-text-secondary)}
-  .reco > svg{color:var(--ds-gray-500)}
-  .fz-head{background:var(--brand-50);color:var(--ds-text-strong)}
-  .fz-head p{opacity:1;color:var(--ds-text-secondary)}
-  .fz-head .fz-st i{opacity:1}
+  /* B안 (2026-11-25 사용자와 정함): 화면마다 주인공 하나는 브랜드 색(남색·분홍)으로 꽉 채워요
+     동네 시세의 AI 동네 추천 카드 = 남색 + 분홍 AI 배지, 최종 정리 머리 = 남색, 첫 화면 "15가지" = 분홍 */
+  .reco{background:var(--navy-b);color:#fff;border:0}
+  .reco-ic{background:#E34C7F;color:#fff}
+  .reco-t span{color:#C9D5EE}
+  .reco > svg{color:#B9C8E8}
+  .fz-head{background:var(--navy-b);color:#fff}
+  .intro-t em{color:#E34C7F}
   /* 내 계약 맨 아래 안내 (2026-11-25): 내용이 짧아도 화면 맨 아래에 붙어요 */
   #p0 .scroll{display:flex;flex-direction:column}
   #p0 .scroll > *{flex-shrink:0}
