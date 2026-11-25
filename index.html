@@ -3395,20 +3395,23 @@ function appUrl(app, x, deal, dep, rent){
     if(xy) q.push('center=' + naverXY(xy[1]) + '-' + naverXY(xy[0]), 'zoom=15');
     return 'https://fin.land.naver.com/map?' + q.join('&');
   }
-  return 'https://www.zigbang.com/home/oneroom/map';
+  // 직방: www 주소는 휴대폰에서 앱이나 설치 화면으로 보내요. 휴대폰은 m.zigbang.com 웹 지도로 열어요(2026-11-25 확인: 안드로이드·아이폰·카톡에서 앱 없이 열림).
+  // 위치·가격은 주소로 넘어가지 않아서, 누를 때 무엇을 넣을지 알림으로 알려 줘요
+  return (isPhone() ? 'https://m.zigbang.com' : 'https://www.zigbang.com') + '/home/oneroom/map';
 }
+// 아이패드 Safari는 PC 화면을 받아서 휴대폰으로 치지 않아요
+const isPhone = () => /Android|iPhone|iPod/i.test(navigator.userAgent);
 // 상한: 사용자가 적은 예산이 있으면 그것, 없으면 그 동네 가운데값보다 조금 넉넉하게
 const capOf = (v, mine) => mine ? +mine : v ? Math.ceil(v * 1.2 / 10) * 10 : null;
 function appLinks(x, deal, dep, rent){
   const d = capOf(x.dep, dep), r = deal === 'jeonse' ? null : capOf(x.rent, rent);
-  const hint = esc(x.dong) + ' · ' + (deal === 'jeonse' ? '전세' : '월세') + (d ? ' · 보증금 ' + shortMan(d) + '만 이하' : '') + (r ? ' · 월세 ' + r + '만 이하' : '');
-  return ['직방', '다방', '네이버'].map(a=>'<a class="hbtn" href="' + esc(appUrl(a, x, deal, d, r)) + '" target="_blank" rel="noopener"' + (a === '직방' ? ' data-zb-hint="' + hint + '"' : '') + '>' + a + '</a>').join('');
+  const hint = (deal === 'jeonse' ? '전세' : '월세') + (d ? ' · 보증금 ' + shortMan(d) + '만 이하' : '') + (r ? ' · 월세 ' + r + '만 이하' : '');
+  return ['직방', '다방', '네이버'].map(a=>'<a class="hbtn" href="' + esc(appUrl(a, x, deal, d, r)) + '" target="_blank" rel="noopener"' + (a === '직방' ? ' data-zb-dong="' + esc(x.dong) + '" data-zb-hint="' + hint + '"' : '') + '>' + a + '</a>').join('');
 }
 document.addEventListener('click', e=>{
   const z = e.target.closest('[data-zb-hint]'); if(!z) return;
-  // 휴대폰(아이패드 Safari는 PC 화면을 받아서 빼요)에서는 직방이 앱이나 설치 화면으로 보내요 (2026-11-21 확인)
-  if(/Android|iPhone|iPod/i.test(navigator.userAgent) && !confirm('직방은 휴대폰에서 앱으로 열려요. 앱이 없으면 설치 화면으로 가요.\n\n직방에서 이렇게 맞춰 보세요: ' + z.dataset.zbHint + '\n\n열까요?')){ e.preventDefault(); return; }
-  toast('직방에서 이렇게 맞춰 보세요 · ' + z.dataset.zbHint);
+  // 휴대폰은 웹 지도로 열려서 확인 창 없이 알림만 보여 줘요 (2026-11-25 사용자와 정함)
+  toast('직방 검색창에서 「' + z.dataset.zbDong + '」 찾기 · ' + z.dataset.zbHint);
 });
 
 // ---------- ① 둘러보기: 학교 근처 동네를 매물 카드처럼 (실거래 가운데값) + 매물 앱 바로가기 ----------
