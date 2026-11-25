@@ -1253,8 +1253,9 @@
   .view.tabv > .nav{background:var(--bg)}
   .tab-head{display:flex;align-items:center;height:56px;padding-left:2px;font-size:24px;font-weight:800;letter-spacing:-.4px;color:var(--ds-text-strong)}
   #pb-head{margin:0;padding:0;background:none}
-  #pb .reco,#ps .guide-entry{margin-top:12px;min-height:84px;padding:16px 18px;border-radius:16px}
-  #ps .guide-entry{margin-bottom:0}
+  #pb .reco,#ps .reco{margin-top:12px;min-height:84px;padding:16px 18px;border-radius:16px}
+  .reco-ic.g-ic{background:var(--brand)}
+  .reco-ic.g-ic svg{width:26px;height:26px}
   #pb .cat4:not(.on){border-color:transparent}
   #pb .seg2{background:#E7EAF0}
   .d-lead{margin:12px 2px 0;font-size:15px;line-height:22px;color:var(--ds-text-secondary)}
@@ -2434,7 +2435,8 @@ const helpRows = keys => keys.map(k=>{
 function renderServices(){
   $('ps-body').innerHTML =
     '<div class="tab-head">더보기</div>' + // L2 (2026-11-25): 세 탭 모두 같은 56px 머리 줄 → 탭을 바꿔도 내용이 같은 자리에서 시작
-    '<button type="button" class="guide-entry" data-go-guide><div><b>계약 준비 가이드</b><span>언제 무엇을 챙길지</span></div>' + ARROW + '</button>' +
+    // L5 (2026-11-25): 동네 추천 카드와 같은 주인공 카드(남색 + 아이콘 칸). 로고 파랑으로 칠한 큰 카드는 여기 하나뿐이라 혼자 튀었음
+    '<button type="button" class="reco" data-go-guide><span class="reco-ic g-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6M8 4H6a1 1 0 00-1 1v15a1 1 0 001 1h12a1 1 0 001-1V5a1 1 0 00-1-1h-2"/><path d="M9 11l2 2 4-4M9 17h6"/></svg></span><span class="reco-t"><b>계약 준비 가이드</b><span>언제 무엇을 챙길지</span></span>' + ARROW + '</button>' +
     '<div class="grp" id="ps-docs"><div class="card-t">서류 떼기</div><div class="card">' + helpRows(['iros','gov24']) + '</div></div>' +
     '<div class="grp" id="ps-help"><div class="card-t">무료 상담<small>공공기관</small></div><div class="card">' + helpRows(['klac','seoul','hug','gu']) + '</div></div>' +
     '<div class="urgent" style="margin-top:28px"><b>돈을 보냈는데 연락이 끊겼나요?</b>바로 신고하고, 송금 기록·계약서·문자는 지우지 마세요.' +
