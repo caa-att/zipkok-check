@@ -1212,7 +1212,7 @@
   .deal,.fz-head,.reco,.lcard,.urgent,.intro{border-radius:16px}
   .btn{height:56px;border-radius:16px}
   .rec-big{height:56px;border-radius:16px}
-  .ai-btn,.lk-send{height:48px;border-radius:14px}
+  .ai-btn{height:48px;border-radius:14px} /* 2026-11-28: .lk-send(안내 글 상자)가 48px로 묶여 글이 버튼 밑으로 겹치던 것을 뺌 */
   .ai-btn:not(.fill){border:0;background:var(--brand-50);color:var(--brand)}
   .ai-btn.sub{background:var(--ds-gray-100);color:var(--ds-text-primary)}
   .save-like{height:48px;border:0;border-radius:14px;background:#fff;color:var(--brand)}
@@ -1623,6 +1623,7 @@
           <div class="grp" id="a-ai" hidden></div>
           <div class="grp" id="a-rent" hidden></div>
           <div class="grp" id="a-lookup" hidden></div>
+          <div class="grp" id="a-bldg" hidden></div>
           <div id="a-fields"></div>
           <!-- N2 (2026-11-25): 메모와 누가·어떻게는 흰 카드 한 장에 두 줄. 어느 질문에서나 같은 모양이고, 누르면 그 줄 아래가 펼쳐져요.
                누가·어떻게는 판단(🟢🟠🔴)을 바꾸지 않고 결과 화면 보관 팁만 바꿔서 접어 둬요 -->
@@ -2354,6 +2355,7 @@ function renderAnswer(){
   $('a-ai').innerHTML = aq.length ? '<div class="aiq"><b>대화에서 찾은 답 · AI가 채웠어요</b>' + [...new Set(aq.map(x=>x[1]))].map(t=>'<q>' + esc(t) + '</q>').join('') + '<small>맞는지 보고, 틀린 곳은 아래에서 고친 뒤 「판단 결과 보기」를 눌러 확인해 주세요.</small></div>' : '';
   renderFields();
   renderLookup();
+  renderBldg();
   updateAnswerUI();
 }
 
@@ -2526,6 +2528,60 @@ function pickOffice(i){
   sc.scrollTop = y;
   updateAnswerUI();
 }
+
+/* ---------- 건축물대장 조회 (4차, 2026-11-28) ----------
+   9번 답 화면에서 「조회하기」를 누르면 적은 주소만 api/building.mjs로 보내요(브이월드 → 국토교통부 건축물대장).
+   결과는 화면에만 보여 주고 저장하지 않아요. 용도가 분명할 때만 9번 답을 골라 주고, 위반건축물 여부는 이 조회에 없어서 직접 골라요. */
+let bdTurn = 0, bdAddr = '', bdData = null;
+const BD_USE = {house:'주택', officetel:'오피스텔', retail:'근린생활시설 등 주택 아님'};
+function renderBldg(){
+  const box = $('a-bldg'), on = state.sel === 'q9';
+  bdTurn++; bdData = null; box.hidden = !on;
+  if(!on){ box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="card-t">건축물대장 조회해 보기<small>국토교통부 자료</small></div><div class="card pad">' +
+    '<p class="ai-text">집 주소를 넣으면 건축물대장에 적힌 용도를 바로 확인할 수 있어요.</p>' +
+    '<label class="lk-l" for="bd-addr">집 주소</label><input id="bd-addr" class="lk-in" type="text" autocomplete="off" maxlength="60" placeholder="예: 마포구 신수동 1 또는 백범로 35" value="' + esc(bdAddr) + '">' +
+    '<p class="lk-send">조회하기를 누르면 적은 주소만 국가공간정보포털(브이월드)과 국토교통부로 보내요. 호수·이름은 적지 마세요. 조회 결과는 저장하지 않아요.</p>' +
+    '<button type="button" class="ai-btn fill" id="bd-go">조회하기</button><div id="bd-out"></div></div>';
+}
+function bdOut(step, data){
+  const out = $('bd-out'), go = $('bd-go'); if(!out) return;
+  go.disabled = step === 'wait'; go.textContent = step === 'wait' ? '조회하는 중…' : '조회하기';
+  const msg = (a, b) => '<p class="lk-msg">' + a + (b ? '<span>' + b + '</span>' : '') + '</p>';
+  if(step === 'wait'){ out.innerHTML = ''; return; }
+  if(step === 'need'){ out.innerHTML = msg('주소를 적어 주세요', '구·동과 번지, 또는 도로명과 건물 번호를 적어 주세요.'); return; }
+  if(step === 'fail'){ out.innerHTML = msg('조회하지 못했어요', data === 'no_key' ? '조회 준비가 아직 끝나지 않았어요. 정부24에서 건축물대장을 직접 떼어 보세요.' : '잠시 뒤 다시 조회하거나, 정부24에서 건축물대장을 직접 떼어 보세요.'); return; }
+  if(step === 'done') bdData = data;
+  const d = bdData, items = d.items || [];
+  if(!items.length){ out.innerHTML = msg('조회되지 않아요', d.reason === 'seoul' ? '서울 주소만 조회할 수 있어요.' : '주소를 지번(예: 신수동 1)이나 도로명(예: 백범로 35)으로 다시 적어 보세요. 그래도 없으면 정부24에서 떼어 보세요.'); return; }
+  const cur = ans('q9').f.use;
+  out.innerHTML = msg('건축물대장 ' + items.length + '건이 조회됐어요', esc(d.place || '') + (items.length > 1 ? ' · 동이 여러 개면 내 집이 있는 동을 보세요.' : '')) +
+    items.map(x=>'<div class="lk-res"><b>' + esc(x.name || '이름 없는 건물') + '</b><dl class="lk-dl">' +
+      [['주된 용도', x.use], ['그 밖의 용도', x.etc], ['대장 종류', x.kind], ['사용 승인', x.apr], ['주소', x.addr]].filter(r=>r[1]).map(r=>'<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>').join('') + '</dl></div>').join('') +
+    (d.pick ? (cur === d.pick ? '<p class="lk-done">아래 "건축물대장의 용도" 답을 「' + BD_USE[d.pick] + '」로 골라 뒀어요. 다르면 바꿔 주세요.</p>' : '<button type="button" class="ai-btn" id="bd-use">「' + BD_USE[d.pick] + '」로 답 고르기</button>')
+      : '<p class="lk-done">층마다 용도가 달라 보여요. 내 집이 있는 층의 용도를 정부24 건축물대장에서 확인하고 아래에서 직접 골라 주세요.</p>') +
+    '<p class="lk-send">위반건축물 표시는 이 조회에 나오지 않아요. 정부24에서 뗀 건축물대장 첫 장 위쪽을 확인하세요.</p>';
+}
+async function sendBldg(){
+  const addr = bdAddr.trim(); if(addr.length < 4) return bdOut('need');
+  const turn = bdTurn; bdOut('wait');
+  try {
+    const r = await fetch('/api/building', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({addr})});
+    const d = await r.json().catch(()=>({}));
+    if(turn !== bdTurn) return;
+    if(!r.ok) return bdOut('fail', d.error);
+    bdOut('done', d);
+  } catch(e) { if(turn === bdTurn) bdOut('fail'); }
+}
+document.addEventListener('input', e=>{ if(e.target.id === 'bd-addr') bdAddr = e.target.value; });
+document.addEventListener('click', e=>{
+  if(e.target.closest('#bd-go')) return sendBldg();
+  if(e.target.closest('#bd-use') && bdData && bdData.pick){
+    ans('q9').f.use = bdData.pick; save();
+    const sc = $('p2').querySelector('.scroll'), y = sc.scrollTop;
+    bdOut('picked'); renderFields(); sc.scrollTop = y; updateAnswerUI();
+  }
+});
 
 async function sendLookup(){
   if(!lk.gu) return lkOut('need-gu');
