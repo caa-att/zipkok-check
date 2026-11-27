@@ -85,7 +85,12 @@ export default async function handler(req, res){
 
     const q = new URLSearchParams({serviceKey: hkey, sigunguCd: p.code.slice(0, 5), bjdongCd: p.code.slice(5, 10), platGbCd: j.gb, bun: j.bun, ji: j.ji, _type: 'json', numOfRows: '20', pageNo: '1'});
     const r = await getJson(HUB + '?' + q.toString(), 12000);
-    if(!r.data){ logFail('건축HUB 응답 ' + r.status + ' ' + String(r.text || '').replace(/[A-Za-z0-9+/=]{30,}/g, '***').slice(0, 80)); return res.status(502).json({error: r.status === 401 || r.status === 403 ? 'hub_key' : 'hub'}); }
+    if(!r.data){
+      // 2026-11-28: 도로명 주소에서 바꾼 지번으로 부르면 빈 응답이 올 때가 있어요. 오류 대신 "지번으로 다시"를 안내하고, 원인을 찾게 바꾼 코드·지번만 남겨요(키·주소 글자는 남기지 않아요)
+      logFail('건축HUB 응답 ' + r.status + ' 길이 ' + String(r.text || '').length + ' · 코드 ' + p.code + ' 지번 ' + j.gb + '-' + j.bun + '-' + j.ji + ' ' + String(r.text || '').replace(/[A-Za-z0-9+/=]{30,}/g, '***').slice(0, 80));
+      if(r.status === 401 || r.status === 403) return res.status(502).json({error: 'hub_key'});
+      return res.status(200).json({items: [], reason: 'addr'});
+    }
     const head = (r.data.response || {}).header || {};
     if(head.resultCode && head.resultCode !== '00'){ logFail('건축HUB 결과 ' + head.resultCode + ' ' + (head.resultMsg || '')); return res.status(502).json({error: 'hub'}); }
     const raw2 = (((r.data.response || {}).body || {}).items || {}).item;
