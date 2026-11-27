@@ -18,7 +18,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request, url = new URL(req.url);
   if(req.method !== 'GET' || url.origin !== location.origin) return;
-  if(url.pathname.startsWith('/api/') || url.pathname.startsWith('/_vercel/')) return;
+  if(url.pathname.startsWith('/api/') || url.pathname.startsWith('/_vercel/') || url.pathname.startsWith('/interest')) return; // 관심 세기 화면은 저장하지 않아요(첫 화면 저장본을 덮지 않게)
   const page = req.mode === 'navigate';
   const key = page ? '/' : req;
   e.respondWith(
