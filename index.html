@@ -1434,6 +1434,137 @@
     .view,.view.on{transition:none}
     .btn.pop{animation:none}
   }
+
+  /* =====================================================================
+     우리집 탭 (2026-11-28 사용자와 정함: B안 탭 4개 · 팀원 「계약 케어」 기능 합침)
+     - 주인공: 계약한 집 남색 카드 하나. 할 일 줄 = 날짜 상자 + 이름 + D-day + 체크 동그라미(팀원 방식)
+     - 달력 점 색: 꼭 챙길 일 로고 파랑 · 월세 초록 · 관리비 연한 초록 · 내 일정 레몬 노랑 · 다 한 일 회색(팀원 문서 그대로)
+     ===================================================================== */
+  .tabbar{grid-template-columns:repeat(4,1fr)}
+  .ch-hero{margin-top:4px;padding:15px 18px 16px;border-radius:16px;background:#133A7F;color:#fff}
+  .ch-top{display:block;width:100%;border:0;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+  .ch-k{display:block;font-size:14px;font-weight:600;line-height:22px;color:#C9D5EE}
+  .ch-big{display:block;margin-top:2px;font-size:22px;font-weight:800;line-height:30px}
+  .ch-bar{display:block;position:relative;height:8px;margin:10px 0 4px;border-radius:4px;background:rgba(255,255,255,.18)}
+  .ch-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:#A9BFEF}
+  .ch-bar b{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px #133A7F}
+  .ch-ends{display:flex;justify-content:space-between;font-size:12px;line-height:18px;color:#C9D5EE}
+  .ch-tog{display:flex;align-items:center;justify-content:flex-end;gap:2px;min-height:32px;margin-top:4px;font-size:13px;font-weight:600;color:#C9D5EE}
+  .ch-tog svg{width:16px;height:16px;transition:transform .15s}
+  .ch-hero.open .ch-tog svg{transform:rotate(180deg)}
+  .ch-hero dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);font-size:15px;line-height:22px}
+  .ch-hero dt{color:#C9D5EE}
+  .ch-hero dd{font-weight:600;font-variant-numeric:tabular-nums}
+  .ch-edit{margin-top:14px;height:40px;padding:0 14px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .ch-row{display:flex;align-items:center;justify-content:space-between;margin:28px 2px 8px}
+  .ch-row .cr-sec{margin:0}
+  .ch-seg{display:flex;margin-bottom:8px;padding:4px;border-radius:12px;background:#fff}
+  .ch-seg button{flex:1;height:40px;border:0;border-radius:9px;background:none;font:inherit;font-size:15px;font-weight:600;color:#354153;cursor:pointer}
+  .ch-seg button.on{background:var(--brand);color:#fff}
+  .cr-it{display:flex;align-items:center;gap:12px;padding:10px 8px 10px 16px}
+  .cr-card > .cr-it + .cr-it,.cr-card > details > .cr-it,.cr-card > .cr-it + details{border-top:1px solid var(--ds-divider)}
+  .cr-dt{flex:none;width:48px;height:48px;border-radius:12px;background:var(--brand-50);color:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+  .cr-dt b{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+  .cr-dt span{font-size:11px;font-weight:600}
+  .cr-bd{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:52px;justify-content:center;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:inherit}
+  .cr-tt{font-size:16px;font-weight:600;line-height:22px;color:#141A24}
+  .cr-tag{font-size:12px;font-weight:600;line-height:18px;border-radius:6px;padding:1px 7px;background:#E7EAF0;color:#354153;font-variant-numeric:tabular-nums}
+  .cr-tag.soon{background:var(--brand-50);color:var(--brand)}
+  .cr-tag.now{background:var(--brand);color:#fff}
+  .cr-tag.late{background:#FDECEA;color:#B42318}
+  .cr-ck{flex:none;width:48px;height:52px;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+  .cr-ck i{width:28px;height:28px;border-radius:50%;border:2px solid #C3C9D3;display:grid;place-items:center;color:transparent;background:#fff;transition:transform .1s}
+  .cr-ck i svg{width:14px;height:14px}
+  .cr-ck:active i{transform:scale(.92)}
+  .cr-ck[aria-pressed="true"] i{background:var(--brand);border-color:var(--brand);color:#fff}
+  .cr-it.done .cr-tt{color:#697383;text-decoration:line-through}
+  .cr-it.done .cr-dt,.cr-it.past .cr-dt{background:#EEF0F4;color:#697383}
+  .cr-none{padding:20px 16px;text-align:center;font-size:15px;line-height:22px;color:#697383}
+  .cr-add{display:block;width:100%;min-height:52px;border:0;border-top:1px solid var(--ds-divider);background:#fff;font:inherit;font-size:16px;font-weight:600;color:var(--brand);cursor:pointer}
+  .cr-later > summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 16px 0 18px;list-style:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--brand)}
+  .cr-later > summary::-webkit-details-marker{display:none}
+  .cr-later > summary svg{width:18px;height:18px;transition:transform .15s}
+  .cr-later[open] > summary svg{transform:rotate(180deg)}
+  .cr-fd{margin-top:28px}
+  .cr-fd > summary{display:flex;align-items:baseline;justify-content:space-between;min-height:44px;margin:0 2px 8px;list-style:none;cursor:pointer;font-size:17px;font-weight:600;line-height:24px;color:#141A24}
+  .cr-fd > summary::-webkit-details-marker{display:none}
+  .cr-fd > summary small{font-size:14px;font-weight:400;color:#5B6475}
+  /* 달력 */
+  .cal{padding:8px 8px 14px}
+  .cal-h{display:flex;align-items:center;padding:0 4px 4px}
+  .cal-h b{font-size:18px;font-weight:800;line-height:26px;color:#141A24;font-variant-numeric:tabular-nums;padding:0 2px}
+  .cal-nav{width:44px;height:44px;border:0;border-radius:10px;background:none;color:var(--brand);display:grid;place-items:center;cursor:pointer}
+  .cal-today{margin-left:auto;height:40px;padding:0 14px;border:1px solid var(--ds-divider);border-radius:10px;background:#fff;font:inherit;font-size:14px;font-weight:600;color:#354153;cursor:pointer}
+  .cal-w,.cal-g{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}
+  .cal-w span{font-size:13px;line-height:20px;color:#697383;padding:4px 0}
+  .cal-d{height:50px;border:0;background:none;display:flex;flex-direction:column;align-items:center;padding-top:4px;gap:3px;cursor:pointer;font:inherit}
+  .cal-d.empty{cursor:default}
+  .cal-d b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:400;color:#141A24;font-variant-numeric:tabular-nums}
+  .cal-d.today b{box-shadow:inset 0 0 0 1.5px var(--brand);color:var(--brand);font-weight:600}
+  .cal-d.sel b{background:var(--brand);color:#fff;font-weight:600;box-shadow:none}
+  .cal-dots{display:flex;gap:3px;height:6px}
+  .cal-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  .cal-dot.own{background:#F5D21E}.cal-dot.rent{background:#16A35F}.cal-dot.fee{background:#8FD6AE}.cal-dot.gray{background:#C3C9D3}
+  .cal-key{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:13px;line-height:20px;color:#697383}
+  .cal-key span{display:inline-flex;align-items:center;gap:6px}
+  /* 알림 칸 · 처음 한 번 제안 */
+  .cr-bell{display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0 12px;border:1px solid var(--ds-divider);border-radius:999px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:#5B6475;cursor:pointer;position:relative}
+  .cr-bell::after{content:"";position:absolute;inset:-4px 0}
+  .cr-bell svg{width:16px;height:16px}
+  .cr-bell.on{border-color:var(--brand);background:var(--brand-50);color:var(--brand)}
+  .cr-ask{padding:14px 16px;border-bottom:1px solid var(--ds-divider);background:var(--brand-50)}
+  .cr-ask p{font-size:15px;font-weight:600;line-height:22px;color:#141A24}
+  .cr-ask div{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+  .cr-ask button{min-height:40px;padding:0 14px;border-radius:10px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .cr-ask .no{border:1px solid var(--ds-divider);background:#fff;color:#354153}
+  .cr-ask .ok{border:0;background:var(--brand);color:#fff}
+  .bell-steps{margin:8px 0 4px 20px;font-size:15px;line-height:24px;color:#354153}
+  .bell-kinds{display:grid;gap:8px}
+  .bell-k{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:1px solid var(--ds-divider);border-radius:14px;font-size:15px;font-weight:600;color:#141A24;cursor:pointer}
+  .bell-k input{width:20px;height:20px;accent-color:var(--brand)}
+  .sh-desc{margin-top:12px;font-size:15px;line-height:24px;color:#354153}
+  .sh-del{display:block;margin:8px auto 0;min-height:44px;padding:0 8px;border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:#5B6475;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  /* 아래에서 올라오는 할 일 창 */
+  .sh-grab{width:40px;height:4px;border-radius:2px;background:#D5D9E0;margin:-12px auto 16px}
+  #crSheet .cr-box{margin-top:20px;padding:0;background:none}
+  #crSheet .cr-box .cr-b2{background:var(--brand-50)}
+  #crSheet .cr-b2.sh-x{background:#fff;border:1px solid var(--ds-divider);color:#354153}
+  /* 우리집 탭이 비어 있을 때 */
+  .ch-empty{margin-top:4px;padding:24px 20px 20px;border-radius:16px;background:#fff;text-align:center}
+  .ch-empty > .cr-ic{margin:0 auto 12px;width:56px;height:56px;border-radius:16px}
+  .ch-empty > .cr-ic svg{width:30px;height:30px}
+  .ch-empty h3{font-size:19px;font-weight:800;line-height:28px;color:#141A24}
+  .ch-empty > p{margin-top:6px;font-size:15px;line-height:23px;color:#354153}
+  .ch-list{margin:16px 0 4px;padding:0;list-style:none;text-align:left}
+  .ch-list li{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:15px;line-height:22px;color:#141A24}
+  /* 사진 · 서류 */
+  .cr-shot.pdf{display:grid;place-items:center;aspect-ratio:1;font-size:14px;font-weight:800;color:#B42318}
+  .cr-pair .cr-thumbs{flex-wrap:wrap}
+  .cr-pair .cr-thumbs .cr-shot{width:calc(50% - 4px)}
+  .cr-pair p{font-size:13px;font-weight:600;line-height:20px;color:#5B6475}
+  .cr-vsave{display:block;width:100%;height:56px;border:0;background:#000;color:#fff;font:inherit;font-size:16px;font-weight:600;border-top:1px solid #333}
+  /* 나갈 때 체크리스트 */
+  .out-cnt{margin:16px 4px 0;font-size:14px;line-height:20px;color:#5B6475}
+  .out-cnt b{font-weight:600;color:var(--brand)}
+  .out-it{display:flex;align-items:flex-start;gap:4px;padding:4px 14px 10px 4px}
+  .out-it + .out-it{border-top:1px solid var(--ds-divider)}
+  .out-tx{flex:1;min-width:0;padding-top:12px}
+  .out-tx b{display:block;font-size:16px;font-weight:600;line-height:24px;color:#141A24}
+  .out-tx span{display:block;font-size:14px;line-height:20px;color:#5B6475}
+  .out-tx em{display:block;font-style:normal;font-size:13px;font-weight:600;line-height:20px;color:var(--brand);margin-top:2px}
+  .out-it.done .out-tx b{color:#697383;text-decoration:line-through}
+  .out-go{display:inline-flex;align-items:center;min-height:40px;margin-top:6px;padding:0 12px;border:0;border-radius:10px;background:var(--brand-50);color:var(--brand);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .out-help{margin-top:28px}
+  .out-help > summary{display:flex;align-items:center;gap:6px;min-height:52px;padding:0 16px;border-radius:16px;background:#fff;list-style:none;cursor:pointer;font-size:16px;font-weight:600;color:#B42318}
+  .out-help > summary::-webkit-details-marker{display:none}
+  .out-help[open] > summary{border-radius:16px 16px 0 0;border-bottom:1px solid var(--ds-divider)}
+  .out-steps{border-radius:0 0 16px 16px;background:#fff}
+  .out-step{padding:12px 16px 14px}
+  .out-step + .out-step{border-top:1px solid var(--ds-divider)}
+  .out-step b{display:block;font-size:16px;font-weight:600;line-height:24px;color:#141A24}
+  .out-step > span{display:block;margin:4px 0 10px;font-size:14px;line-height:22px;color:#354153}
+  .out-step small{display:block;margin-top:8px;font-size:12px;line-height:18px;color:#5B6475}
+  .warn-i{flex:none;width:20px;height:20px;color:#B42318}
 </style>
 </head>
 <body>
@@ -1559,18 +1690,20 @@
         <div class="scroll" id="pl-body"></div>
         <div class="cta"><button type="button" class="btn" id="plSave">저장하고 할 일 보기</button></div>
       </section>
-      <section class="view" id="pc" aria-label="날짜 할 일과 기록">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">날짜 할 일과 기록</span><span></span></div>
+      <!-- 우리집 탭 (2026-11-28 사용자와 정함: 탭 4개 B안) -->
+      <section class="view tabv" id="pc" aria-label="우리집">
+        <div class="nav"><span></span><span class="title"></span><span></span></div>
         <div class="scroll" id="pc-body"></div>
+        <div class="cta tabbed tab-only"><nav class="tabbar" aria-label="메뉴"></nav></div>
       </section>
-      <section class="view" id="pk" aria-label="할 일">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title"></span><span></span></div>
-        <div class="scroll" id="pk-body"></div>
+      <section class="view" id="pout" aria-label="나갈 때 체크리스트">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">나갈 때 체크리스트</span><span></span></div>
+        <div class="scroll" id="pout-body"></div>
       </section>
       <section class="view" id="pp" aria-label="집 사진">
         <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title"></span><span></span></div>
         <div class="scroll" id="pp-body"></div>
-        <input type="file" id="ppFile" accept="image/*" capture="environment" hidden>
+        <input type="file" id="ppFile" accept="image/*" capture="environment" multiple hidden>
       </section>
       <section class="view" id="pt" aria-label="특약 만들기">
         <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">특약 만들기</span><span></span></div>
@@ -1582,8 +1715,8 @@
         <div class="scroll" id="pm-body"></div>
         <input type="file" id="pmFile" accept="image/*" capture="environment" hidden>
       </section>
-      <section class="view" id="pn" aria-label="월세 납부 기록">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">월세 납부 기록</span><span></span></div>
+      <section class="view" id="pn" aria-label="월세·관리비">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">월세·관리비</span><span></span></div>
         <div class="scroll" id="pn-body"></div>
       </section>
       <section class="view" id="pw" aria-label="집 보여 주기 일정">
@@ -1721,6 +1854,36 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <!-- 후보 집 저장 창 -->
+    <!-- 우리집 탭: 할 일 자세히(아래에서 올라오는 창) · 내 일정 추가 · 알림 (2026-11-28) -->
+    <div class="modal" id="crSheet" role="dialog" aria-modal="true" aria-labelledby="ck-t" hidden>
+      <div class="modal-box"><div class="sh-grab" aria-hidden="true"></div>
+        <h2 id="ck-t"></h2>
+        <div id="ck-body"></div>
+        <button type="button" class="cr-b2 sh-x" id="ck-x">닫기</button>
+      </div>
+    </div>
+    <div class="modal" id="crAddForm" role="dialog" aria-modal="true" aria-labelledby="ca-t" hidden>
+      <div class="modal-box">
+        <h2 id="ca-t">내 일정 추가</h2>
+        <label class="lk-l" for="ca-d">날짜</label>
+        <input class="lk-in" id="ca-d" type="date">
+        <label class="lk-l" for="ca-t2">무엇을 할까요?</label>
+        <input class="lk-in" id="ca-t2" type="text" maxlength="40" autocomplete="off" placeholder="예) 보일러 점검 받기">
+        <label class="lk-l" for="ca-m">메모 <span class="opt-tag">선택</span></label>
+        <textarea class="lk-in" id="ca-m" maxlength="200" rows="3" style="height:auto;padding:12px 16px;line-height:24px"></textarea>
+        <p class="note" style="text-align:left;margin:8px 0 0">이름·주민번호·계좌번호는 적지 마세요. 이 휴대폰에만 저장돼요.</p>
+        <p class="cr-law" id="ca-err" role="alert" style="color:#B42318;font-weight:600"></p>
+        <div class="ai-row"><button type="button" class="ai-btn sub" id="ca-no">취소</button><button type="button" class="ai-btn fill" id="ca-ok">저장</button></div>
+      </div>
+    </div>
+    <div class="modal" id="crBell" role="dialog" aria-modal="true" aria-labelledby="bell-t" hidden>
+      <div class="modal-box"><div class="sh-grab" aria-hidden="true"></div>
+        <h2 id="bell-t">할 일 알림</h2>
+        <div id="bell-body"></div>
+        <button type="button" class="cr-b2" id="bell-x" style="border:1px solid var(--ds-divider);color:#354153">닫기</button>
+      </div>
+    </div>
+
     <div class="modal" id="likeForm" role="dialog" aria-modal="true" aria-labelledby="lf-t" hidden>
       <div class="modal-box">
         <h2 id="lf-t">후보 집 저장하기</h2>
@@ -2143,7 +2306,7 @@ if(!houses || !Array.isArray(houses.list) || !houses.list.length){
 }
 let house = houses.list.find(h=>h.id === houses.cur) || houses.list[0];
 answers = house.answers || (house.answers = {}); ctx = house.ctx || (house.ctx = {});
-function save(){ house.answers = answers; house.ctx = ctx; houses.cur = house.id; try { localStorage.setItem(HKEY, JSON.stringify(houses)); } catch(e) {} }
+function save(){ house.answers = answers; house.ctx = ctx; houses.cur = house.id; try { localStorage.setItem(HKEY, JSON.stringify(houses)); } catch(e) {} try { queuePushSync(); } catch(e) {} }
 function useHouse(id){
   save();
   house = houses.list.find(h=>h.id === id) || house;
@@ -2832,8 +2995,9 @@ function rentBack(){
    탭 화면은 뒤로 가기 기록 맨 밑(깊이 0)에 있고 탭끼리는 옆으로 넘기지 않고 바로 바꿔요. 다른 화면은 그 위에 한 칸씩 쌓여요. */
 const SVG = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
 const TABS = [
-  // 2026-11-28 구조 바꿈(사용자와 정함): 홈(내 일) · 알아보기(배우기·조사) · 도움받기(밖의 도움)
+  // 2026-11-28 구조 바꿈(사용자와 정함): 홈(집 고르기·확인) · 우리집(계약 뒤 챙기기) · 알아보기(배우기·조사) · 도움받기(밖의 도움)
   ['p0', '홈', SVG('<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="m9 14.5 2 2 4-4"/>')],
+  ['pc', '우리집', SVG('<path d="M4 21V10l8-6 8 6v11z"/><circle cx="12" cy="13" r="2.4"/><path d="M12 15.4V18"/>')], // 2026-11-28 B안: 계약 뒤 매일 챙기는 것
   ['pb', '알아보기', SVG('<path d="M4 5h6a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H4z"/><path d="M20 5h-6a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5H20z"/>')],
   ['ps', '도움받기', SVG('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="m6 6 3.5 3.5M14.5 14.5 18 18M18 6l-3.5 3.5M9.5 14.5 6 18"/>')]
 ];
@@ -2850,8 +3014,8 @@ document.addEventListener('click', e=>{
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const ORDER = ['p0','pb','ps','pd','pc','pg','pf','pv','pk','pp','pm','pn','pw','p1','pz','pl','pt','pa','p2','pr','p3'];
-const DEPTH = {p0:0, pb:0, ps:0, pd:1, pg:1, pf:1, pv:2, pc:2, pk:3, pp:2, pm:3, pn:3, pw:3, p1:1, pz:2, pl:3, pt:3, pa:2, pr:2, p2:2, p3:3};
+const ORDER = ['p0','pc','pb','ps','pd','pg','pf','pv','pp','pm','pn','pw','pout','p1','pz','pl','pt','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pc:0, pb:0, ps:0, pd:1, pg:1, pf:1, pv:2, pp:1, pm:1, pn:1, pw:1, pout:1, p1:1, pz:2, pl:2, pt:3, pa:2, pr:2, p2:2, p3:3};
 let depth = 0, trail = [], wantTab = null; // trail[i] = 깊이 i+1에 쌓인 화면
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null, wantList = false;
@@ -2896,8 +3060,8 @@ function paint(id){
   if(id === 'p1') renderList();
   if(id === 'ps') renderServices();
   if(id === 'pr') renderRent();
-  if(id === 'pc'){ const h = myHouse(); if(h) $('pc-body').innerHTML = careParts(h).list; }
-  if(id === 'pk') renderTask();
+  if(id === 'pc') renderCare();
+  if(id === 'pout') renderOut();
   if(id === 'pp') renderPhotos();
   if(id === 'pl') renderLease();
   if(id === 'pt') renderClause();
@@ -4326,7 +4490,7 @@ function renderFinal(){
   h += '<button type="button" class="cr-b2 fz-print" data-print>PDF로 저장하기</button>'; // 2차 6번: 내 확인 기록 한 장 (인쇄 → PDF로 저장)
   // ⑤ 계약 후 케어로 넘어가는 곳 (2026-11-28)
   h += '<div class="cr-box cr-sign"><h3>' + (houses.my === house.id && house.lease ? '계약 후 할 일을 챙기고 있어요' : '이 집으로 계약했나요?') + '</h3><p>' + (houses.my === house.id && house.lease ? '전입신고·확정일자·전월세 신고부터 나갈 때 보증금까지 날짜순으로 챙겨요.' : '날짜 3개만 넣으면 전입신고·확정일자·전월세 신고, 입주 사진, 나갈 때 보증금까지 챙겨 드려요.') + '</p>' +
-    (houses.my === house.id && house.lease ? '<button type="button" class="cr-b2" data-tab-go="p0">계약 후 할 일 보기</button>' : '<button type="button" class="cr-b2" data-sign>이 집으로 계약했어요</button>') + '</div>';
+    (houses.my === house.id && house.lease ? '<button type="button" class="cr-b2" data-tab-go="pc">우리집 탭에서 보기</button>' : '<button type="button" class="cr-b2" data-sign>이 집으로 계약했어요</button>') + '</div>';
   h += '<p class="note">참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>';
   $('pz-body').innerHTML = h;
 }
@@ -4476,7 +4640,6 @@ function renderDealCard(){
   let h = '<div class="ab-head"><div class="dh"><p class="hc-n">' + esc(house.name) + '</p>' + stTag(house) + '</div>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
     '<div class="hc-meta"><span id="cmp-pd"></span>' + (house.link ? '<a class="hc-a" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기' + ARROW + '</a>' : '') + '</div>' +
     '<p class="ab-c">' + (signed && !a && !d ? '15개 모두 확인했어요. 이제 날짜에 맞춰 챙겨요' : any ? headline(c, a + d, Q.length).replace('<br>', ' ') : '아무 질문이나 먼저 골라 답해 보세요') + '</p></div>';
-  if(signed) h += careParts(house).hero;
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
   h += '<div class="cr-sec">계약 전 확인<small>' + (Q.length - a - d) + '/' + Q.length + '</small></div><div class="cr-card">' +
     row('data-quick="docs"', 'doc', '집·서류', sub(DOCS, DOCS.length), done(DOCS) ? '<span class="cr-d">끝</span>' : '') +
@@ -4486,7 +4649,7 @@ function renderDealCard(){
     (recOn ? '' : row('data-quick="talk"', 'mic', '대화 녹음으로 채우기', '선택 · 들은 말로 답 채우기')) + '</div>';
   const my = myHouse(), other = my && my.id !== house.id;
   h += '<div class="cr-sec">계약 후<small>' + (signed ? '날짜순' : '계약하면 날짜가 채워져요') + '</small></div><div class="cr-card">' +
-    (signed ? row('data-care-list', 'cal', '날짜 할 일과 기록', (()=>{ const n = careTasks(house).filter(t=>!t.done && !t.info).sort((x,y)=>D0(x.due) - D0(y.due))[0]; return n ? '다음 ' + n.title + ' · ' + ddTxt(n.due) : '할 일을 모두 했어요'; })())
+    (signed ? row('data-care-list', 'cal', '우리집 탭에서 챙기기', (()=>{ const n = careTasks(house).filter(t=>!t.done && !t.info).sort((x,y)=>D0(x.due) - D0(y.due))[0]; return n ? '다음 ' + n.title + ' · ' + ddTxt(n.due) : '할 일을 모두 했어요'; })())
       : row('data-sign', 'cal', '이 집으로 계약했어요', other ? '지금 내 집은 「' + esc(my.name) + '」이에요' : '날짜 3개를 넣으면 할 일이 생겨요')) +
     row('data-photos="in"', 'cam', '사진', signed ? '입주·퇴실 사진' : '집 보러 가서 찍어 두기') +
     row('data-photos="doc"', 'doc', '서류 보관함', '계약서·영수증 사진') + '</div>';
@@ -4508,7 +4671,8 @@ function askAddHouse(name, from){
 $('wipeAll').addEventListener('click', ()=>{
   if(!confirm('모든 집의 답, 메모, AI 참고 의견, 현장 질문 체크, 대화 기록, 집 찾기 조건을 모두 지울까요? 지우면 되돌릴 수 없어요.')) return;
   clearAll();
-  [VKEY, TKEY, FKEY, STORE].forEach(k=>{ try { localStorage.removeItem(k); } catch(e) {} });
+  const nt = NT(); if(nt.sub){ pushPost('off', nt.sub).catch(()=>{}); swReady(3000).then(r=>r.pushManager.getSubscription()).then(s=>s && s.unsubscribe()).catch(()=>{}); }
+  [VKEY, TKEY, FKEY, STORE, NKEY].forEach(k=>{ try { localStorage.removeItem(k); } catch(e) {} });
   houses = {cur:1, list:[{id:1, name:'내 집', answers:{}, ctx:{}}]}; house = houses.list[0]; answers = house.answers; ctx = house.ctx; save(); renderList();
   visit = {asked:{}}; fp = {near:'sinchon', deal:'monthly', dep:'', rent:'', type:'all', wants:[], note:''}; findOut = null;
   Object.assign(T, {phase:'start', text:'', result:null});
@@ -4613,6 +4777,9 @@ function careTasks(h){
     {id:'photo', sec:'move', ic:'cam', title:'입주 사진 찍기', due:L.move, sub:'이삿날 짐 들이기 전 7곳', photo:'in',
       why:['나갈 때 "원래 있던 흠"인지 다툼이 생기면 입주 날 사진이 가장 확실한 증거예요.', '현관부터 옵션 가전까지 7곳을 차례로 찍어요. 사진과 찍은 날짜는 이 휴대폰 안에만 저장돼요.'],
       law:'민법 제615조·제654조 (나갈 때 원래 상태로 돌려놓을 의무)'},
+    {id:'notice3', sec:'end', ic:'bell', title:'나갈지 미리 정해서 알리기', due:addMonths(L.end, -3), sub:'권장 · 마감은 ' + kdate(addMonths(L.end, -2)),
+      why:['마감은 만기 2개월 전이에요. 한 달 여유를 두고 미리 정해서 알리면 마감을 놓치지 않아요.', '문자처럼 기록이 남는 방법으로 알리세요.'],
+      law:'주택임대차보호법 제6조 제1항 (마감 기준)'},
     {id:'notice', sec:'end', ic:'bell', title:'나갈지 알리기 마감', due:addMonths(L.end, -2), sub:kdate(addMonths(L.end, -2)) + '까지',
       why:['세입자가 만기 2개월 전까지 나간다고 알리지 않으면 같은 조건으로 2년 자동 연장돼요.', '자동 연장된 뒤에도 세입자는 언제든 그만두겠다고 알릴 수 있고, 집주인이 받은 날부터 3개월 뒤에 끝나요.', '문자처럼 기록이 남는 방법으로 알리고 화면을 캡처해 두세요.'],
       msg:'안녕하세요. 지금 사는 집 세입자예요. 계약이 ' + kdate(L.end) + '에 끝나면 연장하지 않고 이사하려고 해요. 보증금 돌려받을 날짜와 방법을 알려 주시면 감사하겠습니다.',
@@ -4655,39 +4822,6 @@ const CR_SEC = [['move','이사 직후'], ['live','사는 동안'], ['end','만�
 const crTag = x => x.info ? '<span class="cr-d">안내</span>' : x.done ? '<span class="cr-ok">했어요</span>' : '<span class="cr-d' + (dday(x.due) < 0 ? ' late' : dday(x.due) <= 30 ? ' hot' : '') + '">' + ddTxt(x.due) + '</span>';
 const crRow = x => '<button type="button" class="cr-row' + (x.done ? ' done' : '') + '" data-task="' + x.id + '">' + crIc(x.ic, x.done) + '<span class="cr-t"><b>' + x.title + '</b><span>' + esc(x.sub) + '</span></span>' + crTag(x) + '</button>';
 const siteBtn = (k, cls) => '<a class="' + cls + '" href="' + SITE[k][1] + '" target="_blank" rel="noopener">' + SITE[k][0] + ' 열기</a>';
-// 내 계약 탭 맨 위: 가장 급한 할 일 하나(B) + 시기별 목록(A)
-function careParts(h){ // 2026-11-28: hero = 집 화면 맨 위 「다음 할 일」, list = 「날짜 할 일과 기록」 화면
-  const T = careTasks(h), next = T.filter(x=>!x.done && !x.info).sort((a,b)=>D0(a.due) - D0(b.due))[0];
-  let s = '<div class="cr-hero"><p class="k">다음 할 일</p>';
-  if(next){
-    s += '<button type="button" class="t" data-task="' + next.id + '">' + next.title + '</button><p class="s">' + esc(next.sub) + ' · ' + ddTxt(next.due) + '</p><div class="cr-hbtns">' +
-      (next.photo ? '<button type="button" class="p" data-photos="' + next.photo + '">사진 찍기</button>' : next.site ? siteBtn(next.site, 'p') : '<button type="button" class="p" data-task="' + next.id + '">자세히 보기</button>') +
-      '<button type="button" class="q" data-task-done="' + next.id + '">했어요</button></div>';
-  } else s += '<p class="t">할 일을 모두 했어요</p><p class="s">만기일 ' + kdate(h.lease.end) + '</p>';
-  s += '</div>';
-  const hero = s; s = '';
-  const fx = h.lease.fixes || [], open = fx.filter(r=>r.st !== 'done').length, P = h.lease.pay || {paid:{}}, ym = todayStr().slice(0, 7), V = (h.lease.visits || []).filter(v=>dday(v.date) >= 0);
-  const vrow = (v, ic, ti, sub) => '<button type="button" class="cr-row" data-care-view="' + v + '">' + crIc(ic) + '<span class="cr-t"><b>' + ti + '</b><span>' + sub + '</span></span>' + CHEV_R + '</button>';
-  const EXTRA = {
-    live: vrow('pm', 'doc', '고장·수리 기록', fx.length ? fx.length + '건' + (open ? ' · 처리 중 ' + open + '건' : '') : '고장 나면 바로 기록') +
-      (num((h.ctx || {}).rent) === 0 ? '' : vrow('pn', 'cal', '월세 납부 기록', P.paid[ym] ? '이번 달 냈어요' : '이번 달 아직 체크 안 함')),
-    out: vrow('pw', 'cal', '집 보여 주기 일정', V.length ? '다음 ' + kdate(V[0].date) + ' ' + V[0].time : '날짜를 적어 두기')
-  };
-  CR_SEC.forEach(sc=>{
-    const L = T.filter(x=>x.sec === sc[0]).sort((a,b)=>sc[0] === 'move' ? 0 : D0(a.due) - D0(b.due));
-    const sub = sc[0] === 'move' ? kdate(h.lease.move) + ' 전후' : sc[0] === 'live' ? '계약 기간 동안' : kdate(L[0].due).replace(/ \d+일$/, '');
-    s += '<div class="cr-sec">' + sc[1] + '<small>' + sub + '</small></div><div class="cr-card">' + (sc[0] === 'live' ? EXTRA.live + L.map(crRow).join('') : L.map(crRow).join('') + (EXTRA[sc[0]] || '')) + '</div>';
-  });
-  s += '<div class="cr-sec">내 기록</div><div class="cr-card">' +
-    '<button type="button" class="cr-row" data-photos="in">' + crIc('cam') + '<span class="cr-t"><b>입주·퇴실 사진</b><span id="cr-pc">이 휴대폰에만 저장</span></span>' + CHEV_R + '</button>' +
-    '<button type="button" class="cr-row" data-photos="doc">' + crIc('doc') + '<span class="cr-t"><b>계약서·서류 보관함</b><span>계약서·영수증 사진</span></span>' + CHEV_R + '</button>' +
-    '<button type="button" class="cr-row" data-lease-edit>' + crIc('cal') + '<span class="cr-t"><b>계약 정보</b><span>만기 ' + kdate(h.lease.end) + '</span></span>' + CHEV_R + '</button>' +
-    '<button type="button" class="cr-row" data-ics-all>' + crIc('bell') + '<span class="cr-t"><b>모든 일정 캘린더에 넣기</b><span>하루 전 알림이 울려요</span></span>' + CHEV_R + '</button>' +
-    '<button type="button" class="cr-row" data-backup>' + crIc('save') + '<span class="cr-t"><b>기록 백업하기</b><span>휴대폰을 바꿀 때 파일로 옮겨요</span></span>' + CHEV_R + '</button>' +
-    '<button type="button" class="cr-row" data-restore>' + crIc('load') + '<span class="cr-t"><b>백업 불러오기</b><span>저장한 파일로 되살려요</span></span>' + CHEV_R + '</button></div>';
-  pCount(h.id).then(n=>{ const el = $('cr-pc'); if(el && n) el.textContent = n + '장 · 이 휴대폰에만 저장'; });
-  return {hero, list:s};
-}
 const CHEV_R = '<svg class="cr-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
 
 // 할 일 자세히
@@ -4695,7 +4829,7 @@ let crTask = null;
 function renderTask(){
   const h = myHouse(); if(!h) return;
   const x = careTasks(h).find(t=>t.id === crTask) || careTasks(h)[0];
-  $('pk').querySelector('.nav .title').textContent = x.title;
+  $('ck-t').textContent = x.title;
   let s = (x.id === 'early' ? '<div class="cr-box"><p class="cr-due" style="font-size:18px;line-height:26px">' + esc(x.sub) + '</p></div>' : '<div class="cr-box"><p class="cr-due">' + kdate(x.due) + '<small>' + (x.done ? '했어요' : x.info ? '부터' : ddTxt(x.due)) + '</small></p><p>' + esc(x.sub) + '</p></div>') +
     '<div class="cr-box"><h3>왜 해야 하나요?</h3><ul class="cr-why">' + x.why.map(w=>'<li>' + esc(w) + '</li>').join('') + '</ul><p class="cr-law">근거 · ' + x.law + '</p></div>';
   if(x.msg) s += '<div class="cr-box"><h3>보낼 문장</h3><p class="cr-msg" id="crMsg">' + esc(x.msg) + '</p><button type="button" class="cr-b2" data-copy-msg>문장 복사</button></div>';
@@ -4705,6 +4839,7 @@ function renderTask(){
     s += '<div class="cr-box"><h3>보낼 문장</h3><p class="cr-msg" id="crMsg">' + esc('안녕하세요. 지금 사는 집 세입자예요. 주택임대차보호법 제6조의3에 따라 ' + kdate(h.lease.end) + '에 끝나는 계약의 갱신을 요구합니다. 갱신 조건을 알려 주시면 감사하겠습니다.') + '</p><button type="button" class="cr-b2" data-copy-msg>문장 복사</button></div>';
   }
   if(x.id === 'early' && !earlyOn(h)) s += '<button type="button" class="cr-b2" data-go-clause>중도 해지 특약 문장 만들기</button>';
+  if(x.id === 'out') s += '<button type="button" class="cr-b1" data-care-view="pout">나갈 때 체크리스트 보기</button>';
   if(x.id === 'out'){
     let liked = null; try { liked = localStorage.getItem('jipkok-interest-exit'); } catch(e) {}
     s += '<div class="cr-box"><h3>퇴실 보증금 패키지 · 준비 중</h3><p>입주·퇴실 사진 비교표, 공제 항목 점검, 반환 요청 문장, 분쟁조정 신청 준비를 한 번에 챙겨 주는 기능을 만들고 있어요. 있으면 쓰고 싶은지 알려 주세요.</p>' +
@@ -4716,7 +4851,7 @@ function renderTask(){
   s += (x.info ? '' : '<button type="button" class="cr-b2' + (x.done ? ' done' : '') + '" data-task-done="' + x.id + '">' + (x.done ? '했어요 · 취소하려면 누르기' : '했어요') + '</button>') +
     '<a class="cr-b2" href="' + gcal(x) + '" target="_blank" rel="noopener">' + SVG(CR_I.cal) + '구글 캘린더에 넣기</a>' +
     '<p class="note">참고용 안내이며 법률 자문이 아니에요. 기한과 금액은 2026년 11월 법령 기준이에요.</p>';
-  $('pk-body').innerHTML = s;
+  $('ck-body').innerHTML = s;
 }
 // 구글 캘린더 일정 만들기 링크 (집 이름·금액은 넣지 않아요)
 function gcal(x){
@@ -4760,7 +4895,7 @@ $('plSave').addEventListener('click', ()=>{
   house.lease = Object.assign(house.lease || {}, {contract:c, move:m, end:e});
   house.lease.done = house.lease.done || {};
   house.status = 'signed'; houses.my = house.id; save();
-  renderStart(); renderDealCard(); backTo('pd'); toast('계약 후 할 일을 만들었어요.');
+  renderStart(); renderDealCard(); selDay = m; calMonth = m.slice(0, 7); goTab('pc'); toast('우리집 탭에 할 일 ' + careTasks(house).filter(x=>!x.info).length + '개를 넣었어요.');
 });
 
 // 입주·퇴실 사진 (IndexedDB, 이 기기 안에만)
@@ -4789,55 +4924,113 @@ async function shrink(file){
     return await new Promise(res=>c.toBlob(b=>res(b || file), 'image/jpeg', .82));
   } catch(e) { return file; } finally { URL.revokeObjectURL(url); }
 }
-let photoMode = 'in', photoSpot = null, pUrls = [];
+let photoMode = 'in', photoSpot = null, pUrls = [], shotRecs = {};
 const pUrl = b => { const u = URL.createObjectURL(b); pUrls.push(u); return u; };
 const stamp = t => { const d = new Date(t); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일'; };
+// 2026-11-28 팀원 문서 여섯째: 입주 · 사는 동안 · 퇴실 3구분, 칸마다 여러 장, 칸 직접 추가(house.spots), 서류는 PDF도(20MB까지)
+const PH_MODE = [['in','입주'], ['live','사는 동안'], ['out','퇴실']];
+const spotsOf = h => SPOTS.concat((h.spots || []).map(x=>[x.id, x.name]));
+const isPdf = r => r.b && r.b.type === 'application/pdf';
 async function renderPhotos(){
   const h = house; // 2026-11-28: 보고 있는 집의 사진
-  $('pp').querySelector('.nav .title').textContent = photoMode === 'doc' ? '계약서·서류 보관함' : photoMode === 'in' ? '입주 사진' : '퇴실 사진 비교';
-  if(photoMode === 'doc') $('ppFile').removeAttribute('capture'); else $('ppFile').setAttribute('capture', 'environment'); // 서류는 앨범에서 골라도 돼요
-  pUrls.forEach(u=>URL.revokeObjectURL(u)); pUrls = [];
+  const doc = photoMode === 'doc';
+  $('pp').querySelector('.nav .title').textContent = doc ? '서류 보관함' : '방 사진';
+  if(doc){ $('ppFile').removeAttribute('capture'); $('ppFile').accept = 'image/*,application/pdf'; } else { $('ppFile').setAttribute('capture', 'environment'); $('ppFile').accept = 'image/*'; }
+  pUrls.forEach(u=>URL.revokeObjectURL(u)); pUrls = []; shotRecs = {};
   const all = await pAll(h.id);
-  const shot = (r, pre) => '<button type="button" class="cr-shot" data-shot="' + r.id + '"><img src="' + pUrl(r.b) + '" alt=""><span>' + (pre ? pre + ' · ' : '') + stamp(r.t) + '</span></button>';
-  const empty = (w, spot) => spot ? '<button type="button" class="cr-empty" data-snap="' + spot + '" style="width:100%;border:0;font:inherit;cursor:pointer">' + w + '</button>' : '<div class="cr-empty">' + w + '</div>';
-  const SP = photoMode === 'doc' ? DOC_SPOTS : SPOTS;
-  let s = '<p class="d-lead">' + (photoMode === 'doc' ? '계약서와 영수증을 사진으로 남겨 두면 종이를 잃어버려도 확인할 수 있어요. 이 휴대폰 안에만 저장돼요.' : photoMode === 'in' ? '짐을 들이기 전에 7곳을 찍어요. 흠·얼룩은 가까이 한 장 더 찍어요. 사진은 이 휴대폰 안에만 저장돼요.' : '입주 때와 같은 자리를 찍으면 나란히 비교할 수 있어요. 공제 얘기가 나오면 이 화면을 보여 주세요.') + '</p>' +
-    (photoMode === 'doc' ? '' : '<div class="cr-seg" role="tablist" style="margin-top:16px"><button type="button" class="' + (photoMode === 'in' ? 'on' : '') + '" data-pmode="in">입주</button><button type="button" class="' + (photoMode === 'out' ? 'on' : '') + '" data-pmode="out">퇴실 비교</button></div>') +
+  const shot = (r, pre) => { shotRecs[r.id] = r; return isPdf(r) ? '<button type="button" class="cr-shot pdf" data-shot="' + r.id + '">PDF</button>'
+    : '<button type="button" class="cr-shot" data-shot="' + r.id + '"><img src="' + pUrl(r.b) + '" alt=""><span>' + (pre ? pre + ' · ' : '') + stamp(r.t) + '</span></button>'; };
+  const SP = doc ? DOC_SPOTS : spotsOf(h);
+  const tip = {doc:'계약서·영수증을 사진이나 PDF로 남겨 두면 종이를 잃어버려도 확인할 수 있어요.', in:'짐을 들이기 전에 칸마다 찍어요. 흠·얼룩은 가까이 한 장 더 찍어요.', live:'고장이나 곰팡이가 생기면 그때그때 찍어 두세요.', out:'입주 때와 같은 칸을 찍으면 나란히 비교할 수 있어요. 공제 얘기가 나오면 이 화면을 보여 주세요.'}[photoMode];
+  let s = '<p class="d-lead">' + tip + ' 이 휴대폰 안에만 저장돼요.</p>' +
+    (doc ? '' : '<div class="cr-seg" role="tablist" style="margin-top:16px">' + PH_MODE.map(([k, n])=>'<button type="button" role="tab" class="' + (photoMode === k ? 'on' : '') + '" aria-selected="' + (photoMode === k) + '" data-pmode="' + k + '">' + n + '</button>').join('') + '</div>') +
     '<div class="cr-card" style="margin-top:16px">';
   SP.forEach(sp=>{
-    const ins = all.filter(r=>r.s === sp[0] && r.m === (photoMode === 'doc' ? 'doc' : 'in')), outs = all.filter(r=>r.s === sp[0] && r.m === 'out'), mine = photoMode === 'in' ? ins : outs;
-    s += '<div class="cr-spot"><div class="cr-spot-h"><b>' + sp[1] + '</b><button type="button" class="hbtn" data-snap="' + sp[0] + '">' + (mine.length ? '더 찍기' : '찍기') + '</button></div>';
-    if(photoMode !== 'out') s += ins.length ? '<div class="cr-thumbs">' + ins.map(r=>shot(r)).join('') + '</div>' : '';
-    else s += '<div class="cr-pair"><div>' + (ins[0] ? shot(ins[0], '입주') : empty('입주 사진 없음')) + '</div><div>' + (outs[0] ? shot(outs[outs.length - 1], '퇴실') : empty('퇴실 사진 찍기', sp[0])) + '</div></div>';
+    const of = m => all.filter(r=>r.s === sp[0] && r.m === m), mine = of(photoMode), custom = !doc && !SPOTS.some(x=>x[0] === sp[0]);
+    s += '<div class="cr-spot"><div class="cr-spot-h"><b>' + esc(sp[1]) + '</b>' +
+      (mine.length > 1 ? '<button type="button" class="hbtn" data-shot-all="' + sp[0] + '" style="border:0;font:inherit;font-size:14px;font-weight:600">모두 저장</button>' : '') +
+      (custom && !all.some(r=>r.s === sp[0]) ? '<button type="button" class="hbtn" data-spot-del="' + sp[0] + '" style="border:0;font:inherit;font-size:14px;font-weight:600">칸 지우기</button>' : '') +
+      '<button type="button" class="hbtn" data-snap="' + sp[0] + '">' + (doc ? '넣기' : mine.length ? '더 찍기' : '찍기') + '</button></div>';
+    if(photoMode !== 'out') s += mine.length ? '<div class="cr-thumbs">' + mine.map(r=>shot(r)).join('') + '</div>' : '';
+    else { const ins = of('in'); s += '<div class="cr-pair"><div><p>입주 때</p>' + (ins.length ? '<div class="cr-thumbs">' + ins.map(r=>shot(r)).join('') + '</div>' : '<div class="cr-empty">입주 사진 없음</div>') + '</div>' +
+      '<div><p>지금(퇴실)</p>' + (mine.length ? '<div class="cr-thumbs">' + mine.map(r=>shot(r)).join('') + '</div>' : '<button type="button" class="cr-empty" data-snap="' + sp[0] + '" style="width:100%;border:0;font:inherit;cursor:pointer">퇴실 사진 찍기</button>') + '</div></div>'; }
     s += '</div>';
   });
-  s += '</div><p class="note">사진을 누르면 크게 보여요. 지우려면 크게 본 화면에서 지워요.</p>';
+  s += '</div>' + (doc ? '' : '<button type="button" class="cr-b2" data-spot-new>+ 칸 추가</button>') +
+    '<p class="note">' + (doc ? '서류를 누르면 크게 보여요.' : '사진을 누르면 크게 보이고, 찍은 날짜를 새겨 사진첩에 저장할 수 있어요.') + ' 브라우저 기록을 지우거나 휴대폰을 바꾸면 사라지니 사진첩에도 저장해 두세요.</p>';
   $('pp-body').innerHTML = s;
 }
-$('pp').addEventListener('click', e=>{
+$('pp').addEventListener('click', async e=>{
   const m = e.target.closest('[data-pmode]'); if(m){ photoMode = m.dataset.pmode; renderPhotos(); return; }
   const sn = e.target.closest('[data-snap]'); if(sn){ photoSpot = sn.dataset.snap; $('ppFile').value = ''; $('ppFile').click(); return; }
-  const sh = e.target.closest('[data-shot]'); if(sh) openShot(+sh.dataset.shot, sh.querySelector('img').src);
+  if(e.target.closest('[data-spot-new]')){
+    const n = (prompt('새 칸 이름을 적어 주세요. 예) 베란다') || '').trim().slice(0, 12); if(!n) return;
+    (house.spots = house.spots || []).push({id:'s' + Date.now().toString(36), name:n}); save(); return renderPhotos();
+  }
+  const sd = e.target.closest('[data-spot-del]'); if(sd){ house.spots = (house.spots || []).filter(x=>x.id !== sd.dataset.spotDel); save(); return renderPhotos(); }
+  const sa = e.target.closest('[data-shot-all]'); if(sa) return exportShots(Object.values(shotRecs).filter(r=>r.s === sa.dataset.shotAll && r.m === photoMode));
+  const sh = e.target.closest('[data-shot]'); if(sh) openShot(+sh.dataset.shot, sh.querySelector('img') ? sh.querySelector('img').src : '');
 });
 $('ppFile').addEventListener('change', async ()=>{
-  const f = $('ppFile').files[0]; if(!f || !photoSpot) return;
-  const h = house; // 2026-11-28: 보고 있는 집의 사진
-  try { await pAdd({h:h.id, m:photoMode, s:photoSpot, t:Date.now(), b:await shrink(f)}); toast('사진을 저장했어요.'); }
-  catch(e) { toast('사진을 저장하지 못했어요. 저장 공간을 확인해 주세요.'); }
+  const list = [...$('ppFile').files]; if(!list.length || !photoSpot) return;
+  const h = house; let n = 0, big = 0;
+  for(const f of list){
+    try {
+      if(f.type === 'application/pdf'){ if(f.size > 20 * 1024 * 1024){ big++; continue; } await pAdd({h:h.id, m:photoMode, s:photoSpot, t:Date.now(), b:f}); }
+      else await pAdd({h:h.id, m:photoMode, s:photoSpot, t:f.lastModified || Date.now(), b:await shrink(f)});
+      n++;
+    } catch(e) {}
+  }
+  // 처음 넣을 때 브라우저에 "지우지 말아 주세요"를 요청해요(허락 여부는 브라우저가 정해요)
+  if(n && navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+  toast(big ? '20MB보다 큰 PDF는 넣을 수 없어요.' : n ? (n > 1 ? n + '개를 ' : '') + '저장했어요.' : '저장하지 못했어요. 저장 공간을 확인해 주세요.');
   renderPhotos();
 });
+// 찍은 날짜를 새긴 사본 (사진첩 저장·내려받기용). PDF는 그대로
+const MODE_N = {in:'입주', live:'사는 동안', out:'퇴실', doc:'서류', fix:'고장'};
+const spotName = r => ((r.m === 'doc' ? DOC_SPOTS : spotsOf(house)).find(x=>x[0] === r.s) || ['', ''])[1];
+async function stampFile(r){
+  const d = new Date(r.t), p2 = n => String(n).padStart(2, '0');
+  const when = d.getFullYear() + '.' + p2(d.getMonth() + 1) + '.' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+  const base = 'zipkokcheck_' + when.replace(/[.: ]/g, '');
+  if(isPdf(r)) return new File([r.b], base + '.pdf', {type:'application/pdf'});
+  const url = URL.createObjectURL(r.b);
+  try {
+    const img = await new Promise((res, rej)=>{ const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+    const fs = Math.max(14, Math.round(Math.min(c.width, c.height) * .035)), pad = Math.round(fs * .5), txt = when + ' · ' + MODE_N[r.m] + (spotName(r) ? ' · ' + spotName(r) : '');
+    g.font = '600 ' + fs + 'px "Pretendard Variable","Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif';
+    const w = g.measureText(txt).width;
+    g.fillStyle = 'rgba(20,26,36,.6)'; g.fillRect(c.width - w - pad * 3, c.height - fs - pad * 3, w + pad * 2, fs + pad * 2);
+    g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(txt, c.width - w - pad * 2, c.height - pad * 2 - fs / 2);
+    return new File([await new Promise(ok=>c.toBlob(ok, 'image/jpeg', .9))], base + '.jpg', {type:'image/jpeg'});
+  } finally { URL.revokeObjectURL(url); }
+}
+async function exportShots(list){
+  if(!list.length) return;
+  const out = await Promise.all(list.map(stampFile));
+  if(navigator.canShare && navigator.canShare({files:out})){ try { await navigator.share({files:out}); return; } catch(e) { if(e && e.name === 'AbortError') return; } }
+  out.forEach(f=>dlFile(f, f.name));
+  toast(out.length + '개를 내려받았어요.');
+}
 let viewId = null;
 function openShot(id, src){
+  const r = shotRecs[id] || null;
+  if(r && isPdf(r)){ const u = URL.createObjectURL(r.b); window.open(u, '_blank', 'noopener'); setTimeout(()=>URL.revokeObjectURL(u), 60000); return; }
   viewId = id; $('crViewImg').src = src;
   const d = $('crView'); $('crViewClose').textContent = '닫기';
+  if(!d.querySelector('[data-shot-save]')) d.insertAdjacentHTML('beforeend', '<button type="button" class="cr-vsave" data-shot-save>날짜 새겨 사진첩에 저장</button>');
   if(!d.querySelector('[data-shot-del]')) d.insertAdjacentHTML('beforeend', '<button type="button" class="cr-vclose" data-shot-del style="color:#FF8A80">이 사진 지우기</button>');
+  d.querySelector('[data-shot-save]').hidden = !r;
   d.showModal ? d.showModal() : d.setAttribute('open', '');
 }
 $('crViewClose').addEventListener('click', ()=>$('crView').close());
 $('crView').addEventListener('click', async e=>{
+  if(e.target.closest('[data-shot-save]')){ const r = shotRecs[viewId]; if(r) exportShots([r]); return; }
   if(!e.target.closest('[data-shot-del]')) return;
   if(!confirm('이 사진을 지울까요? 되돌릴 수 없어요.')) return;
-  await pDel(viewId).catch(()=>{}); $('crView').close(); renderPhotos();
+  await pDel(viewId).catch(()=>{}); $('crView').close(); if(curView === 'pm') renderFix(); else renderPhotos();
 });
 
 // 백업: 집 기록 + 사진을 파일 하나로. 불러오면 지금 기록을 바꿔요
@@ -4975,38 +5168,50 @@ $('pmFile').addEventListener('change', async ()=>{
   renderFix();
 });
 
-// 월세 납부 기록
-function payMonths(h){
-  const L = h.lease, out = [], end = D0(L.end), now = new Date();
-  const d = D0(L.move); d.setDate(1);
-  while(d <= end && d <= new Date(now.getFullYear(), now.getMonth() + 1, 1)){ out.push(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0')); d.setMonth(d.getMonth() + 1); }
-  return out.reverse();
-}
+// 월세·관리비 납부 기록 (2026-11-28 팀원 문서 다섯째 합침: 관리비 금액·날짜, 기록 복사)
 function renderPay(){
   const h = myHouse(); if(!h) return;
-  const P = h.lease.pay = h.lease.pay || {day:D0(h.lease.move).getDate(), paid:{}}, rent = num((h.ctx || {}).rent);
+  const P = payCfg(h), rent = num((h.ctx || {}).rent), F = P.fee || {amount:'', day:P.day}, today = todayStr();
+  const rows = payEvents(h).filter(e=>e.due.slice(0, 7) <= today.slice(0, 7)).sort((a,b)=>b.due.localeCompare(a.due) || (a.pay === 'rent' ? -1 : 1));
   let s = '<p class="d-lead">낸 달을 체크해 두면 "안 냈다"는 다툼에 대비할 수 있어요. 이체 내역 화면도 함께 캡처해 두면 좋아요.</p>' +
-    '<div class="cr-box"><label class="lk-l" for="payDay" style="margin-top:0">매달 내는 날</label><div class="money"><input id="payDay" type="text" inputmode="numeric" value="' + P.day + '"><span>일</span></div>' +
-    '<button type="button" class="cr-b2" data-pay-ics>' + SVG(CR_I.cal) + '매달 납부일 캘린더에 넣기</button></div><div class="cr-card" style="margin-top:16px">';
-  payMonths(h).forEach(m=>{
-    const paid = P.paid[m], y = m.split('-');
-    s += '<button type="button" class="cr-row' + (paid ? ' done' : '') + '" data-pay="' + m + '">' + crIc('cal', !!paid) + '<span class="cr-t"><b>' + y[0] + '년 ' + (+y[1]) + '월' + (rent ? ' · ' + won(rent) : '') + '</b><span>' + (paid ? kdate(paid) + '에 냈어요' : '매달 ' + P.day + '일') + '</span></span>' + (paid ? '<span class="cr-ok">냈어요</span>' : '<span class="cr-d">체크</span>') + '</button>';
-  });
-  s += '</div>';
+    '<div class="cr-box"><label class="lk-l" for="payRent" style="margin-top:0">월세</label><div class="money"><input id="payRent" type="text" inputmode="numeric" value="' + (rent == null ? '' : rent) + '" placeholder="전세면 0"><span>만 원</span></div>' +
+    '<label class="lk-l" for="payDay">월세 내는 날</label><div class="money"><input id="payDay" type="text" inputmode="numeric" value="' + P.day + '"><span>일</span></div>' +
+    '<label class="lk-l" for="feeAmt2">관리비 <span class="opt-tag">선택</span></label><div class="money"><input id="feeAmt2" type="text" inputmode="numeric" value="' + (F.amount || '') + '"><span>만 원</span></div>' +
+    '<label class="lk-l" for="feeDay">관리비 내는 날</label><div class="money"><input id="feeDay" type="text" inputmode="numeric" value="' + (F.day || P.day) + '"><span>일</span></div>' +
+    '<p class="cr-law">입주한 달부터 만기 달까지 매달 우리집 탭 할 일과 달력에 넣어요. 이 휴대폰에만 저장돼요.</p></div>';
+  s += rows.length ? '<div class="cr-sec">납부 기록<small>' + rows.length + '건</small></div><div class="cr-card">' + rows.map(e=>{
+    const y = e.ym.split('-'), nm = e.pay === 'rent' ? '월세' : '관리비', amt = e.pay === 'rent' ? rent : F.amount;
+    return '<button type="button" class="cr-row' + (e.done ? ' done' : '') + '" data-pay2="' + e.id + '">' + crIc('cal', e.done) + '<span class="cr-t"><b>' + y[0] + '년 ' + (+y[1]) + '월 ' + nm + (amt ? ' · ' + won(amt) : '') + '</b><span>' + (e.done ? kdate(e.paidOn) + '에 냈어요' : '낼 날 ' + kdate(e.due)) + '</span></span>' + (e.done ? '<span class="cr-ok">냈어요</span>' : '<span class="cr-d' + (e.due < today ? ' late' : '') + '">' + (e.due < today ? '안 냄' : '체크') + '</span>') + '</button>';
+  }).join('') + '</div><button type="button" class="cr-b2" data-pay-copy>기록 복사하기</button>' : '<p class="note">' + (rent > 0 || F.amount ? '첫 납부일이 오면 여기에 기록이 생겨요.' : '월세나 관리비를 넣으면 매달 기록이 생겨요.') + '</p>';
+  s += '<button type="button" class="cr-b2" data-pay-ics>' + SVG(CR_I.cal) + '매달 내는 날 휴대폰 달력에 넣기</button>';
   $('pn-body').innerHTML = s;
-  $('payDay').addEventListener('change', e=>{ const v = Math.min(31, Math.max(1, parseInt(e.target.value, 10) || 1)); P.day = v; save(); renderPay(); });
+  const n = (id, lo, hi) => { const v = $(id).value.replace(/[^0-9.]/g, ''); return v === '' ? null : Math.min(hi, Math.max(lo, +v)); };
+  $('payRent').addEventListener('change', ()=>{ const v = n('payRent', 0, 99999); h.ctx = h.ctx || {}; h.ctx.rent = v == null ? '' : String(v); if(house.id === h.id) ctx = h.ctx; save(); renderPay(); });
+  $('payDay').addEventListener('change', ()=>{ P.day = Math.round(n('payDay', 1, 31) || 1); save(); renderPay(); });
+  $('feeAmt2').addEventListener('change', ()=>{ const v = n('feeAmt2', 0, 9999); P.fee = v ? {amount:v, day:(P.fee && P.fee.day) || P.day} : null; save(); renderPay(); });
+  $('feeDay').addEventListener('change', ()=>{ if(P.fee){ P.fee.day = Math.round(n('feeDay', 1, 31) || 1); save(); renderPay(); } });
 }
-$('pn').addEventListener('click', e=>{
+$('pn').addEventListener('click', async e=>{
   const h = myHouse(); if(!h) return;
-  const b = e.target.closest('[data-pay]');
-  if(b){ const P = h.lease.pay; if(P.paid[b.dataset.pay]) delete P.paid[b.dataset.pay]; else P.paid[b.dataset.pay] = todayStr(); save(); return renderPay(); }
+  const b = e.target.closest('[data-pay2]');
+  if(b){ const m = /^(rent|fee)-(.+)$/.exec(b.dataset.pay2), P = payCfg(h), map = m[1] === 'rent' ? P.paid : P.feePaid; if(map[m[2]]) delete map[m[2]]; else map[m[2]] = todayStr(); save(); renderStart(); return renderPay(); }
+  if(e.target.closest('[data-pay-copy]')){
+    const today = todayStr(), rent = num((h.ctx || {}).rent), P = payCfg(h);
+    const rows = payEvents(h).filter(x=>x.due.slice(0, 7) <= today.slice(0, 7));
+    const txt = '[집콕체크 납부 기록] ' + h.name + '\n' + rows.map(x=>x.ym + ' ' + (x.pay === 'rent' ? '월세 ' + won(rent) : '관리비 ' + won(P.fee.amount)) + ' — ' + (x.done ? x.paidOn + ' 냄' : x.due < today ? '안 냄' : '낼 날 ' + x.due)).join('\n') + '\n(날짜는 앱에서 「냈어요」를 누른 날이에요)';
+    return toast(await copyText(txt) ? '납부 기록을 복사했어요.' : '복사하지 못했어요.');
+  }
   if(e.target.closest('[data-pay-ics]')){
-    const d = h.lease.pay.day, first = D0(h.lease.move); first.setDate(Math.min(d, 28)); if(first < D0(h.lease.move)) first.setMonth(first.getMonth() + 1);
-    const st = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//zipkok-check//care//KO', 'BEGIN:VEVENT', 'UID:zipkok-pay@zipkok-check.vercel.app', 'DTSTAMP:' + st,
-      'DTSTART;VALUE=DATE:' + ymd(first).replace(/-/g, ''), 'DTEND;VALUE=DATE:' + addDays(ymd(first), 1).replace(/-/g, ''), 'RRULE:FREQ=MONTHLY;BYMONTHDAY=' + d + ';UNTIL=' + h.lease.end.replace(/-/g, ''),
-      'SUMMARY:[집콕체크] 월세 내는 날', 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:월세 내는 날', 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'];
-    dlFile(new Blob([L.join('\r\n')], {type:'text/calendar'}), '집콕체크-월세.ics');
+    const P = payCfg(h), rent = num((h.ctx || {}).rent), st = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//zipkok-check//care//KO'];
+    [['rent', '월세 내는 날', rent > 0, P.day], ['fee', '관리비 내는 날', P.fee && P.fee.amount > 0, P.fee && P.fee.day]].filter(x=>x[2]).forEach(([k, nm, , d])=>{
+      const first = payEvents(h).find(x=>x.pay === k); if(!first) return;
+      L.push('BEGIN:VEVENT', 'UID:zipkok-' + k + '@zipkok-check.vercel.app', 'DTSTAMP:' + st, 'DTSTART;VALUE=DATE:' + first.due.replace(/-/g, ''), 'DTEND;VALUE=DATE:' + addDays(first.due, 1).replace(/-/g, ''),
+        'RRULE:FREQ=MONTHLY;BYMONTHDAY=' + Math.min(d, 28) + ';UNTIL=' + h.lease.end.replace(/-/g, ''), 'SUMMARY:[집콕체크] ' + nm, 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + nm, 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT');
+    });
+    if(L.length === 3) return toast('먼저 월세나 관리비를 넣어 주세요.');
+    L.push('END:VCALENDAR');
+    dlFile(new Blob([L.join('\r\n')], {type:'text/calendar'}), '집콕체크-월세관리비.ics');
   }
 });
 
@@ -5037,28 +5242,24 @@ const DOC_SPOTS = [['contract','계약서'], ['reg','등기부등본'], ['fixdat
 // 누름 처리 (내 계약 탭 · 할 일 화면 · 최종 정리)
 document.addEventListener('click', async e=>{
   const t = e.target.closest('[data-task]');
-  if(t){ crTask = t.dataset.task; return go('pk'); }
+  if(t) return openSheet(t.dataset.task);
   const dn = e.target.closest('[data-task-done]');
   if(dn){
-    const h = myHouse(); if(!h) return;
-    const id = dn.dataset.taskDone; h.lease.done = h.lease.done || {};
-    if(h.lease.done[id]) delete h.lease.done[id]; else { h.lease.done[id] = todayStr(); toast('했어요로 표시했어요.'); }
-    save(); renderStart(); if(curView === 'pk') renderTask();
-    return;
+    return crToggle(dn.dataset.taskDone);
   }
   const ph = e.target.closest('[data-photos]');
-  if(ph){ photoMode = ph.dataset.photos; return go('pp'); }
+  if(ph){ photoMode = ph.dataset.photos; if(TAB_VIEWS.includes(curView) || curView === 'pout'){ const h = myHouse(); if(h) useHouse(h.id); } return go('pp'); }
   if(e.target.closest('[data-sign]')){ return go('pl'); }
-  if(e.target.closest('[data-care-list]')) return go('pc');
+  if(e.target.closest('[data-care-list]')) return goTab('pc');
   if(e.target.closest('[data-go-words]')){ go('pg'); setTimeout(()=>{ const el = $('g-words'), sc = $('pg-body'); if(el && sc) sc.scrollTo({top:el.offsetTop - 12, behavior:'smooth'}); }, 500); return; }
   const nw = e.target.closest('[data-now]');
   if(nw){ useHouse(+nw.dataset.now); listFilter = null; renderList();
-    if(nw.dataset.nowK === 'task'){ crTask = nw.dataset.nowId; return go('pk'); }
+    if(nw.dataset.nowK === 'task') return openSheet(nw.dataset.nowId);
     state.sel = nw.dataset.nowId; renderAnswer(); return go('p2'); }
-  if(e.target.closest('[data-go-clause]')){ if(curView === 'pk'){ const h = myHouse(); if(h) useHouse(h.id); } return go('pt'); }
+  if(e.target.closest('[data-go-clause]')){ if(curView === 'pc'){ const h = myHouse(); if(h) useHouse(h.id); } return go('pt'); }
   const cv = e.target.closest('[data-care-view]'); if(cv){ const h = myHouse(); if(h) useHouse(h.id); return go(cv.dataset.careView); }
   if(e.target.closest('[data-interest]')){ try { localStorage.setItem('jipkok-interest-exit', todayStr()); } catch(er) {} }
-  if(e.target.closest('#pz [data-tab-go]')) return goTab('p0');
+  const pzt = e.target.closest('#pz [data-tab-go]'); if(pzt) return goTab(pzt.dataset.tabGo);
   if(e.target.closest('[data-print]')) return window.print();
   if(e.target.closest('[data-lease-edit]')){ const h = myHouse(); if(h) useHouse(h.id); return go('pl'); }
   if(e.target.closest('[data-lease-drop]')){
@@ -5073,15 +5274,368 @@ document.addEventListener('click', async e=>{
   if(fold){ const b = $('cr-others'); b.hidden = !b.hidden; fold.setAttribute('aria-expanded', !b.hidden); fold.querySelector('.cr-chev').style.transform = b.hidden ? '' : 'rotate(90deg)'; }
 });
 
+
+/* ---------- 우리집 탭 (2026-11-28 사용자와 정함: B안 아래 탭 4개, 팀원 「계약 케어」 문서의 기능 8가지를 합침) ----------
+   기록은 지금처럼 내 집(houses.my)의 house.lease 안에 있어요: done(했어요) · pay(월세 day·paid, 관리비 fee·feePaid) · custom(내 일정) · out(퇴실 체크).
+   알림 설정만 따로 'jipkok-notify'에 둬요: {on, kinds, sub, asked}. 서버(api/push.mjs)에는 알림 주소와 날짜·종류만 보내요. */
+const WEEK = ['일','월','화','수','목','금','토'];
+const mdw = s => { const d = D0(s); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + WEEK[d.getDay()] + ')'; };
+var calMonth = todayStr().slice(0, 7), selDay = todayStr(), crCalMode = false, crHeroOpen = false;
+const CK_I = '<i aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></i>';
+const DOWN_I = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// 월세·관리비: 월세 금액은 집 정보(ctx.rent), 내는 날은 pay.day. 관리비는 pay.fee = {amount, day}
+function payCfg(h){
+  const P = h.lease.pay = h.lease.pay || {day:D0(h.lease.move).getDate(), paid:{}};
+  P.paid = P.paid || {}; P.feePaid = P.feePaid || {};
+  return P;
+}
+const payDue = (ym, day) => { const p = ym.split('-').map(Number), last = new Date(p[0], p[1], 0).getDate(); return ym + '-' + String(Math.min(day, last)).padStart(2, '0'); };
+function payEvents(h){
+  const P = payCfg(h), L = h.lease, out = [], rent = num((h.ctx || {}).rent);
+  const kinds = [];
+  if(rent > 0) kinds.push(['rent', '월세', rent, P.day, P.paid]);
+  if(P.fee && P.fee.amount > 0) kinds.push(['fee', '관리비', P.fee.amount, P.fee.day || P.day, P.feePaid]);
+  kinds.forEach(([k, nm, amt, day, paid])=>{
+    for(let ym = L.move.slice(0, 7); ym <= L.end.slice(0, 7); ym = addMonths(ym + '-01', 1).slice(0, 7)){
+      const due = payDue(ym, day); if(due < L.move || due > L.end) continue;
+      out.push({id:k + '-' + ym, ym, pay:k, due, title:nm + ' 내기 · ' + won(amt), done:!!paid[ym], paidOn:paid[ym]});
+    }
+  });
+  return out;
+}
+// 날짜가 있는 모든 일: 꼭 챙길 일(안내는 빼요) + 월세·관리비 + 내 일정
+function careAll(h){
+  const L = h.lease, done = L.done || {};
+  const auto = careTasks(h).filter(x=>!x.info).map(x=>Object.assign({}, x, {kind:'auto'}));
+  const own = (L.custom || []).map(c=>({id:c.id, due:c.date, title:c.title, memo:c.memo || '', own:true, kind:'own', done:!!done[c.id]}));
+  return auto.concat(payEvents(h).map(e=>Object.assign(e, {kind:e.pay})), own).sort((a,b)=>a.due.localeCompare(b.due));
+}
+function crToggle(id){
+  const h = myHouse(); if(!h) return;
+  const m = /^(rent|fee)-(\d{4}-\d{2})$/.exec(id);
+  let on;
+  if(m){ const P = payCfg(h), map = m[1] === 'rent' ? P.paid : P.feePaid; on = !map[m[2]]; if(on) map[m[2]] = todayStr(); else delete map[m[2]]; }
+  else { h.lease.done = h.lease.done || {}; on = !h.lease.done[id]; if(on) h.lease.done[id] = todayStr(); else delete h.lease.done[id]; }
+  save(); renderStart(); renderCare();
+  if(!$('crSheet').hidden) reopenSheet();
+  toast(on ? (m ? '냈어요! 오늘 날짜로 기록했어요.' : '했어요로 표시했어요.') : '다시 할 일로 돌렸어요.');
+}
+function crItem(e){
+  const d = D0(e.due), n = dday(e.due), w = e.pay ? '냈어요' : '했어요';
+  const tag = e.done ? '<span class="cr-tag">' + w + '</span>' : n === 0 ? '<span class="cr-tag now">오늘</span>' : n > 0 ? '<span class="cr-tag' + (n <= 7 ? ' soon' : '') + '">' + ddTxt(e.due) + '</span>' : '<span class="cr-tag late">' + (-n) + '일 지남</span>';
+  return '<div class="cr-it' + (e.done ? ' done' : n < 0 ? ' past' : '') + '"><div class="cr-dt"><b>' + d.getDate() + '</b><span>' + (d.getFullYear() !== new Date().getFullYear() ? String(d.getFullYear()).slice(2) + '년 ' : '') + (d.getMonth() + 1) + '월</span></div>' +
+    '<button type="button" class="cr-bd" data-crop="' + esc(e.id) + '" aria-label="' + esc(e.title) + ' 자세히 보기"><span class="cr-tt">' + esc(e.title) + '</span>' + tag + '</button>' +
+    '<button type="button" class="cr-ck" data-crdone="' + esc(e.id) + '" aria-pressed="' + e.done + '" aria-label="' + esc(e.title) + (e.done ? ' ' + w + ' 취소' : ' ' + w + '로 표시') + '">' + CK_I + '</button></div>';
+}
+function crCal(ev){
+  const p = calMonth.split('-').map(Number), y = p[0], m = p[1], today = todayStr();
+  const first = new Date(y, m - 1, 1).getDay(), last = new Date(y, m, 0).getDate(), by = {};
+  ev.forEach(e=>{ (by[e.due] = by[e.due] || []).push(e); });
+  let cells = '';
+  for(let i = 0; i < first; i++) cells += '<span class="cal-d empty"></span>';
+  for(let d = 1; d <= last; d++){
+    const ds = calMonth + '-' + String(d).padStart(2, '0'), list = by[ds] || [], left = list.filter(e=>!e.done);
+    const dots = ['auto','rent','fee','own'].filter(k=>list.some(e=>e.kind === k)).map(k=>'<i class="cal-dot ' + (left.some(e=>e.kind === k) ? k : 'gray') + '"></i>').join('');
+    const lbl = m + '월 ' + d + '일' + (ds === today ? ' 오늘' : '') + (list.length ? ', 일정 ' + list.length + '개' + (left.length ? ', 남은 일 ' + left.length + '개' : ', 모두 했어요') : '');
+    cells += '<button type="button" class="cal-d' + (ds === today ? ' today' : '') + (ds === selDay ? ' sel' : '') + '" data-crday="' + ds + '" aria-label="' + lbl + '" aria-pressed="' + (ds === selDay) + '"><b>' + d + '</b><span class="cal-dots">' + dots + '</span></button>';
+  }
+  const arrow = path => '<svg width="10" height="16" viewBox="0 0 12 20" aria-hidden="true"><path d="' + path + '" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const has = k => ev.some(e=>e.kind === k);
+  return '<div class="cr-card cal"><div class="cal-h"><button type="button" class="cal-nav" data-crcal="-1" aria-label="이전 달">' + arrow('M10 2L2 10l8 8') + '</button><b>' + y + '년 ' + m + '월</b>' +
+    '<button type="button" class="cal-nav" data-crcal="1" aria-label="다음 달">' + arrow('M2 2l8 8-8 8') + '</button><button type="button" class="cal-today" data-crcal="0">오늘</button></div>' +
+    '<div class="cal-w" aria-hidden="true">' + WEEK.map(w=>'<span>' + w + '</span>').join('') + '</div><div class="cal-g">' + cells + '</div>' +
+    '<p class="cal-key"><span><i class="cal-dot"></i>꼭 챙길 일</span>' + (has('rent') ? '<span><i class="cal-dot rent"></i>월세</span>' : '') + (has('fee') ? '<span><i class="cal-dot fee"></i>관리비</span>' : '') +
+    '<span><i class="cal-dot own"></i>내 일정</span><span><i class="cal-dot gray"></i>다 했어요</span></p></div>';
+}
+function crHero(h){
+  const L = h.lease, today = todayStr(), all = Math.max(1, dday(L.end) - dday(L.move)), gone = -dday(L.move);
+  const pct = Math.max(0, Math.min(100, gone / all * 100));
+  const big = today < L.move ? '입주까지 ' + dday(L.move) + '일' : today <= L.end ? '만기까지 ' + dday(L.end) + '일' : '계약 기간이 끝났어요';
+  const sd = s => s.slice(2).replace(/-/g, '.');
+  return '<div class="ch-hero' + (crHeroOpen ? ' open' : '') + '"><button type="button" class="ch-top" data-crhero aria-expanded="' + crHeroOpen + '"><span class="ch-k">' + esc(h.name) + '</span><span class="ch-big">' + big + '</span>' +
+    '<span class="ch-bar" role="img" aria-label="계약 기간 ' + Math.round(pct) + '% 지남"><i style="width:' + pct + '%"></i><b style="left:' + pct + '%"></b></span>' +
+    '<span class="ch-ends"><span>입주 ' + sd(L.move) + '</span><span>만기 ' + sd(L.end) + '</span></span>' +
+    '<span class="ch-tog">' + (crHeroOpen ? '접기' : '계약 날짜 보기') + DOWN_I + '</span></button>' +
+    (crHeroOpen ? '<dl>' + [['계약일', L.contract], ['이삿날', L.move], ['만기일', L.end]].map(([k, s])=>'<dt>' + k + '</dt><dd>' + s.slice(0, 4) + '년 ' + mdw(s) + '</dd>').join('') + '</dl><button type="button" class="ch-edit" data-lease-edit>날짜 고치기</button>' : '') + '</div>';
+}
+function renderCare(){
+  const box = $('pc-body'); if(!box) return;
+  const h = myHouse();
+  let s = '<div class="tab-head">우리집</div>';
+  if(!h){
+    const named = houses.list.filter(x=>!blankHouse(x));
+    s += '<div class="ch-empty">' + crIc('home') + '<h3>계약하면 여기서 챙겨요</h3><p>집 화면 맨 아래 「이 집으로 계약했어요」를 누르고 날짜를 넣으면 이 탭이 열려요</p>' +
+      '<ul class="ch-list"><li>' + crIc('cal') + '날짜에 맞춰 할 일이 저절로 생겨요</li><li>' + crIc('bell') + '아침 9시쯤 오늘·내일 할 일을 알려 줘요</li><li>' + crIc('save') + '월세·관리비 낸 기록을 남겨요</li><li>' + crIc('cam') + '방 사진·서류를 이 휴대폰에 모아요</li></ul></div>';
+    s += named.length ? '<div class="cr-sec">어느 집으로 계약했나요?</div><div class="cr-card">' + named.map(x=>'<button type="button" class="cr-row" data-sign-h="' + x.id + '">' + crIc('home') + '<span class="cr-t"><b>' + esc(x.name) + '</b><span>이 집으로 계약했어요</span></span>' + CHEV_R + '</button>').join('') + '</div>'
+      : '<button type="button" class="cr-b1" data-tab-go="p0">후보 집 추가하러 가기</button>';
+    box.innerHTML = s; return;
+  }
+  const today = todayStr(), ev = careAll(h), left = ev.filter(e=>!e.done), done = ev.filter(e=>e.done);
+  const upTodo = left.filter(e=>!e.pay && e.due >= today), past = left.filter(e=>e.due < today);
+  const soon = upTodo.filter(e=>e.due <= addDays(today, 30)), later = upTodo.filter(e=>e.due > addDays(today, 30));
+  const seen = {}, upPay = left.filter(e=>e.pay && e.due >= today && !seen[e.pay] && (seen[e.pay] = true));
+  s += crHero(h);
+  s += '<div class="ch-row"><div class="cr-sec">다가오는 할 일</div>' + bellChip() + '</div>' +
+    '<div class="ch-seg" role="tablist" aria-label="보는 방법"><button type="button" role="tab" data-crmode="list" class="' + (crCalMode ? '' : 'on') + '" aria-selected="' + !crCalMode + '">목록</button><button type="button" role="tab" data-crmode="cal" class="' + (crCalMode ? 'on' : '') + '" aria-selected="' + crCalMode + '">달력</button></div>';
+  if(crCalMode){
+    const day = ev.filter(e=>e.due === selDay);
+    s += crCal(ev) + '<div class="cr-sec">' + mdw(selDay) + '<small>' + (day.length ? day.length + '개' : '') + '</small></div><div class="cr-card">' +
+      (day.length ? day.map(crItem).join('') : '<p class="cr-none">이날 일정이 없어요.</p>') + '<button type="button" class="cr-add" data-cradd>+ 이날 일정 추가</button></div>';
+  } else {
+    const nt = NT();
+    s += '<div class="cr-card">' + (!nt.on && !nt.asked ? '<div class="cr-ask"><p>할 일 전날과 당일 아침에 알려 드릴까요?</p><div><button type="button" class="no" data-bellno>괜찮아요</button><button type="button" class="ok" data-bellon>알림 켜기</button></div></div>' : '') +
+      (soon.length ? soon.map(crItem).join('') : '<p class="cr-none">한 달 안에 할 일이 없어요.</p>') +
+      (later.length ? '<details class="cr-later"><summary><span>한 달 뒤 할 일 ' + later.length + '개 펼치기</span>' + DOWN_I + '</summary>' + later.map(crItem).join('') + '</details>' : '') +
+      '<button type="button" class="cr-add" data-cradd>+ 내 일정 추가</button></div>';
+    s += '<div class="cr-sec">다가오는 월세·관리비</div><div class="cr-card">' + (upPay.length ? upPay.map(crItem).join('') + '<button type="button" class="cr-add" data-care-view="pn">납부 기록 보기</button>'
+      : '<button type="button" class="cr-row" data-care-view="pn">' + crIc('save') + '<span class="cr-t"><b>월세·관리비 넣기</b><span>내는 날을 넣으면 매달 할 일로 넣어 드려요</span></span>' + CHEV_R + '</button>') + '</div>';
+  }
+  const P = payCfg(h), fx = h.lease.fixes || [], open = fx.filter(r=>r.st !== 'done').length, V = (h.lease.visits || []).filter(v=>dday(v.date) >= 0);
+  const o = h.lease.out || {}, on = OUT_IDS.filter(id=>o[id]).length;
+  const vrow = (attr, ic, ti, sub) => '<button type="button" class="cr-row" ' + attr + '>' + crIc(ic) + '<span class="cr-t"><b>' + ti + '</b><span>' + sub + '</span></span>' + CHEV_R + '</button>';
+  s += '<div class="cr-sec">우리집 관리</div><div class="cr-card">' +
+    vrow('data-care-view="pn"', 'save', '월세·관리비', num((h.ctx || {}).rent) > 0 || P.fee ? '매달 ' + P.day + '일 · ' + (P.paid[today.slice(0, 7)] ? '이번 달 냈어요' : '이번 달 아직') : '금액과 내는 날 넣기') +
+    vrow('data-photos="in"', 'cam', '방 사진', '입주 · 사는 동안 · 퇴실, 칸마다 여러 장') +
+    vrow('data-photos="doc"', 'doc', '서류 보관함', '계약서·영수증 사진이나 PDF') +
+    vrow('data-care-view="pm"', 'pen', '고장·수리 기록', fx.length ? fx.length + '건' + (open ? ' · 처리 중 ' + open + '건' : '') : '고장 나면 바로 기록') +
+    vrow('data-care-view="pw"', 'cal', '집 보여 주기 일정', V.length ? '다음 ' + kdate(V[0].date) + ' ' + V[0].time : '나가기 전 날짜 적어 두기') +
+    vrow('data-care-view="pout"', 'key', '나갈 때 체크리스트', o['o-paid'] ? '보증금 받음' : on ? OUT_IDS.length + '개 중 ' + on + '개 했어요' : '나가기 전에 챙길 ' + OUT_IDS.length + '가지') + '</div>';
+  const info = careTasks(h).filter(x=>x.info);
+  if(info.length) s += '<div class="cr-sec">알아 두기</div><div class="cr-card">' + info.map(crRow).join('') + '</div>';
+  if(past.length) s += '<details class="cr-fd"><summary>지난 일 · 못 한 일<small>' + past.length + '개</small></summary><div class="cr-card">' + past.slice().reverse().map(crItem).join('') + '</div></details>';
+  if(done.length) s += '<details class="cr-fd"><summary>한 일<small>' + done.length + '개</small></summary><div class="cr-card">' + done.slice().reverse().map(crItem).join('') + '</div></details>';
+  s += '<div class="cr-sec">기록</div><div class="cr-card">' +
+    vrow('data-lease-edit', 'cal', '계약 정보', '만기 ' + kdate(h.lease.end)) +
+    vrow('data-ics-all', 'bell', '모든 일정 휴대폰 달력에 넣기', '전날 아침에 달력이 알려 줘요') +
+    vrow('data-backup', 'save', '기록 백업하기', '휴대폰을 바꿀 때 파일로 옮겨요') +
+    vrow('data-restore', 'load', '백업 불러오기', '저장한 파일로 되살려요') + '</div>' +
+    '<p class="note">참고용 안내이며 법률 자문이 아니에요. 기한은 2026년 11월 법령 기준이에요. 기록은 이 휴대폰에만 저장돼요.</p>';
+  box.innerHTML = s;
+}
+
+// 아래에서 올라오는 할 일 창: 꼭 챙길 일은 원래 「할 일 자세히」 내용, 월세·관리비·내 일정은 짧게
+var sheetId = null;
+function openSheet(id){ sheetId = id; reopenSheet(); $('crSheet').hidden = false; $('crSheet').querySelector('.modal-box').scrollTop = 0; }
+function reopenSheet(){
+  const h = myHouse(); if(!h) return;
+  const e = careAll(h).find(x=>x.id === sheetId) || careTasks(h).find(x=>x.id === sheetId); if(!e) return;
+  if(!e.pay && !e.own){ crTask = e.id; return renderTask(); }
+  $('ck-t').textContent = e.title;
+  const w = e.pay ? '냈어요' : '했어요';
+  $('ck-body').innerHTML = '<p class="cr-due" style="margin-top:8px">' + kdate(e.due) + '<small>' + (e.done ? (e.paidOn ? kdate(e.paidOn) + '에 냈어요' : w) : ddTxt(e.due)) + '</small></p>' +
+    (e.pay ? '<p class="sh-desc">「냈어요」를 누르면 그날 날짜가 남아서 밀린 적 없다는 증거가 돼요. 이체 확인증도 함께 남겨 두면 더 확실해요.' + (e.pay === 'rent' ? ' 월세를 두 달 치만큼 밀린 적이 있으면 집주인이 갱신 요구를 거절할 수 있어요(주택임대차보호법 제6조의3).' : '') + '</p>' : e.memo ? '<p class="sh-desc">' + esc(e.memo) + '</p>' : '') +
+    '<button type="button" class="cr-b1" data-crdone="' + esc(e.id) + '">' + (e.done ? w + ' 취소' : w) + '</button>' +
+    (e.pay ? '<button type="button" class="cr-b2" data-care-view="pn" style="background:var(--brand-50)">납부 기록 · 금액 바꾸기</button>' : '') +
+    '<a class="cr-b2" style="background:var(--brand-50)" href="' + gcal({title:e.own ? e.title : e.title.replace(/ · .*$/, ''), due:e.due, sub:e.own ? (e.memo || '내 일정') : '매달 내는 날'}) + '" target="_blank" rel="noopener">' + SVG(CR_I.cal) + '구글 캘린더에 넣기</a>' +
+    (e.own ? '<button type="button" class="sh-del" data-crowndel="' + esc(e.id) + '">이 일정 지우기</button>' : '');
+}
+function closeSheet(){ $('crSheet').hidden = true; }
+$('ck-x').addEventListener('click', closeSheet);
+$('crSheet').addEventListener('click', e=>{
+  if(e.target === $('crSheet')) return closeSheet();
+  const d = e.target.closest('[data-crdone]'); if(d) return crToggle(d.dataset.crdone);
+  const od = e.target.closest('[data-crowndel]');
+  if(od){ const h = myHouse(); if(!h || !confirm('이 일정을 지울까요?')) return;
+    h.lease.custom = (h.lease.custom || []).filter(x=>x.id !== od.dataset.crowndel); if(h.lease.done) delete h.lease.done[od.dataset.crowndel];
+    save(); closeSheet(); renderCare(); return toast('일정을 지웠어요.'); }
+  // 다른 화면으로 가는 버튼은 창을 닫고 가요 (바깥 주소 링크는 창을 그대로 둬요)
+  if(e.target.closest('[data-photos],[data-go-clause],[data-care-view],[data-lease-edit],[data-tab-go]')) closeSheet();
+}, true);
+
+// 내 일정 추가
+$('ca-no').addEventListener('click', ()=>{ $('crAddForm').hidden = true; });
+$('ca-ok').addEventListener('click', ()=>{
+  const h = myHouse(); if(!h) return;
+  const date = $('ca-d').value, title = $('ca-t2').value.trim(), memo = $('ca-m').value.trim();
+  if(!date) return void ($('ca-err').textContent = '날짜를 골라 주세요.');
+  if(!title) return void ($('ca-err').textContent = '무엇을 할지 적어 주세요.');
+  (h.lease.custom = h.lease.custom || []).push({id:'u' + Date.now().toString(36), date, title:title.slice(0, 40), memo:memo.slice(0, 200)});
+  save(); selDay = date; calMonth = date.slice(0, 7);
+  $('crAddForm').hidden = true; renderCare(); toast(mdw(date) + '에 일정을 넣었어요.');
+});
+
+$('pc').addEventListener('click', e=>{
+  const t = e.target;
+  const ck = t.closest('[data-crdone]'); if(ck) return crToggle(ck.dataset.crdone);
+  const op = t.closest('[data-crop]'); if(op) return openSheet(op.dataset.crop);
+  const day = t.closest('[data-crday]'); if(day){ selDay = day.dataset.crday; return renderCare(); }
+  const nav = t.closest('[data-crcal]');
+  if(nav){ const k = +nav.dataset.crcal; if(k === 0){ selDay = todayStr(); calMonth = selDay.slice(0, 7); } else calMonth = addMonths(calMonth + '-01', k).slice(0, 7); return renderCare(); }
+  const md = t.closest('[data-crmode]'); if(md){ crCalMode = md.dataset.crmode === 'cal'; return renderCare(); }
+  if(t.closest('[data-crhero]')){ crHeroOpen = !crHeroOpen; return renderCare(); }
+  if(t.closest('[data-cradd]')){ $('ca-d').value = crCalMode ? selDay : todayStr(); $('ca-t2').value = ''; $('ca-m').value = ''; $('ca-err').textContent = ''; $('crAddForm').hidden = false; return setTimeout(()=>$('ca-t2').focus(), 50); }
+  if(t.closest('[data-crbell]')) return openBell();
+  if(t.closest('[data-bellon]')) return enableNotify();
+  if(t.closest('[data-bellno]')){ setNT({asked:true}); return renderCare(); }
+  const sg = t.closest('[data-sign-h]'); if(sg){ useHouse(+sg.dataset.signH); return go('pl'); }
+  const tg = t.closest('[data-tab-go]'); if(tg) return goTab(tg.dataset.tabGo);
+});
+
+/* ---------- 나갈 때 체크리스트 (팀원 문서 일곱째, 2026-11-28) ----------
+   근거(국가법령정보센터 원문 2026-11-28 확인): 주택임대차보호법 제4조②(보증금 받을 때까지 계약 존속), 제3조의3①⑤⑧(임차권등기명령),
+   제14조(분쟁조정), 민법 제654조→제615조(원상회복). 체크한 날짜는 house.lease.out[id]에만 저장해요. */
+const OUT_LIST = [
+  ['나가기 한 달 전', [
+    ['o-notice', '나간다고 알렸는지 확인', '만기 2개월 전까지 알려야 해요. 문자처럼 기록이 남게'],
+    ['o-date', '보증금 받을 날과 계좌를 집주인과 정하기', '이삿날 같은 시간에 받는 게 안전해요'],
+    ['o-mover', '이사 날짜·이사 업체 정하기', '']]],
+  ['일주일 전', [
+    ['o-fee', '관리비 정산 신청', '나가는 날까지 쓴 만큼'],
+    ['o-util', '전기·가스·수도 정산 신청', ''],
+    ['o-net', '인터넷·TV 해지나 이전', ''],
+    ['o-mail', '우편물 주소 바꾸기', '']]],
+  ['나가는 날', [
+    ['o-photo', '퇴실 사진 찍기', '입주 사진과 같은 칸을 찍어 두면 다툼을 막아요', 'photo'],
+    ['o-clean', '짐 다 빼고 원래대로 정리', '나갈 때는 집을 원래 상태로 돌려놓아야 해요(민법 제615조)'],
+    ['o-meter', '계량기 숫자 사진 찍기', '전기·가스·수도'],
+    ['o-key', '보증금 다 받은 것 확인한 뒤 열쇠·도어락 비밀번호 넘기기', '']]],
+  ['보증금 받은 뒤', [
+    ['o-paid', '보증금 다 받았어요', '받은 날이 기록돼요'],
+    ['o-move', '새 집 전입신고', '보증금을 다 받은 뒤에 옮겨요']]]
+];
+const OUT_IDS = OUT_LIST.flatMap(g=>g[1].map(x=>x[0]));
+const WARN_I = '<svg class="warn-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 2.5 20h19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4.5M12 17.2v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+function renderOut(){
+  const h = myHouse(); if(!h) return;
+  const o = h.lease.out || {}, n = OUT_IDS.filter(id=>o[id]).length, md = s => (+s.slice(5, 7)) + '월 ' + (+s.slice(8)) + '일';
+  $('pout-body').innerHTML =
+    '<div class="urgent" style="margin-top:4px"><b style="display:flex;gap:6px">' + WARN_I + '보증금을 다 받거나 임차권등기를 마치기 전에는 전입을 옮기지 마세요</b>옮기면 보증금을 먼저 돌려받을 권리를 잃을 수 있어요. 임차권등기를 마치면 옮겨도 권리가 남아요.</div>' +
+    '<p class="out-cnt">' + OUT_IDS.length + '개 중 <b>' + n + '개</b> 했어요</p>' +
+    OUT_LIST.map(([when, items])=>'<div class="cr-sec">' + when + '</div><div class="cr-card">' + items.map(([id, t, sub, g])=>{
+      const d = o[id];
+      return '<div class="out-it' + (d ? ' done' : '') + '"><button type="button" class="cr-ck" data-out="' + id + '" aria-pressed="' + !!d + '" aria-label="' + esc(t) + (d ? ' 했어요 취소' : ' 했어요로 표시') + '">' + CK_I + '</button>' +
+        '<div class="out-tx"><b>' + esc(t) + '</b>' + (sub ? '<span>' + esc(sub) + '</span>' : '') + (d ? '<em>' + md(d) + ' 했어요</em>' : '') +
+        (g === 'photo' ? '<button type="button" class="out-go" data-photos="out">방 사진 「퇴실」 열기</button>' : '') + '</div></div>';
+    }).join('') + '</div>').join('') +
+    '<details class="out-help"><summary>' + WARN_I + '보증금을 못 받았나요?</summary><div class="out-steps">' +
+      '<div class="out-step"><b>1. 임차권등기명령 신청</b><span>계약이 끝났는데 보증금을 못 받으면 집이 있는 곳의 법원에 신청할 수 있어요. 등기를 마치면 이사·전입을 옮겨도 권리가 남고, 신청에 든 비용은 집주인에게 청구할 수 있어요.</span>' +
+        '<a class="hbtn" href="https://ecfs.scourt.go.kr" target="_blank" rel="noopener">대법원 전자소송에서 신청</a><small>주택임대차보호법 제3조의3 제1항·제5항·제8항</small></div>' +
+      '<div class="out-step"><b>2. 무료 상담 · 분쟁 조정</b><span>보증금 반환 다툼은 주택임대차분쟁조정위원회에서 조정받을 수 있어요.</span>' + helpRows(['hldcc', 'klac']) + '<small>주택임대차보호법 제14조</small></div>' +
+      '<div class="out-step"><b>3. 보증금 반환보증에 가입했다면</b><span>가입한 곳에 바로 알리세요.</span>' + helpRows(['hug']) + '</div>' +
+      '<p class="note" style="margin:0;padding:0 16px 14px;text-align:left">계약이 끝나도 보증금을 받을 때까지는 계약이 이어진 것으로 봐요(주택임대차보호법 제4조 제2항).</p>' +
+    '</div></details>' +
+    '<p class="note">참고용 안내이며 법률 자문이 아니에요. 체크한 기록은 이 휴대폰에만 저장돼요.</p>';
+}
+$('pout').addEventListener('click', e=>{
+  const c = e.target.closest('[data-out]'); if(!c) return;
+  const h = myHouse(); if(!h) return;
+  const id = c.dataset.out, o = h.lease.out = h.lease.out || {};
+  if(o[id]) delete o[id]; else o[id] = todayStr();
+  save(); renderOut();
+  toast(o[id] ? (id === 'o-paid' ? '보증금 받은 날을 기록했어요. 이제 새 집 전입신고를 하세요.' : '했어요!') : '다시 할 일로 돌렸어요.');
+});
+
+/* ---------- 할 일 알림 (팀원 문서 여덟째, 2026-11-28 사용자와 정함) ----------
+   「다가오는 할 일」 옆 「알림 끔/켜짐」을 누르면 창이 올라와요. 매일 아침 9시쯤 오늘·내일 할 일을 한 통으로 보내요(api/push-cron.mjs).
+   아이폰은 홈 화면에 추가한 앱에서만 받을 수 있어요(iOS 16.4~). 서버에는 알림 주소와 날짜·종류만 보내고
+   집 이름·금액·메모·내 일정 제목은 보내지 않아요. 종류 이름(k)은 api/push.mjs의 KNAME과 같아야 해요. */
+const NKEY = 'jipkok-notify';
+function NT(){ return lsGet(NKEY, {}) || {}; }
+function setNT(p){ const v = Object.assign(NT(), p); try { localStorage.setItem(NKEY, JSON.stringify(v)); } catch(e) {} return v; }
+const BELL_KINDS = [['auto', '꼭 챙길 일'], ['pay', '월세·관리비'], ['own', '내 일정']];
+function pushItems(){
+  const h = myHouse(); if(!h) return [];
+  const k = Object.assign({auto:true, pay:true, own:true}, NT().kinds), today = todayStr(), lim = addDays(today, 400);
+  return careAll(h).filter(e=>!e.done && e.due >= today && e.due <= lim && (e.own ? k.own : e.pay ? k.pay : k.auto))
+    .map(e=>({d:e.due, k:e.own ? 'own' : (e.pay || e.id)})).slice(0, 300);
+}
+var pushT = null;
+function queuePushSync(){ if(!NT().on) return; clearTimeout(pushT); pushT = setTimeout(syncPush, 1500); }
+const pushPost = (action, sub, items) => fetch('/api/push', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(items ? {action, sub, items} : {action, sub})});
+const swReady = ms => Promise.race([navigator.serviceWorker.ready, new Promise((_, no)=>setTimeout(()=>no(new Error('sw')), ms))]);
+async function syncPush(){
+  const n = NT(); if(!(n.on && n.sub)) return;
+  try { const reg = await swReady(3000), s = await reg.pushManager.getSubscription(); if(s){ const j = s.toJSON(); if(j.endpoint !== n.sub.endpoint) setNT({sub:j}); } } catch(e) {}
+  try { await pushPost('sync', NT().sub, pushItems()); } catch(e) {}
+}
+const BELL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>';
+const bellChip = () => '<button type="button" class="cr-bell' + (NT().on ? ' on' : '') + '" data-crbell>' + BELL_SVG + (NT().on ? '알림 켜짐' : '알림 끔') + '</button>';
+function pushEnv(){
+  const ua = navigator.userAgent || '';
+  const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  if(/KAKAOTALK|NAVER\(|Instagram|FBAN|FBAV|Line\//i.test(ua)) return {ok:false, why:'inapp'};
+  if(ios && !standalone) return {ok:false, why:'ios'};
+  if(!('serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window)) return {ok:false, why:'nosupport'};
+  if(Notification.permission === 'denied') return {ok:false, why:'denied'};
+  return {ok:true};
+}
+const b64u = s => { const p = '='.repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(b, c=>c.charCodeAt(0)); };
+function openBell(){
+  const env = pushEnv(), n = NT(), k = Object.assign({auto:true, pay:true, own:true}, n.kinds);
+  let s = '';
+  if(!env.ok && !n.on){
+    s = env.why === 'ios' ? '<p class="sh-desc">아이폰은 <b>홈 화면에 추가한 앱</b>에서만 알림을 받을 수 있어요.</p><ol class="bell-steps"><li>Safari 아래쪽 <b>공유</b> 버튼(네모에 위 화살표)을 눌러요</li><li><b>홈 화면에 추가</b>를 눌러요</li><li>홈 화면의 <b>집콕체크</b>로 열고, 여기서 다시 「알림 켜기」를 눌러요</li></ol>'
+      : env.why === 'inapp' ? '<p class="sh-desc">카카오톡·인스타 안 브라우저에서는 알림을 받을 수 없어요. <b>⋯ → 다른 브라우저로 열기</b>로 크롬·사파리에서 열어 주세요.</p>'
+      : env.why === 'denied' ? '<p class="sh-desc">알림이 막혀 있어요. 휴대폰 <b>설정 → 알림</b>(또는 브라우저의 사이트 설정)에서 집콕체크 알림을 허락해 주세요.</p>'
+      : '<p class="sh-desc">이 브라우저에서는 알림을 받을 수 없어요. 크롬이나 사파리 최신 버전으로 열어 주세요.</p>';
+    s += '<p class="sh-desc">알림 대신 「모든 일정 휴대폰 달력에 넣기」를 쓰면 휴대폰 달력이 알려 줘요.</p>';
+  } else {
+    s = '<p class="sh-desc">할 일 <b>전날과 당일 아침 9시쯤</b> 알려 드려요. 했어요·냈어요를 누른 일은 알리지 않아요.</p>' +
+      '<p class="lk-l">알릴 것</p><div class="bell-kinds">' + BELL_KINDS.map(([id, nm])=>'<label class="bell-k"><input type="checkbox" data-bellk="' + id + '"' + (k[id] !== false ? ' checked' : '') + '><span>' + nm + '</span></label>').join('') + '</div>' +
+      (n.on ? '<button type="button" class="cr-b2" data-bello="test" style="background:var(--brand-50)">지금 알림 받아 보기</button><button type="button" class="sh-del" data-bello="off">알림 끄기</button>'
+        : '<button type="button" class="cr-b1" data-bello="on">알림 켜기</button><p class="sh-desc" style="font-size:13px;line-height:20px;color:#5B6475">알림 받을 주소와 날짜·종류만 알림 서버에 보내요. 집 이름·금액·메모·내가 쓴 일정 제목은 보내지 않아요.</p>');
+  }
+  $('bell-body').innerHTML = s;
+  $('crBell').hidden = false;
+}
+async function enableNotify(){
+  setNT({asked:true});
+  const env = pushEnv(); if(!env.ok) return openBell();
+  let perm; try { perm = await Notification.requestPermission(); } catch(e) { perm = 'default'; }
+  if(perm !== 'granted'){ toast('알림을 허락하지 않았어요.'); renderCare(); return openBell(); }
+  try {
+    const reg = await swReady(5000), r = await fetch('/api/push', {cache:'no-store'});
+    if(!r.ok) throw new Error('key');
+    const {key} = await r.json();
+    const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64u(key)});
+    setNT({on:true, sub:sub.toJSON()}); renderCare(); openBell();
+    const r2 = await pushPost('sync', NT().sub, pushItems()).catch(()=>null);
+    toast(r2 && r2.ok ? '알림을 켰어요. 할 일 전날과 당일 아침에 알려 드릴게요.' : '알림을 켰어요. 날짜 목록은 다음에 앱을 열 때 다시 보낼게요.');
+  } catch(e) {
+    toast(e && e.message === 'key' ? '알림 서버 준비가 아직 안 됐어요.' : e && e.message === 'sw' ? '이 주소에서는 알림을 켤 수 없어요.' : '알림을 켜지 못했어요.');
+    renderCare();
+  }
+}
+async function disableNotify(){
+  const old = NT().sub;
+  if(old){ try { await pushPost('off', old); } catch(e) {} }
+  try { const reg = await swReady(3000), s = await reg.pushManager.getSubscription(); if(s) await s.unsubscribe(); } catch(e) {}
+  const v = NT(); v.on = false; delete v.sub; try { localStorage.setItem(NKEY, JSON.stringify(v)); } catch(e) {}
+  renderCare(); openBell(); toast('알림을 껐어요.');
+}
+async function testNotify(){
+  const sub = NT().sub; if(!sub) return toast('먼저 알림을 켜 주세요.');
+  try { const r = await pushPost('now', sub, pushItems()); toast(r.ok ? '알림을 보냈어요. 잠시 뒤 휴대폰 위쪽을 확인해 보세요.' : '보내지 못했어요. 잠시 뒤 다시 해 주세요.'); }
+  catch(e) { toast('보내지 못했어요. 인터넷 연결을 확인해 주세요.'); }
+}
+$('bell-x').addEventListener('click', ()=>{ $('crBell').hidden = true; });
+$('bell-body').addEventListener('click', e=>{
+  const b = e.target.closest('[data-bello]'); if(!b) return;
+  if(b.dataset.bello === 'on') enableNotify();
+  if(b.dataset.bello === 'off') disableNotify();
+  if(b.dataset.bello === 'test') testNotify();
+});
+$('bell-body').addEventListener('change', e=>{
+  const c = e.target.closest('[data-bellk]'); if(!c) return;
+  setNT({kinds:Object.assign({auto:true, pay:true, own:true}, NT().kinds, {[c.dataset.bellk]: c.checked})}); queuePushSync();
+});
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape'){ ['crSheet','crBell','crAddForm'].forEach(id=>{ $(id).hidden = true; }); } });
+
 // 예전 집 기록은 「내 계약」으로 (2026-11-20)
 houses.list.forEach(h=>{ if(!h.status && !blankHouse(h)) h.status = 'deal'; });
 save();
-history.replaceState({v:'p0', d:0}, '');
+// 2026-11-28 B안: 계약한 집이 있으면 앱을 열 때 「우리집」 탭부터
+const firstTab = myHouse() ? 'pc' : 'p0';
+history.replaceState({v:firstTab, d:0}, '');
 buildList();
 renderList();
 renderStart();
-paint('p0');
-show('p0');
+paint(firstTab);
+show(firstTab);
+// 알림을 켰으면 앱을 열 때마다 날짜 목록을 서버로 다시 보내요
+if(NT().on) setTimeout(syncPush, 2000);
 // 오프라인 파일(sw.js): 앱으로 설치했을 때 인터넷이 잠깐 끊겨도 첫 화면이 열리게 (2026-11-21, 실제 사이트(https)에서만)
 if('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/sw.js').catch(()=>{});
 </script>
