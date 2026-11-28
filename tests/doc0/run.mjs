@@ -10,17 +10,36 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url)), OUT = path.join(HERE, 'out');
-const [method = 'A', rep = '1', only = ''] = process.argv.slice(2);
-const URL_ = process.env.DOC_URL, SECRET = process.env.DOC_TEST_SECRET;
-if(!URL_ || !SECRET){ console.error('DOC_URL과 DOC_TEST_SECRET을 넣어 주세요.'); process.exit(1); }
+const [methods = 'A', rep = '1', only = ''] = process.argv.slice(2);
+let method = 'A';
+const URL_ = process.env.DOC_URL || 'https://zipkok-check-2x7unutyx-caa-att.vercel.app/api/doc-test';
+// 비밀값이 환경 변수에 없으면 화면에 안 보이게 물어봐요(입력한 글자가 터미널에 찍히지 않아요)
+function hidden(q){
+  return new Promise(ok=>{
+    process.stdout.write(q); let v = '';
+    const inp = process.stdin; if(inp.setRawMode) inp.setRawMode(true); inp.resume(); inp.setEncoding('utf8');
+    const on = ch => { for(const c of ch){
+      if(c === '\r' || c === '\n'){ if(inp.setRawMode) inp.setRawMode(false); inp.pause(); inp.removeListener('data', on); process.stdout.write('\n'); return ok(v.trim()); }
+      if(c === '\u0003') process.exit(1);
+      if(c === '\u007f' || c === '\b') v = v.slice(0, -1); else v += c;
+    } };
+    inp.on('data', on);
+  });
+}
+const BYPASS = process.env.VERCEL_BYPASS || await hidden('Vercel 보호 통과 값(Protection Bypass)을 붙여 넣고 Enter: ');
+const SECRET = process.env.DOC_TEST_SECRET || await hidden('DOC_TEST_SECRET 값을 붙여 넣고 Enter: ');
+if(!SECRET){ console.error('DOC_TEST_SECRET이 비었어요.'); process.exit(1); }
 
 const htmlText = h => h.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<(br|\/p|\/tr|\/h\d|\/li|\/div)>/g, '\n').replace(/<\/t[dh]>/g, ' | ').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\n\s*\n+/g, '\n').trim();
 async function ask(kind, dir){
   const body = {kind, method};
   if(method === 'A') body.pdf = (await readFile(path.join(dir, kind + '.pdf'))).toString('base64');
   else body.text = htmlText(await readFile(path.join(dir, kind + '.html'), 'utf8'));
-  const r = await fetch(URL_, {method: 'POST', headers: Object.assign({'Content-Type': 'application/json', 'x-test-secret': SECRET}, process.env.VERCEL_BYPASS ? {'x-vercel-protection-bypass': process.env.VERCEL_BYPASS} : {}), body: JSON.stringify(body)});
-  return r.json().catch(()=>({error: 'json'}));
+  const r = await fetch(URL_, {method: 'POST', redirect: 'manual', headers: Object.assign({'Content-Type': 'application/json', 'x-test-secret': SECRET}, BYPASS ? {'x-vercel-protection-bypass': BYPASS} : {}), body: JSON.stringify(body)});
+  if(r.status === 302 || r.status === 401) throw new Error('Vercel 로그인 보호에 막혔어요. 보호 통과 값을 확인해 주세요.');
+  if(r.status === 403) throw new Error('DOC_TEST_SECRET이 Vercel 값과 달라요.');
+  if(r.status === 503) throw new Error('시험 서버가 꺼져 있어요. Preview에 DOC_TEST_SECRET을 넣고 다시 배포했는지 확인해 주세요.');
+  return r.json().catch(()=>({error: 'json ' + r.status}));
 }
 
 const sameSet = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
@@ -55,6 +74,8 @@ function grade(name, ans, got){
 }
 
 const answers = JSON.parse(await readFile(path.join(OUT, 'answers.json'), 'utf8'));
+for(const m of methods.toUpperCase().split('')){ method = m;
+try {
 const names = (await readdir(OUT, {withFileTypes: true})).filter(d=>d.isDirectory() && d.name.includes(only)).map(d=>d.name).sort();
 const log = [], sum = {calls: 0, in: 0, out: 0, ms: 0, err: 0, pass: 0, fail: 0};
 for(let k = 1; k <= +rep; k++){
@@ -73,3 +94,6 @@ for(let k = 1; k <= +rep; k++){
 }
 console.log('\n방법 ' + method + ' · 사례 ' + (sum.pass + sum.fail) + '번 중 통과 ' + sum.pass + ' · 호출 ' + sum.calls + '번(오류 ' + sum.err + ') · 보낸 토큰 ' + sum.in + ' · 받은 토큰 ' + sum.out + ' · 평균 ' + Math.round(sum.ms / Math.max(1, sum.calls)) + 'ms');
 await writeFile(path.join(OUT, 'result_' + method + '_' + Date.now() + '.json'), JSON.stringify({method, sum, log}, null, 1));
+} catch(e) { console.error('멈췄어요: ' + e.message); process.exit(1); }
+}
+process.exit(0);
