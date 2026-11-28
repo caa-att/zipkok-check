@@ -6,7 +6,7 @@
 // 저장 모양: {code, gu, updated, from, to, items:[[종류, 동, 면적㎡, 층, 지은 해, 보증금(만 원), 월세(만 원, 전세는 0), 계약일, 신규·갱신]]}
 // 종류: sh 단독·다가구, rh 빌라(연립·다세대), offi 오피스텔, apt 아파트
 
-import { mkdir, writeFile, rename } from 'node:fs/promises';
+import { mkdir, writeFile, rename, readFile } from 'node:fs/promises';
 
 // 예전 저장소에서 쓰던 이름(MOLIT_KEY)도 읽어요 (2026-11-20)
 const KEY = (process.env.RENT_KEY || process.env.MOLIT_KEY || '').trim();
@@ -119,12 +119,20 @@ const asked = results.reduce((s, r)=>s + r.ok + r.bad, 0), failed = results.redu
 // 절반 넘게 실패하면(키 문제·접속 막힘 등) 예전 파일을 그대로 두고 멈춰요
 if(failed * 2 > asked){ console.error('요청 ' + asked + '번 중 ' + failed + '번 실패해서 파일을 바꾸지 않았어요.'); process.exit(1); }
 
+// 2026-11-28: 오류 없이 "0건"만 온 날(국토부 쪽 일시 문제 등) 25개 구가 모두 빈 파일로 덮였어요.
+// 그래서 받은 거래가 모두 합쳐 0건이면 아무 파일도 바꾸지 않고 멈추고, 어제 거래가 있던 구가 0건이 되면 그 구는 예전 파일을 둬요.
+const totalGot = results.reduce((s, r)=>s + r.items.length, 0);
+console.log('구별 받은 건수: ' + results.map(r=>r.gu + ' ' + r.items.length).join(', '));
+if(!totalGot){ console.error('모든 구에서 0건이 와서 파일을 바꾸지 않았어요. 국토교통부 응답이나 활용신청 상태를 확인해 주세요.'); process.exit(1); }
+const oldCount = async code => { try { return (JSON.parse(await readFile(OUT + '/' + code + '.json', 'utf8')).items || []).length; } catch(e) { return 0; } };
+
 await mkdir(OUT, {recursive: true});
 const from = months[0].slice(0, 4) + '-' + months[0].slice(4) + '-01';
 let saved = 0;
 for(const r of results){
   if(r.bad && !r.items.length){ console.error(r.gu + ': 자료를 못 받아서 예전 파일을 그대로 둬요.'); continue; }
   const items = r.items.filter(x=>x[7] >= from && x[7] <= today).sort((a, b)=>b[7].localeCompare(a[7]));
+  if(!items.length && await oldCount(r.code)){ console.error(r.gu + ': 0건이 와서 예전 파일을 그대로 둬요.'); continue; }
   const body = JSON.stringify({code: r.code, gu: r.gu, updated: today, from, to: today, items});
   const file = OUT + '/' + r.code + '.json';
   await writeFile(file + '.tmp', body);
