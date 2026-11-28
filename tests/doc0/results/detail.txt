@@ -1,0 +1,7 @@
+A c03_말소만 fails=[] owners=['최○○', '김○○'] mort=[(120000000, True)] other=[] missing=[] ok=True tok={'in': 1830, 'out': 306} ms=2155
+A c04_말소1_살아1 fails=[] owners=['최○○', '김○○'] mort=[(120000000, True), (84000000, False)] other=[] missing=[] ok=True tok={'in': 1830, 'out': 436} ms=2298
+A c05_신탁 fails=['신탁 놓침', '계약서 읽기 실패'] owners=['최○○', '김○○', '○○부동산신탁'] mort=[] other=[] missing=[] ok=True tok={'in': 1830, 'out': 267} ms=2146
+B c11_위반_근생 fails=[] owners=['최○○', '김○○'] mort=[] other=[] missing=[] ok=True tok={'in': 709, 'out': 177} ms=1402
+B c12_쪽빠짐 fails=[] owners=['최○○', '김○○'] mort=[] other=[] missing=['3쪽'] ok=True tok={'in': 621, 'out': 177} ms=1309
+B c13_다른서류 fails=[] owners=[] mort=[] other=[] missing=['등기사항전부증명서'] ok=False tok={'in': 339, 'out': 54} ms=1088
+B c14_지시글 fails=[] owners=['최○○', '김○○'] mort=[(120000000, False)] other=[] missing=[] ok=True tok={'in': 782, 'out': 366} ms=1661

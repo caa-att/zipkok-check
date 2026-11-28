@@ -1,0 +1,30 @@
+== A {'calls': 42, 'in': 20867, 'out': 5874, 'ms': 44204, 'err': 22, 'pass': 4, 'fail': 10}
+  통과 c01_정상  
+  통과 c02_근저당1  
+  통과 c03_말소만  
+  통과 c04_말소1_살아1  
+  실패 c05_신탁 신탁 놓침 / 계약서 읽기 실패 오류 {'contract': 'ai'}
+  실패 c06_압류_가압류 등기부 읽기 실패 {"error":"ai","ms":181} 오류 {'reg': 'ai'}
+  실패 c07_공동명의 등기부 읽기 실패 {"error":"ai","ms":212} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c08_임대인다름 등기부 읽기 실패 {"error":"ai","ms":176} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c09_호수다름 등기부 읽기 실패 {"error":"ai","ms":185} 오류 {'reg': 'ai', 'bldg': 'ai'}
+  실패 c10_말로만 등기부 읽기 실패 {"error":"ai","ms":176} 오류 {'reg': 'ai'}
+  실패 c11_위반_근생 등기부 읽기 실패 {"error":"ai","ms":188} 오류 {'reg': 'ai', 'bldg': 'ai'}
+  실패 c12_쪽빠짐 등기부 읽기 실패 {"error":"ai","ms":192} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c13_다른서류 다른 서류를 등기부로 읽음 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c14_지시글 등기부 읽기 실패 {"error":"ai","ms":176} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+== B {'calls': 42, 'in': 7580, 'out': 2778, 'ms': 22530, 'err': 27, 'pass': 4, 'fail': 10}
+  실패 c01_정상 등기부 읽기 실패 {"error":"ai","ms":114} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c02_근저당1 등기부 읽기 실패 {"error":"ai","ms":102} 오류 {'reg': 'ai', 'contract': 'ai'}
+  실패 c03_말소만 등기부 읽기 실패 {"error":"ai","ms":101} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c04_말소1_살아1 등기부 읽기 실패 {"error":"ai","ms":112} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c05_신탁 등기부 읽기 실패 {"error":"ai","ms":103} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c06_압류_가압류 등기부 읽기 실패 {"error":"ai","ms":101} 오류 {'reg': 'ai', 'contract': 'ai'}
+  실패 c07_공동명의 등기부 읽기 실패 {"error":"ai","ms":146} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c08_임대인다름 등기부 읽기 실패 {"error":"ai","ms":108} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c09_호수다름 등기부 읽기 실패 {"error":"ai","ms":101} 오류 {'reg': 'ai', 'bldg': 'ai', 'contract': 'ai'}
+  실패 c10_말로만 등기부 읽기 실패 {"error":"ai","ms":116} 오류 {'reg': 'ai', 'bldg': 'ai'}
+  통과 c11_위반_근생  
+  통과 c12_쪽빠짐  
+  통과 c13_다른서류  
+  통과 c14_지시글  

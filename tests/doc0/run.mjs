@@ -56,7 +56,7 @@ function grade(name, ans, got){
   if(ans.live_mortgages && !sameSet(live, ans.live_mortgages)) fails.push('살아 있는 근저당 ' + JSON.stringify(live) + ' ≠ ' + JSON.stringify(ans.live_mortgages));
   if(ans.deleted_mortgages && !sameSet(del, ans.deleted_mortgages)) fails.push('말소 근저당 ' + JSON.stringify(del) + ' ≠ ' + JSON.stringify(ans.deleted_mortgages));
   const owners = (reg.owners || []).map(o=>o.name.replace(/\s/g, ''));
-  if(ans.owner && !ans.owner.every(n=>owners.some(o=>o.includes(n)))) fails.push('소유자 ' + JSON.stringify(owners));
+  if(ans.owner && !(ans.owner.every(n=>owners.some(o=>o.includes(n))) && owners.length === ans.owner.length)) fails.push('지금 소유자 ' + JSON.stringify(owners) + ' ≠ ' + JSON.stringify(ans.owner));
   const kinds = (reg.other_rights || []).filter(x=>!x.deleted).map(x=>x.kind).join(' ');
   (ans.flags || []).filter(f=>f !== '공동명의').forEach(f=>{ if(!kinds.includes(f)) fails.push(f + ' 놓침'); });
   if(ans.flags && ans.flags.includes('공동명의') && owners.length < 2) fails.push('공동명의 놓침');
@@ -82,7 +82,9 @@ for(let k = 1; k <= +rep; k++){
   for(const name of names){
     const dir = path.join(OUT, name), got = {};
     for(const kind of ['reg', 'bldg', 'contract']){
-      got[kind] = await ask(kind, dir); sum.calls++;
+      // 무료 등급은 1분에 부를 수 있는 횟수가 적어서(1차 시험에서 절반이 바로 거절됨) 6초씩 쉬고, 실패하면 30초 뒤 두 번까지 다시 불러요
+      for(let t = 0; t < 3; t++){ await new Promise(ok=>setTimeout(ok, t ? 30000 : 6000)); got[kind] = await ask(kind, dir); if(got[kind].usage) break; }
+      sum.calls++;
       if(got[kind].usage){ sum.in += got[kind].usage.in; sum.out += got[kind].usage.out; } else sum.err++;
       sum.ms += got[kind].ms || 0;
     }

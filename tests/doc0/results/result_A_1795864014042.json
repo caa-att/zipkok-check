@@ -1,0 +1,1094 @@
+{
+ "method": "A",
+ "sum": {
+  "calls": 42,
+  "in": 20867,
+  "out": 5874,
+  "ms": 44204,
+  "err": 22,
+  "pass": 4,
+  "fail": 10
+ },
+ "log": [
+  {
+   "round": 1,
+   "name": "c01_정상",
+   "fails": [],
+   "got": {
+    "reg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "등기사항전부증명서(말소사항 포함) - 집합건물",
+      "pages_seen": [
+       1,
+       2,
+       3
+      ],
+      "missing": [],
+      "owners": [
+       {
+        "name": "최○○",
+        "quote": "소유자 최○○",
+        "page": 2,
+        "share": ""
+       },
+       {
+        "name": "김○○",
+        "quote": "소유자 김○○",
+        "page": 2,
+        "share": ""
+       }
+      ],
+      "mortgages": [],
+      "other_rights": [],
+      "pages_total": 3,
+      "unit": {
+       "value": "제2층 제201호",
+       "quote": "제2층 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 1830,
+      "out": 226
+     },
+     "ms": 2892,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": ""
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 118
+     },
+     "ms": 3235,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 436
+     },
+     "ms": 2245,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c02_근저당1",
+   "fails": [],
+   "got": {
+    "reg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "등기사항전부증명서(말소사항 포함) - 집합건물",
+      "pages_seen": [
+       1,
+       2,
+       3
+      ],
+      "missing": [],
+      "owners": [
+       {
+        "name": "최○○",
+        "quote": "소유자 최○○",
+        "page": 2
+       },
+       {
+        "name": "김○○",
+        "quote": "소유자 김○○",
+        "page": 2
+       }
+      ],
+      "mortgages": [
+       {
+        "amount_won": 120000000,
+        "deleted": false,
+        "quote": "채권최고액 금120,000,000원 근저당권자 ○○은행",
+        "holder": "○○은행",
+        "page": 3
+       }
+      ],
+      "other_rights": [],
+      "pages_total": 3,
+      "unit": {
+       "value": "제2층 제201호",
+       "quote": "제2층 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 1830,
+      "out": 295
+     },
+     "ms": 2346,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": "없음"
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 97
+     },
+     "ms": 1237,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 422
+     },
+     "ms": 2009,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c03_말소만",
+   "fails": [],
+   "got": {
+    "reg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "등기사항전부증명서(말소사항 포함) - 집합건물",
+      "pages_seen": [
+       1,
+       2,
+       3
+      ],
+      "missing": [],
+      "owners": [
+       {
+        "name": "최○○",
+        "quote": "소유자 최○○",
+        "page": 2,
+        "share": ""
+       },
+       {
+        "name": "김○○",
+        "quote": "소유자 김○○",
+        "page": 2,
+        "share": ""
+       }
+      ],
+      "mortgages": [
+       {
+        "amount_won": 120000000,
+        "deleted": true,
+        "quote": "채권최고액 금120,000,000원 근저당권자",
+        "holder": "○○은행",
+        "page": 3
+       }
+      ],
+      "other_rights": [],
+      "pages_total": 3,
+      "unit": {
+       "value": "제2층 제201호",
+       "quote": "제2층 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 1830,
+      "out": 306
+     },
+     "ms": 2155,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": "시험용 예시"
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 167
+     },
+     "ms": 1588,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 436
+     },
+     "ms": 2001,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c04_말소1_살아1",
+   "fails": [],
+   "got": {
+    "reg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "등기사항전부증명서(말소사항 포함) - 집합건물",
+      "pages_seen": [
+       1,
+       2,
+       3
+      ],
+      "missing": [],
+      "owners": [
+       {
+        "name": "최○○",
+        "quote": "1 소유권보존 2018년3월2일 소유자 최○○",
+        "page": 2
+       },
+       {
+        "name": "김○○",
+        "quote": "2 소유권이전 2021년5월10일 매매 소유자 김○○",
+        "page": 2
+       }
+      ],
+      "mortgages": [
+       {
+        "amount_won": 120000000,
+        "deleted": true,
+        "quote": "1 근저당권설정 2021년5월 10일 설정계 약 채권최고액 금120,000,000원 근저당권자 ○○은행",
+        "page": 3
+       },
+       {
+        "amount_won": 84000000,
+        "deleted": false,
+        "quote": "2 근저당권설정 2021년5월 10일 설정계 약 채권최고액 금84,000,000원 근저당권자 △△저축은행",
+        "page": 3
+       }
+      ],
+      "other_rights": [],
+      "pages_total": 3,
+      "unit": {
+       "value": "제2층 제201호",
+       "quote": "제2층 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 1830,
+      "out": 436
+     },
+     "ms": 2298,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": "서울특별시 가상구 시험동 101-1"
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 175
+     },
+     "ms": 1693,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 436
+     },
+     "ms": 1884,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c05_신탁",
+   "fails": [
+    "신탁 놓침",
+    "계약서 읽기 실패"
+   ],
+   "got": {
+    "reg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "등기사항전부증명서(말소사항 포함) - 집합건물",
+      "pages_seen": [
+       1,
+       2,
+       3
+      ],
+      "missing": [],
+      "owners": [
+       {
+        "name": "최○○",
+        "quote": "소유자 최○○",
+        "page": 2
+       },
+       {
+        "name": "김○○",
+        "quote": "소유자 김○○",
+        "page": 2
+       },
+       {
+        "name": "○○부동산신탁",
+        "quote": "수탁자 ○○부동산신탁 신탁원부 제2024-000호",
+        "page": 2
+       }
+      ],
+      "mortgages": [],
+      "other_rights": [],
+      "pages_total": 3,
+      "unit": {
+       "value": "제2층 제201호",
+       "quote": "제2층 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 1830,
+      "out": 267
+     },
+     "ms": 2146,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": "시험용 예시 · 실제 서류 아님 (집콕체크 읽기 시험)"
+      },
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 175
+     },
+     "ms": 1271,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 183
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c06_압류_가압류",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":181}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 181
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": ""
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 118
+     },
+     "ms": 1498,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 422
+     },
+     "ms": 1956,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c07_공동명의",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":212}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 212
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 168
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 161
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c08_임대인다름",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":176}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 176
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 159
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 163
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c09_호수다름",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":185}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 185
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 175
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○"
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정"
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원"
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원"
+      },
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○"
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급"
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제202호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제202호"
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 381
+     },
+     "ms": 1938,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c10_말로만",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":176}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 176
+    },
+    "bldg": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "집합건축물대장(전유부, 갑)",
+      "main_use": {
+       "value": "다세대주택",
+       "quote": "다세대주택",
+       "page": 1
+      },
+      "violation": {
+       "value": false,
+       "quote": ""
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "unit": {
+       "value": "201호",
+       "quote": "201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 779,
+      "out": 95
+     },
+     "ms": 1752,
+     "model": "gemini-3.5-flash-lite"
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 430
+     },
+     "ms": 2281,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c11_위반_근생",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":188}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 188
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 169
+    },
+    "contract": {
+     "data": {
+      "doc_ok": true,
+      "doc_kind_seen": "주택임대차계약서 (초안)",
+      "landlord": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "deposit_won": {
+       "value": 10000000,
+       "quote": "금 10,000,000원정",
+       "page": 1
+      },
+      "special_clauses": [
+       "1. 임대인은 잔금일까지 현 상태를 유지한다."
+      ],
+      "commission_won": {
+       "value": 400000,
+       "quote": "400,000원",
+       "page": 1
+      },
+      "fee_won": {
+       "value": 70000,
+       "quote": "월 70,000원",
+       "page": 1
+      },
+      "missing": [],
+      "pages_seen": [
+       1
+      ],
+      "pages_total": 1,
+      "payee": {
+       "value": "김○○",
+       "quote": "김○○",
+       "page": 1
+      },
+      "rent_won": {
+       "value": 500000,
+       "quote": "금 500,000원정, 매월 25일 지급",
+       "page": 1
+      },
+      "unit": {
+       "value": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "quote": "서울특별시 가상구 시험동 101-1 시험빌라 제201호",
+       "page": 1
+      }
+     },
+     "usage": {
+      "in": 783,
+      "out": 436
+     },
+     "ms": 2044,
+     "model": "gemini-3.5-flash-lite"
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c12_쪽빠짐",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":192}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 192
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 157
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 156
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c13_다른서류",
+   "fails": [
+    "다른 서류를 등기부로 읽음"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 143
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 146
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 161
+    }
+   }
+  },
+  {
+   "round": 1,
+   "name": "c14_지시글",
+   "fails": [
+    "등기부 읽기 실패 {\"error\":\"ai\",\"ms\":176}"
+   ],
+   "got": {
+    "reg": {
+     "error": "ai",
+     "ms": 176
+    },
+    "bldg": {
+     "error": "ai",
+     "ms": 163
+    },
+    "contract": {
+     "error": "ai",
+     "ms": 145
+    }
+   }
+  }
+ ]
+}
