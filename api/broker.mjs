@@ -120,7 +120,8 @@ async function people(res, gu, no, key, domain){
     const raw = collectP(data, []);
     const list = raw.map(o => ({
       name: pick(o, ['brkrNm']),
-      role: pick(o, ['brkrAsortCodeNm', 'ofcpsSeCodeNm', 'brkrAsortNm']) || pickRe(o, /(asort|ofcps).*nm$/i),
+      role: pick(o, ['brkrAsortCodeNm']),   // 공인중개사 · 중개보조원 (2026-11-28 실제 응답으로 확인)
+      pos: pick(o, ['ofcpsSeCodeNm']),      // 대표 · 소속 같은 직위
       office: pick(o, ['bsnmCmpnm']),
       qual: day(pick(o, ['crqfcAcqdt', 'crqfcAcqDe']) || pickRe(o, /crqfc.*(dt|de)$/i))
     })).filter(x => x.name);
@@ -131,7 +132,7 @@ async function people(res, gu, no, key, domain){
       return res.status(200).json({people: []});
     }
     console.log('중개업자 조회 성공 · ' + list.length + '명');
-    return res.status(200).json({people: list.slice(0, 30), fields: Object.keys(raw[0]).slice(0, 40)});
+    return res.status(200).json({people: list.slice(0, 30)});
   } catch(e) {
     logFail(e.name === 'AbortError' ? '사람 조회 시간 초과' : '사람 조회 연결 오류');
     return res.status(502).json({error: 'lookup'});
