@@ -1655,9 +1655,15 @@
         <div class="scroll"><div id="hcard"></div></div>
       </section>
 
+      <!-- 안전 리포트 (2026-11-29 구조 바꿈 A안): 질문 판단·서류 분석·녹음 비교를 한 곳에 -->
+      <section class="view" id="pj" aria-label="안전 리포트">
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">안전 리포트</span><span></span></div>
+        <div class="scroll" id="pj-body"></div>
+      </section>
+
       <!-- 서류 분석 (2026-11-28 AI 계약 분석 1단계): 서류 3개를 올리면 AI가 사실만 뽑고, 앱이 15개 질문 답을 「확인 전」으로 채워요 -->
       <section class="view" id="pq" aria-label="서류 분석">
-        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">서류 분석</span><span></span></div>
+        <div class="nav"><button type="button" class="back" data-back aria-label="뒤로"><svg width="12" height="20" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>뒤로</button><span class="title">서류 올리기</span><span></span></div>
         <div class="scroll" id="pq-body"></div>
         <input type="file" id="pqFile" accept="image/*,application/pdf" multiple hidden>
       </section>
@@ -3115,8 +3121,8 @@ document.addEventListener('click', e=>{
 });
 
 /* ---------- 화면 전환 (휴대폰 뒤로 가기와 연결) ---------- */
-const ORDER = ['p0','pc','pb','ps','pd','pq','pg','pf','pv','pp','pm','pn','pw','pout','pex','p1','pz','pl','pt','pa','p2','pr','p3'];
-const DEPTH = {p0:0, pc:0, pb:0, ps:0, pd:1, pq:2, pg:1, pf:1, pv:2, pp:1, pm:1, pn:1, pw:1, pout:1, pex:2, p1:1, pz:2, pl:2, pt:3, pa:2, pr:2, p2:2, p3:3};
+const ORDER = ['p0','pc','pb','ps','pd','pj','pq','pg','pf','pv','pp','pm','pn','pw','pout','pex','p1','pz','pl','pt','pa','p2','pr','p3'];
+const DEPTH = {p0:0, pc:0, pb:0, ps:0, pd:1, pj:2, pq:2, pg:1, pf:1, pv:2, pp:1, pm:1, pn:1, pw:1, pout:1, pex:2, p1:1, pz:2, pl:2, pt:3, pa:2, pr:2, p2:2, p3:3};
 let depth = 0, trail = [], wantTab = null; // trail[i] = 깊이 i+1에 쌓인 화면
 // 결과를 본 질문 이름. 뒤로 가기로 목록에 오면 "확인 완료!" 안내를 한 번 띄우고 지워요
 let doneTag = null, wantList = false;
@@ -3166,6 +3172,7 @@ function paint(id){
   if(id === 'pex') renderExit();
   if(id === 'pp') renderPhotos();
   if(id === 'pq') renderDocs();
+  if(id === 'pj') renderReport();
   if(id === 'pl') renderLease();
   if(id === 'pt') renderClause();
   if(id === 'pm') renderFix();
@@ -4765,22 +4772,25 @@ function renderDealCard(){
   const docBad = !signed && hasDocs(house) ? dqSum(house).items.filter(x=>x.lv === 'bad').length : 0;
   let h = '<div class="ab-head"><div class="dh"><p class="hc-n">' + esc(house.name) + '</p>' + stTag(house) + '</div>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
     '<div class="hc-meta"><span id="cmp-pd"></span>' + (house.link ? '<a class="hc-a" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기' + ARROW + '</a>' : '') + '</div>' +
-    '<p class="ab-c">' + (signed && !a && !d ? '15개 모두 확인했어요. 이제 날짜에 맞춰 챙겨요' : docBad && !c.bad ? '서류에서 먼저 볼 것 ' + docBad + '개부터 확인하세요' : any ? headline(c, a + d, Q.length).replace('<br>', ' ') : hasDocs(house) ? '서류에서 답을 채우지 못했어요. 아래에서 직접 골라 주세요' : '서류부터 올리면 AI가 먼저 분석해요') + '</p></div>';
+    (signed ? '<p class="ab-c">' + (!a && !d ? '15개 모두 확인했어요. 이제 날짜에 맞춰 챙겨요' : docBad && !c.bad ? '서류에서 먼저 볼 것 ' + docBad + '개부터 확인하세요' : any ? headline(c, a + d, Q.length).replace('<br>', ' ') : hasDocs(house) ? '서류에서 답을 채우지 못했어요. 아래에서 직접 골라 주세요' : '서류부터 올리면 AI가 먼저 분석해요') + '</p>' : '') + '</div>';
   // 2026-11-28 AI 계약 분석 1단계(A안): 서류가 먼저. 남색 주인공 카드는 계약 전 집에만(계약한 집은 우리집 탭이 주인공)
-  if(!signed) h += docHero(house);
+  // 2026-11-29 구조 바꿈(A안, 사용자 승인): 결과는 「안전 리포트」 한 곳, 답을 채우는 방법은 「자료 넣기」 한 묶음, 계약서 일은 「계약서에 넣을 것」 한 묶음
+  if(!signed) h += repHero(house);
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
-  h += '<div class="cr-sec">' + (signed ? '계약 전 확인' : hasDocs(house) ? '남은 질문' : '직접 확인하기') + '<small>' + (Q.length - a - d) + '/' + Q.length + '</small></div><div class="cr-card">' +
-    row('data-quick="docs"', 'doc', '집·서류', sub(DOCS, DOCS.length), done(DOCS) ? '<span class="cr-d">끝</span>' : '') +
-    row('data-quick="ask"', 'user', '사람·돈·계약 조건', sub(ASK, ASK.length), done(ASK) ? '<span class="cr-d">끝</span>' : '') +
-    row('data-go-clause', 'pen', '특약', cl ? '계약서에 넣을 문장 ' + cl + '개' : '넣을 문장 고르기') +
-    row('data-go-final', 'send', '계약 전 최종 정리', '해결할 것 · 특약 · 공유') +
-    (recOn ? '' : row('data-quick="talk"', 'mic', '대화 녹음으로 채우기', '선택 · 들은 말로 답 채우기')) + '</div>';
+  const dN = DQ_KINDS.filter(([k])=>house.docs && house.docs[k] && house.docs[k].d).length, busyN = DQ_KINDS.some(([k])=>dqBusy[house.id + '|' + k]);
+  const pendN = Q.filter(q=>isDone(q.id) && !seen(q.id)).length;
+  h += '<div class="cr-sec">자료 넣기<small>어느 것으로 채워도 리포트에 모여요</small></div><div class="cr-card">' +
+    row('data-dq="open"', 'doc', '서류 올리기', busyN ? '읽는 중이에요' : '등기부·건축물대장·계약서', '<span class="cr-d">' + dN + '/3</span>') +
+    (recOn ? '' : row('data-quick="talk"', 'mic', '대화 녹음', '중개사가 한 말로 채우기' + (house.heard ? ' · 녹음 있음' : ''))) +
+    row('data-quick="list"', 'user', '질문에 직접 답하기', (Q.length - a - d) + '/15 확인' + (pendN ? ' · AI가 채운 답 ' + pendN + '개' : '')) + '</div>';
+  if(!dN && !signed) h += '<button type="button" class="cr-b2" data-dq="copy">중개사에게 서류 요청 문장 복사</button>';
+  h += '<div class="cr-sec">계약서에 넣을 것</div><div class="cr-card">' +
+    row('data-go-clause', 'pen', '특약 고르기·확인', (cl ? '넣을 문장 ' + cl + '개' : '넣을 문장 고르기') + ' · 들어갔는지 확인') +
+    row('data-go-final', 'send', '계약 전 최종 정리', '공유하기 · PDF로 저장') + '</div>';
   const my = myHouse(), other = my && my.id !== house.id;
-  h += '<div class="cr-sec">계약 후<small>' + (signed ? '날짜순' : '계약하면 날짜가 채워져요') + '</small></div><div class="cr-card">' +
+  h += '<div class="cr-sec">계약 후</div><div class="cr-card">' +
     (signed ? row('data-care-list', 'cal', '우리집 탭에서 챙기기', (()=>{ const n = careTasks(house).filter(t=>!t.done && !t.info).sort((x,y)=>D0(x.due) - D0(y.due))[0]; return n ? '다음 ' + n.title + ' · ' + ddTxt(n.due) : '할 일을 모두 했어요'; })())
-      : row('data-sign', 'cal', '이 집으로 계약했어요', other ? '지금 내 집은 「' + esc(my.name) + '」이에요' : '날짜 3개를 넣으면 할 일이 생겨요')) +
-    row('data-photos="in"', 'cam', '사진', signed ? '입주·퇴실 사진' : '집 보러 가서 찍어 두기') +
-    row('data-photos="doc"', 'doc', '서류 보관함', '계약서·영수증 사진') + '</div>';
+      : row('data-sign', 'cal', '이 집으로 계약했어요', other ? '지금 내 집은 「' + esc(my.name) + '」이에요' : '날짜 3개를 넣으면 할 일이 생겨요')) + '</div>';
   h += '<p class="hc-foot"><button type="button" class="hc-link" data-rename>이름 바꾸기</button><span aria-hidden="true">·</span><button type="button" class="hc-link" data-del-house>이 집 지우기</button></p>';
   card.innerHTML = h;
   cmpHouse(house, 'cmp-pd');
@@ -4994,6 +5004,54 @@ function dqSum(h){
   out.bad = out.items.filter(x=>x.lv === 'bad' || x.lv === 'unsure').length;
   return out;
 }
+// 2026-11-29 구조 바꿈(A안): 15개 질문 판단 + 서류 분석 + 녹음 비교를 한 목록으로(위험 → 확인 필요 → 사실 → 확인 못 함)
+const LV_RANK = {bad:0, unsure:1, fact:2, gap:3};
+function repItems(h){
+  const out = [];
+  intoHouse(h.id, ()=>Q.forEach(q=>{
+    if(!isDone(q.id) || na(q.id)) return;
+    const lv = judge(q.id).level;
+    if(lv === 'bad' || lv === 'unsure') out.push({t:(lv === 'bad' && DQ_BAD[q.id]) || q.n + '. ' + q.tag, lv, q:q.id, fromQ:true});
+  }));
+  if(hasDocs(h) || h.heard) dqSum(h).items.forEach(x=>{ if(!(x.q && out.some(o=>o.q === x.q))) out.push(x); });
+  return out.sort((a, b)=>LV_RANK[a.lv] - LV_RANK[b.lv]);
+}
+const repSrc = h => { const dN = DQ_KINDS.filter(([k])=>h.docs && h.docs[k] && h.docs[k].d).length; let qN = 0; intoHouse(h.id, ()=>{ qN = Q.filter(q=>seen(q.id)).length; }); return {dN, qN, tN:h.heard ? 1 : 0}; };
+const repDot = x => '<i class="dq-dot' + (x.lv === 'bad' || x.lv === 'unsure' ? ' ' + x.lv + '"' : '" style="background:#B0B8C4"') + '></i>';
+const repHead = t => { const m = String(t).match(/^(.*?) · (?![^()]*\))(.*)$/); return m ? m[1] : t; };
+function repHero(h){
+  const it = repItems(h), S = repSrc(h), any = it.length || S.dN || S.qN || S.tN, n = it.filter(x=>x.lv === 'bad' || x.lv === 'unsure').length;
+  if(!any) return '<div class="dq-hero"><span class="ch-k">안전 리포트</span><span class="ch-big">서류부터 올리면 먼저 분석해요</span><ul><li><span>결과는 여기에 모여요</span></li></ul></div>';
+  return '<div class="dq-hero"><span class="ch-k">안전 리포트 · 서류 ' + S.dN + '/3 · 녹음 ' + S.tN + ' · 질문 ' + S.qN + '/15</span><span class="ch-big">' + (n ? '해결할 것 ' + n + '개' : '지금까지 큰 문제는 없어요') + '</span>' +
+    (it.length ? '<ul>' + it.slice(0, 3).map(x=>'<li>' + repDot(x) + '<span>' + esc(repHead(x.t)) + '</span></li>').join('') + '</ul>' : '') +
+    '<button type="button" class="dq-b1" data-rep>리포트 전체 보기</button></div>';
+}
+// 리포트 화면(#pj): 머리 요약 → 해결할 것(눌러서 설명·물어볼 말) → 확인 전 답 → 말·서류·계약서 비교 → 확인한 것
+function renderReport(){
+  const h = house, box = $('pj-body'); if(!box) return;
+  const it = repItems(h), S = repSrc(h), c = levelCount(), pend = Q.filter(q=>isDone(q.id) && !seen(q.id)).length;
+  const nB = it.filter(x=>x.lv === 'bad').length, nU = it.filter(x=>x.lv === 'unsure').length;
+  let s = '<div class="fz-head" style="margin-top:12px"><p>' + esc(h.name) + ' · 서류 ' + S.dN + '/3 · 녹음 ' + S.tN + ' · 질문 ' + S.qN + '/15</p><h2>' +
+    (nB + nU ? '계약금 보내기 전에<br>해결할 것 ' + (nB + nU) + '개' : it.length || S.qN || S.dN ? '지금까지 큰 문제는 없어요' : '아직 넣은 자료가 없어요') + '</h2>' +
+    '<p class="fz-st">위험 ' + nB + '<i>·</i>확인 필요 ' + nU + '<i>·</i>비교적 안전 ' + c.ok + '</p></div>';
+  if(it.length){
+    s += '<div class="cr-sec">해결할 것<small>눌러서 설명 보기</small></div><div class="cr-card">' + it.map(x=>{
+      const e = x.fromQ ? null : dqExplain(h, x);
+      const m = e ? e.m : x.q ? ((judge(x.q).reasons.find(r=>r[0] === x.lv) || [])[1] || '') : '';
+      const acts = e ? e.b : x.q ? [{t:x.q.slice(1) + '번 질문에서 답 보기', a:'data-dq-q="' + x.q + '"'}] : [];
+      return '<details class="dq-ex"><summary>' + repDot(x) + '<span>' + esc(repHead(x.t)) + '</span>' + DOWN_I + '</summary><div class="dq-exb"><p>' + esc(m) + '</p>' +
+        (e && e.a ? '<p class="dq-ask"><b>중개사에게 이렇게 물어보세요</b>' + esc(e.a) + '</p>' : '') +
+        (acts.length ? '<div class="dq-acts">' + acts.map(b=>'<button type="button" class="hbtn" ' + b.a + '>' + b.t + '</button>').join('') + '</div>' : '') + '</div></details>';
+    }).join('') + '</div>' + (it.some(x=>!x.fromQ && (dqExplain(h, x) || {}).a) ? '<button type="button" class="cr-b2" data-dq-ask>중개사에게 물어볼 말 모두 복사</button>' : '');
+  } else s += '<div class="cr-sec">해결할 것</div><div class="cr-card"><div class="dq-st">' + (S.qN || S.dN ? '지금까지 위험하거나 더 확인할 것은 없어요. 남은 자료도 넣어 보세요.' : '서류를 올리거나, 녹음하거나, 질문에 답하면 여기에 모여요.') + '</div></div>';
+  if(pend) s += '<div class="cr-sec">AI가 채운 답<small>확인 전 ' + pend + '개</small></div><div class="cr-card"><button type="button" class="cr-row" data-quick="list">' + crIc('check') + '<span class="cr-t"><b>맞는지 확인하기</b><span>서류·녹음에서 채운 답을 보고 「판단 결과 보기」를 눌러요</span></span>' + CHEV_R + '</button></div>';
+  if(h.heard || hasDocs(h)) s += cmpSection(h);
+  const okQ = []; intoHouse(h.id, ()=>Q.forEach(q=>{ if(isDone(q.id) && !na(q.id) && seen(q.id) && judge(q.id).level === 'ok') okQ.push(q); }));
+  if(okQ.length) s += '<details class="dq-ex cr-card" style="margin-top:28px"><summary><span><b style="font-weight:600">확인한 것 · 비교적 안전 ' + okQ.length + '개</b></span>' + DOWN_I + '</summary><div class="dq-exb">' + okQ.map(q=>'<button type="button" class="cr-row" style="min-height:44px;padding:6px 0" data-dq-q="' + q.id + '"><span class="cr-t" style="font-size:15px">' + q.n + '. ' + esc(q.tag) + '</span>' + CHEV_R + '</button>').join('') + '</div></details>';
+  s += '<button type="button" class="cr-b2" style="margin-top:16px" data-quick="list">15개 질문 전체 보기</button>' +
+    '<p class="note" style="text-align:left">참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요.</p>';
+  box.innerHTML = s;
+}
 function docHero(h){
   const busy = k => dqBusy[h.id + '|' + k];
   if(!hasDocs(h)){
@@ -5126,15 +5184,8 @@ function clauseSection(h){
 function renderDocs(){
   const h = house, box = $('pq-body'); if(!box) return;
   const n = dqNorm(h), S = hasDocs(h) ? dqSum(h) : null;
-  let s = '<p class="d-lead">AI가 서류에서 사실만 옮겨 적어요. 위험 판단은 앱의 15개 질문 기준으로 해요. 틀린 값은 「고치기」로 바로잡아 주세요.</p>';
-  // 3단계: 줄을 누르면 쉬운 설명 · 그대로 읽을 질문 · 다음 할 일이 펼쳐져요
-  if(S && S.items.length) s += '<div class="cr-sec">먼저 볼 것<small>눌러서 설명 보기</small></div><div class="cr-card">' + S.items.map(x=>{
-    const e = dqExplain(h, x), dot = '<i class="dq-dot' + (x.lv === 'unsure' || x.lv === 'bad' ? ' ' + x.lv + '"' : '" style="background:#B0B8C4"') + '></i>';
-    if(!e) return '<div class="dq-st" style="display:flex;gap:8px;align-items:center">' + dot + '<span>' + esc(x.t) + '</span></div>';
-    return '<details class="dq-ex"><summary>' + dot + '<span>' + esc(x.t) + '</span>' + DOWN_I + '</summary><div class="dq-exb"><p>' + esc(e.m) + '</p>' +
-      (e.a ? '<p class="dq-ask"><b>중개사에게 이렇게 물어보세요</b>' + esc(e.a) + '</p>' : '') +
-      (e.b.length ? '<div class="dq-acts">' + e.b.map(b=>'<button type="button" class="hbtn" ' + b.a + '>' + b.t + '</button>').join('') + '</div>' : '') + '</div></details>';
-  }).join('') + '</div>' + (S.items.some(x=>(dqExplain(h, x) || {}).a) ? '<button type="button" class="cr-b2" data-dq-ask>중개사에게 물어볼 말 모두 복사</button>' : '');
+  let s = '<p class="d-lead">AI가 서류에서 사실만 옮겨 적어요. 결과는 「안전 리포트」에 모여요. 틀린 값은 「고치기」로 바로잡아 주세요.</p>';
+  // 2026-11-29 구조 바꿈(A안): 결과(먼저 볼 것·비교·채운 답)는 안전 리포트(#pj)로 옮기고, 이 화면은 서류 올리기만 해요
   DQ_KINDS.forEach(([k, nm])=>{
     const x = h.docs && h.docs[k], busy = dqBusy[h.id + '|' + k];
     s += '<div class="cr-sec">' + nm + '<small>' + (busy ? '읽는 중' : x && x.d ? (x.d.doc_ok === false ? '읽지 못함' : '읽음 · ' + stamp(x.at)) : x && x.err ? '실패' : '아직 없음') + '</small></div><div class="cr-card">';
@@ -5159,17 +5210,6 @@ function renderDocs(){
     s += '<button type="button" class="cr-row" data-dq-up="' + k + '"' + (busy ? ' disabled' : '') + '>' + crIc('doc') + '<span class="cr-t"><b>' + (x && (x.d || x.err) ? '다시 올리기' : 'PDF·사진 올리기') + '</b><span>PDF 1개(3MB까지) 또는 사진 여러 장</span></span>' + CHEV_R + '</button></div>';
   });
   if(h.docs && h.docs.reg && h.docs.reg.d) s += regDiffSection(h);
-  s += clauseSection(h);
-  if(hasDocs(h) || h.heard) s += cmpSection(h);
-  const dq = (h.docQ || []).filter(id=>BY_ID[id]);
-  if(dq.length){
-    s += '<div class="cr-sec">서류로 채운 답<small>눌러서 확인</small></div><div class="cr-card">';
-    intoHouse(h.id, ()=>dq.forEach(id=>{
-      const q = BY_ID[id], j = isDone(id) ? judge(id) : null, ok = seen(id);
-      s += '<button type="button" class="cr-row" data-dq-q="' + id + '"><span class="cr-t"><b>' + id.slice(1) + '. ' + esc(q.tag) + '</b><span>' + (ok ? '확인함' : 'AI가 채움 · 확인 전') + (j ? ' · ' + ({ok:'비교적 안전', unsure:'확인 필요', bad:'위험'}[j.level] || '참고') : ' · 남은 칸 있음') + '</span></span>' + CHEV_R + '</button>';
-    }));
-    s += '</div>';
-  }
   s += '<button type="button" class="cr-b2" style="margin-top:16px" data-dq="copy">중개사에게 요청 문장 복사</button>' +
     '<p class="note" style="text-align:left">올린 서류는 이 휴대폰의 「서류 보관함」에도 저장돼요. 참고용 안내이며 법률 자문이 아니에요.</p>';
   box.innerHTML = s;
@@ -5246,7 +5286,8 @@ async function dqClick(e){
   }
 }
 $('pq').addEventListener('click', dqClick);
-$('pd').addEventListener('click', e=>{ if(e.target.closest('[data-dq]')) dqClick(e); });
+$('pj').addEventListener('click', e=>{ if(e.target.closest('[data-quick]')) return homeClick(e); dqClick(e); });
+$('pd').addEventListener('click', e=>{ if(e.target.closest('[data-dq]')) dqClick(e); if(e.target.closest('[data-rep]')) go('pj'); });
 
 function askAddHouse(name, from){
   name = prompt('후보 집 이름을 적어 주세요. 예) 홍은동 투룸', name || '');
@@ -5674,6 +5715,7 @@ function setClause(id, patch){
 function renderClause(){
   const chipRow = (cid, key, list, cur) => '<div class="chips" style="margin-top:12px">' + list.map(x=>'<button type="button" class="chip' + (x[0] == cur ? ' on' : '') + '" aria-pressed="' + (x[0] == cur) + '" data-cl="' + cid + '" data-k="' + key + '" data-v="' + x[0] + '">' + x[1] + '</button>').join('') + '</div>';
   let s = '<p class="d-lead">넣고 싶은 특약을 고르면 계약서에 그대로 적을 문장을 만들어요. 고른 문장은 최종 정리의 「계약서에 넣을 특약」에도 들어가요.</p>';
+  s += clauseSection(house); // 2026-11-29 A안: 계약서에 들어갔는지 확인도 특약 화면에서
   CLAUSES.forEach(c=>{
     const on = !!((house.clauses || {})[c.id] || {}).on, o = clauseOf(c.id);
     s += '<div class="cr-box"><div class="cr-spot-h"><b style="font-size:17px">' + c.t + '</b><button type="button" class="hbtn' + (on ? ' cl-on' : '') + '" data-cl-on="' + c.id + '" aria-pressed="' + on + '">' + (on ? '넣었어요' : '넣기') + '</button></div><p>' + esc(c.why) + '</p>';
