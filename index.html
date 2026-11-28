@@ -4920,6 +4920,17 @@ function dqApply(h){
 }
 const DQ_BAD = {q2:'계약서 임대인과 등기부 소유자가 달라요', q13:'입금 계좌 예금주가 소유자가 아니에요', q9:'건물 용도·위반건축물을 확인해요', q5:'근저당이 커서 보증금이 위험할 수 있어요', q3:'공동 소유자 동의를 확인해요', q14:'추가 대출 금지 특약을 확인해요', q10:'보증금 돌려받는 날을 확인해요', q15:'중개보수를 확인해요'};
 // 집 화면·자세히 화면이 함께 쓰는 요약: 먼저 볼 것(판단 색은 앱 기준) · 사실 표시(색 없음) · 확인 전 답 수
+// 등기부 갑구·을구의 그 밖의 권리 → 위험·확인 필요 (근거: 생활법령 「등기부의 확인 등」, HUG 전세사기예방센터, 주택임대차보호법 제3조의3제6항, 민사집행법 제94조)
+function rightItem(h, x){
+  const k = String(x.kind || '');
+  if(/신탁/.test(k)){
+    const ok = ((h.docs.reg || {}).fix || {}).trustOk;
+    return {t:ok ? '신탁 등기 · 신탁회사 동의서를 봤어요 · 임대 권한을 다시 확인해요' : '신탁 등기가 있어요 · 신탁회사 동의 없이 맺은 계약은 무효가 될 수 있어요', lv:ok ? 'unsure' : 'bad', why:'trust'};
+  }
+  if(/압류|가압류|가처분|경매/.test(k)) return {t:'등기부에 「' + k.slice(0, 10) + '」 등기가 있어요 · 보증금을 먼저 돌려받기 어려워요', lv:'bad', why:'seize'};
+  if(/임차권/.test(k)) return {t:'임차권등기가 있어요 · 예전 세입자가 보증금을 못 받았다는 뜻이에요', lv:'bad', why:'lease'};
+  return {t:'등기부에 「' + k.slice(0, 12) + '」 표시가 있어요 · 꼭 물어보세요', lv:'fact'};
+}
 function dqSum(h){
   const n = dqNorm(h), out = {items:[], pend:0, read:0};
   DQ_KINDS.forEach(([k])=>{ if(h.docs && h.docs[k] && h.docs[k].d) out.read++; });
@@ -4938,9 +4949,11 @@ function dqSum(h){
     const a2 = answers.q2;
     if(a2 && a2.f && a2.f.match === 'diff' && !out.items.some(x=>x.q === 'q2')) out.items.unshift({t:DQ_BAD.q2, lv:'bad', q:'q2'});
   });
-  (n.rights || []).forEach(x=>out.items.push({t:'등기부에 「' + String(x.kind).slice(0, 12) + '」 표시가 있어요 · 꼭 물어보세요', lv:'fact'}));
+  // 2026-11-29 사용자가 승인한 서류 분석 추가 기준(판단기준.md 「서류 분석 추가 기준」). 15개 질문과 따로 「먼저 볼 것」에만 써요
+  (n.rights || []).forEach(x=>out.items.push(rightItem(h, x)));
   const hos = [n.unitR, n.unitB, n.unitC].map(hoNo).filter(Boolean);
-  if(new Set(hos).size > 1) out.items.push({t:'서류마다 호수가 달라요 (' + [...new Set(hos)].join('호 · ') + '호)', lv:'fact'});
+  const multi = n.use && /다가구|단독/.test(String(n.use.v)); // 다가구는 지번만 맞으면 돼요
+  if(new Set(hos).size > 1) out.items.push({t:'서류마다 호수가 달라요 (' + [...new Set(hos)].join('호 · ') + '호) · 계약서·전입신고는 등기부 호수대로', lv:multi ? 'fact' : 'unsure', why:'ho'});
   DQ_KINDS.forEach(([k, nm])=>{
     const x = h.docs && h.docs[k];
     if(x && x.d && x.d.doc_ok === false) out.items.push({t:nm + (k === 'contract' ? '로' : '으로') + ' 읽지 못했어요 · 다시 올려 주세요', lv:'gap'});
@@ -4988,7 +5001,7 @@ function renderDocs(){
   const n = dqNorm(h), S = hasDocs(h) ? dqSum(h) : null;
   let s = '<p class="d-lead">AI가 서류에서 사실만 옮겨 적어요. 위험 판단은 앱의 15개 질문 기준으로 해요. 틀린 값은 「고치기」로 바로잡아 주세요.</p>';
   if(S && S.items.length) s += '<div class="cr-sec">먼저 볼 것</div><div class="cr-card">' + S.items.map(x=>x.q ? '<button type="button" class="cr-row" style="min-height:48px" data-dq-q="' + x.q + '"><i class="dq-dot' + (x.lv === 'bad' || x.lv === 'unsure' ? ' ' + x.lv : '') + '"' + (x.lv === 'fact' ? ' style="background:#B0B8C4"' : '') + '></i><span class="cr-t" style="font-size:15px">' + esc(x.t) + '</span>' + CHEV_R + '</button>'
-    : '<div class="dq-st" style="display:flex;gap:8px;align-items:center"><i class="dq-dot' + (x.lv === 'unsure' ? ' unsure"' : '" style="background:#B0B8C4"') + '></i><span>' + esc(x.t) + '</span></div>').join('') + '</div>';
+    : '<div class="dq-st" style="display:flex;gap:8px;align-items:center"><i class="dq-dot' + (x.lv === 'unsure' || x.lv === 'bad' ? ' ' + x.lv + '"' : '" style="background:#B0B8C4"') + '></i><span>' + esc(x.t) + '</span></div>').join('') + '</div>';
   DQ_KINDS.forEach(([k, nm])=>{
     const x = h.docs && h.docs[k], busy = dqBusy[h.id + '|' + k];
     s += '<div class="cr-sec">' + nm + '<small>' + (busy ? '읽는 중' : x && x.d ? (x.d.doc_ok === false ? '읽지 못함' : '읽음 · ' + stamp(x.at)) : x && x.err ? '실패' : '아직 없음') + '</small></div><div class="cr-card">';
@@ -5002,7 +5015,11 @@ function renderDocs(){
         s += '<div class="dq-v"><div class="dq-vh"><span>' + label + '</span><button type="button" data-dq-fix="' + k + '|' + key + '">고치기</button></div>' +
           '<div class="dq-vv">' + (v == null || v === '' ? '<span style="color:#697383;font-weight:400">서류에서 찾지 못했어요</span>' : esc(v)) + '</div>' + (o && o.q ? '<p class="dq-q">' + esc(o.q) + '</p>' : '') + '</div>';
       });
-      if(k === 'reg' && (n.rights || []).length) s += '<div class="dq-v"><div class="dq-vh"><span>그 밖의 권리 표시</span></div><div class="dq-vv">' + n.rights.map(r=>esc(r.kind)).join(', ') + '</div><p class="dq-q">' + esc(String(n.rights[0].quote || '').slice(0, 110)) + '</p></div>';
+      if(k === 'reg' && (n.rights || []).length){
+        const trust = n.rights.some(r=>/신탁/.test(r.kind)), tok = ((x.fix || {}).trustOk);
+        s += '<div class="dq-v"><div class="dq-vh"><span>그 밖의 권리 표시</span></div><div class="dq-vv">' + n.rights.map(r=>esc(r.kind)).join(', ') + '</div><p class="dq-q">' + esc(String(n.rights[0].quote || '').slice(0, 110)) + '</p>' +
+          (trust ? '<p class="dq-q" style="color:#354153">신탁이면 등기소에서 「신탁원부」를 떼어 임대 권한이 누구에게 있는지 보고, 신탁회사의 임대 동의서를 받아야 해요.</p><button type="button" class="hbtn" style="margin-top:8px;border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer" data-dq-trust>' + (tok ? '동의서 확인 취소' : '신탁회사 동의서를 확인했어요') + '</button>' : '') + '</div>';
+      }
       if(k === 'contract') s += '<div class="dq-v"><div class="dq-vh"><span>특약</span></div><div class="dq-vv" style="font-weight:400;font-size:15px">' + ((n.clauses || []).length ? n.clauses.slice(0, 8).map(t=>'· ' + esc(String(t).slice(0, 120))).join('<br>') : '찾지 못했어요') + '</div></div>';
       if((x.d.missing || []).length) s += '<div class="dq-v"><div class="dq-vh"><span>확인 못 함</span></div><div class="dq-vv" style="font-weight:400;font-size:15px">' + esc(x.d.missing.join(', ')) + ' · 빠진 쪽까지 다시 올려 주세요</div></div>';
     }
@@ -5068,6 +5085,7 @@ async function dqClick(e){
   const a = e.target.closest('[data-dq]');
   if(a){ if(a.dataset.dq === 'open') return go('pq'); if(a.dataset.dq === 'copy'){ const ok = await copyText(dqReqText(house)); return toast(ok ? '복사했어요. 중개사에게 문자로 붙여 보내세요.' : '복사하지 못했어요.'); } }
   if(e.target.closest('[data-dq-talk]')) return go('pa');
+  if(e.target.closest('[data-dq-trust]')){ const x = house.docs.reg; x.fix = Object.assign({}, x.fix, {trustOk:!(x.fix || {}).trustOk}); save(); renderDocs(); renderStart(); return; }
   const cl = e.target.closest('[data-dq-cl]');
   if(cl){
     const id = PR_CL[cl.dataset.dqCl];
