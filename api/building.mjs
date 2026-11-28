@@ -6,6 +6,7 @@
 import { fromOurSite, tooMany, jsonBody } from './_gemini.mjs';
 
 const GEO = 'https://api.vworld.kr/req/address';
+const SEARCH = 'https://api.vworld.kr/req/search';
 const HUB = 'https://apis.data.go.kr/1613000/BldRgstHubService/getBrTitleInfo';
 const logFail = why => console.error('건축물대장 조회 실패 · ' + String(why).replace(/\s+/g, ' ').slice(0, 140));
 
@@ -21,6 +22,21 @@ async function getJson(url, ms){
 // 브이월드 지오코더: 주소 → 좌표, 좌표 → 지번 주소 구조(법정동 코드 level4LC, 지번 level5)
 async function parcelOf(addr, key, domain){
   const base = {service: 'address', version: '2.0', crs: 'epsg:4326', format: 'json', errorformat: 'json', key, domain};
+  // 2026-11-28: 도로명 주소는 좌표로 바꾼 뒤 그 자리 지번을 찾으면 옆 필지가 잡힐 때가 있어요(예: 월드컵북로 400 → 54길 12 건물).
+  // 그래서 먼저 브이월드 주소 검색으로 그 도로명 주소의 "지번 주소"를 받아 지번으로 다시 찾고, 안 되면 예전 방법으로 해요.
+  if(/[로길]\s*\d/.test(addr)){
+    const q0 = new URLSearchParams({service: 'search', request: 'search', version: '2.0', crs: 'EPSG:4326', size: '5', page: '1', query: addr, type: 'address', category: 'road', format: 'json', errorformat: 'json', key, domain});
+    const r0 = await getJson(SEARCH + '?' + q0.toString());
+    const items0 = (((r0.data || {}).response || {}).result || {}).items;
+    const it0 = [].concat(items0 || [])[0], jb = it0 && it0.address && String(it0.address.parcel || '').trim();
+    if(jb){
+      const full = /^서울/.test(jb) ? jb : '서울특별시 ' + jb;
+      const q1 = new URLSearchParams(Object.assign({}, base, {request: 'getcoord', type: 'parcel', refine: 'true', simple: 'false', address: full}));
+      const r1 = await getJson(GEO + '?' + q1.toString()), resp1 = r1.data && r1.data.response;
+      const st1 = resp1 && resp1.status === 'OK' && ((resp1.refined || {}).structure || {});
+      if(st1 && /^\d{10}$/.test(st1.level4LC || '') && st1.level5) return {code: st1.level4LC, jibun: st1.level5, text: (resp1.refined || {}).text || full};
+    } else if(r0.data && !items0) logFail('브이월드 주소 검색 결과 없음');
+  }
   for(const type of ['parcel', 'road']){
     const q = new URLSearchParams(Object.assign({}, base, {request: 'getcoord', type, refine: 'true', simple: 'false', address: addr}));
     const r = await getJson(GEO + '?' + q.toString());
@@ -51,6 +67,7 @@ function splitJibun(j){
 
 // 9번 답으로 고를 만한 용도 (애매하면 고르지 않아요)
 function suggest(items){
+  if(!items.length) return null; // 2026-11-28: 결과가 없는데 「주택」을 골라 주던 문제 고침
   const main = items.filter(x => !/부속/.test(x.part || ''));
   const L = (main.length ? main : items);
   const all = L.map(x => (x.use || '') + ' ' + (x.etc || '')).join(' ');
