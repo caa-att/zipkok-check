@@ -60,7 +60,7 @@ export async function rawBody(req, limit){
 }
 
 // Gemini를 불러요. schema를 주면 그 모양의 JSON으로 받아서 돌려줘요.
-export async function gemini({model = MODEL, system, parts, schema, temperature = 0.2, timeout = 50000, tag = 'Gemini'}){
+export async function gemini({model = MODEL, system, parts, schema, temperature = 0.2, timeout = 50000, tag = 'Gemini', withUsage = false}){
   const key = process.env.GEMINI_API_KEY;
   if(!key){ logFail(tag, 'GEMINI_API_KEY 없음'); throw new Error('no_key'); }
   const ctrl = new AbortController();
@@ -98,8 +98,11 @@ export async function gemini({model = MODEL, system, parts, schema, temperature 
       .filter(p => p && !p.thought && typeof p.text === 'string').map(p => p.text).join('');
     const u = data.usageMetadata || {};
     console.log(tag + ' 성공 · 보낸 토큰 ' + (u.promptTokenCount || 0) + ' · 받은 토큰 ' + ((u.candidatesTokenCount || 0) + (u.thoughtsTokenCount || 0)));
-    if(!schema) return raw;
-    try { return JSON.parse(raw); } catch(e) { logFail(tag, 'JSON 아님'); throw new Error('ai'); }
+    // withUsage: 토큰 수도 함께 돌려줘요(2026-11-28 서류 읽기 시험용). 기본은 예전처럼 답만
+    const usage = {in: u.promptTokenCount || 0, out: (u.candidatesTokenCount || 0) + (u.thoughtsTokenCount || 0)};
+    let out = raw;
+    if(schema){ try { out = JSON.parse(raw); } catch(e) { logFail(tag, 'JSON 아님'); throw new Error('ai'); } }
+    return withUsage ? {out, usage} : out;
   } catch(e) {
     if(e.name === 'AbortError'){ logFail(tag, '시간 초과'); throw new Error('ai'); }
     throw e;
