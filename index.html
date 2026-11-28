@@ -4761,9 +4761,11 @@ function renderDealCard(){
   const row = (attr, ic, ti, s, tag) => '<button type="button" class="cr-row" ' + attr + '>' + crIc(ic) + '<span class="cr-t"><b>' + ti + '</b><span>' + s + '</span></span>' + (tag || CHEV_R) + '</button>';
   const recOn = (R && T.phase === 'rec') || liveOn;
   const cl = finalClauses().length;
+  // 15개 질문엔 문제가 없어도 서류 분석의 위험(빨강)이 있으면 머리 문장도 그쪽을 먼저 가리켜요
+  const docBad = !signed && hasDocs(house) ? dqSum(house).items.filter(x=>x.lv === 'bad').length : 0;
   let h = '<div class="ab-head"><div class="dh"><p class="hc-n">' + esc(house.name) + '</p>' + stTag(house) + '</div>' + (houseSub() ? '<p class="hc-s">' + esc(houseSub()) + '</p>' : '') +
     '<div class="hc-meta"><span id="cmp-pd"></span>' + (house.link ? '<a class="hc-a" href="' + esc(house.link) + '" target="_blank" rel="noopener">' + esc(house.site || '원래') + ' 매물 보기' + ARROW + '</a>' : '') + '</div>' +
-    '<p class="ab-c">' + (signed && !a && !d ? '15개 모두 확인했어요. 이제 날짜에 맞춰 챙겨요' : any ? headline(c, a + d, Q.length).replace('<br>', ' ') : hasDocs(house) ? '서류에서 답을 채우지 못했어요. 아래에서 직접 골라 주세요' : '서류부터 올리면 AI가 먼저 분석해요') + '</p></div>';
+    '<p class="ab-c">' + (signed && !a && !d ? '15개 모두 확인했어요. 이제 날짜에 맞춰 챙겨요' : docBad && !c.bad ? '서류에서 먼저 볼 것 ' + docBad + '개부터 확인하세요' : any ? headline(c, a + d, Q.length).replace('<br>', ' ') : hasDocs(house) ? '서류에서 답을 채우지 못했어요. 아래에서 직접 골라 주세요' : '서류부터 올리면 AI가 먼저 분석해요') + '</p></div>';
   // 2026-11-28 AI 계약 분석 1단계(A안): 서류가 먼저. 남색 주인공 카드는 계약 전 집에만(계약한 집은 우리집 탭이 주인공)
   if(!signed) h += docHero(house);
   if(recOn) h += '<button type="button" class="rec-big on" data-quick="talk"><span>' + ICON_MIC + '</span>녹음 중 · 화면으로 가기</button>';
@@ -4791,7 +4793,7 @@ function renderDealCard(){
    채운 답은 녹음과 같은 「AI가 채움 · 확인 전」이라 사용자가 열어 「판단 결과 보기」를 눌러야 확인돼요.
    신탁·압류 같은 표시와 호수 차이는 15개 질문에 없는 새 기준이라, 승인 전까지 판단 색 없이 사실만 보여 줘요. */
 const DQ_KINDS = [['reg', '등기부등본', '집주인·근저당'], ['bldg', '건축물대장', '건물 용도'], ['contract', '계약서(초안)', '금액·특약·계좌']];
-const DQ_NAME = {reg:'등기부등본', bldg:'건축물대장', contract:'계약서'};
+const DQ_NAME = {reg:'등기부등본', reg2:'잔금 전 등기부등본', bldg:'건축물대장', contract:'계약서'};
 const DQ_WHERE = {reg:'중개사에게 받거나 인터넷등기소에서 떼요', bldg:'중개사에게 받거나 정부24에서 무료로 떼요', contract:'중개사에게 계약서 초안을 받아요'};
 const DCKEY = 'jipkok-consent-doc';
 const dqBusy = {}; // '집번호|종류' → 읽는 중
@@ -4803,7 +4805,8 @@ const manwon = w => typeof w === 'number' && isFinite(w) ? Math.round(w / 10000)
 // 뽑은 값 + 사용자가 고친 값을 한 모양으로
 function dqNorm(h){
   const D = h.docs || {}, g = k => (D[k] && D[k].d && D[k].d.doc_ok !== false) ? D[k].d : null, fx = k => (D[k] && D[k].fix) || {};
-  const r = g('reg'), b = g('bldg'), c = g('contract'), n = {};
+  // 2026-11-29: 잔금 전에 다시 올린 등기부(reg2)가 있으면 그게 지금 상태예요. 처음 것과의 차이는 dqRegDiff가 봐요
+  const r = g('reg2') || g('reg'), b = g('bldg'), c = g('contract'), n = {};
   const src = (k, o) => o && o.quote ? DQ_NAME[k] + (o.page ? ' ' + o.page + '쪽' : '') + ' · ' + String(o.quote).slice(0, 110) : DQ_NAME[k];
   if(r){
     const live = (r.mortgages || []).filter(m=>!m.deleted), noEul = (r.missing || []).some(x=>/을구/.test(x));
@@ -4984,6 +4987,8 @@ function dqSum(h){
     else if(x && x.d && (x.d.missing || []).length) out.items.push({t:nm + ' ' + x.d.missing.slice(0, 2).join('·') + ' 확인 못 함', lv:'gap', kind:k});
   });
   out.items.push(...cmpItems(h));
+  const df = dqRegDiff(h); if(df) out.items.push(...df.rows.filter(r=>r.lv === 'bad' && !r.newKind)); // 새로 생긴 압류 등은 등기부 기준 줄이 이미 보여 줘요(겹치지 않게)
+  const cc = dqClauseCheck(h); if(cc) cc.filter(c=>!c.ok).slice(0, 3).forEach(c=>out.items.push({t:'「' + clShort(c.text) + '」 특약이 계약서에 안 보여요 · 넣어 달라고 하세요', lv:'unsure', why:'clause', cl:c}));
   const rank = {bad:0, unsure:1, fact:2, gap:3};
   out.items.sort((a, b)=>rank[a.lv] - rank[b.lv]);
   out.bad = out.items.filter(x=>x.lv === 'bad' || x.lv === 'unsure').length;
@@ -5041,6 +5046,8 @@ function dqExplain(h, x){
     ho:{m:'서류마다 호수가 달라요. 계약서와 전입신고를 등기부·건축물대장과 다른 호수로 하면 보호받지 못할 수 있어요.', a:'등기부·건축물대장 호수와 계약서 호수가 다른데, 어느 것이 맞나요? 계약서를 등기부 호수로 고쳐 주세요.', b:[]},
     oral:{m:'말로만 한 약속은 나중에 증명하기 어려워요. 계약서 특약으로 남겨야 지킬 의무가 생겨요.', a:'말씀하신 「' + (x.cmp ? x.cmp.said : '') + '」 약속을 계약서 특약에 넣어 주실 수 있나요?', b:[{t:'특약에 담기', a:'data-dq-cl="' + x.topic + '"'}]},
     diff:{m:'들은 말과 서류가 달라요. 서류가 맞는지, 말이 바뀐 건지 계약 전에 꼭 확인해요.', a:x.cmp ? '처음에 ' + x.cmp.label + '은(는) ' + x.cmp.said + '라고 들었는데 ' + x.cmp.where + '에는 ' + x.cmp.doc + '로 되어 있어요. 어느 것이 맞나요?' : '', b:x.q ? [goq(x.q)] : []},
+    reg2:{m:'계약한 뒤 잔금 전에 등기부가 바뀌었어요. 새 근저당이나 소유자 변경은 내 보증금보다 앞설 수 있어요. 잔금을 보내기 전에 꼭 해결해요.', a:'잔금 전에 등기부를 다시 떼어 보니 ' + x.t.split(' · ')[0] + '. 어떻게 된 일인가요? 잔금 전에 원래대로 되돌려 주세요.', b:[help]},
+    clause:{m:'고른 특약이 올린 계약서에서 보이지 않아요. 말로만 약속하면 나중에 증명하기 어려워요. 서명하기 전에 계약서에 들어갔는지 꼭 확인해요.', a:x.cl ? '이 특약을 계약서에 넣어 주실 수 있나요? 「' + x.cl.text + '」' : '', b:[fin]},
     gap:{m:'이 서류를 다 읽지 못했어요. 못 본 부분은 "없음"이 아니에요. 빠진 쪽까지 다시 올려 주세요.', a:'', b:[{t:'다시 올리기', a:'data-dq-up="' + (x.kind || 'reg') + '"'}]}
   };
   return E[why] || null;
@@ -5048,6 +5055,61 @@ function dqExplain(h, x){
 function dqAskText(h){
   const qs = dqSum(h).items.map(x=>(dqExplain(h, x) || {}).a).filter(Boolean);
   return qs.length ? '계약 전에 확인하고 싶은 것이 있어요.\n' + qs.map((t, i)=>(i + 1) + '. ' + t).join('\n') : '';
+}
+// 2026-11-29 ① 잔금 전 등기부 다시 비교: 처음 올린 등기부(reg)와 잔금 전에 다시 올린 등기부(reg2)를 코드로 비교해요
+function dqRegDiff(h){
+  const D = h.docs || {}, ok = k => D[k] && D[k].d && D[k].d.doc_ok !== false ? D[k].d : null, a = ok('reg'), b = ok('reg2');
+  if(!a || !b) return null;
+  const own = r => (r.owners || []).map(o=>nmKey(o.name)).filter(Boolean).sort(), sum = r => (r.mortgages || []).filter(m=>!m.deleted).reduce((s, m)=>s + (manwon(m.amount_won) || 0), 0);
+  const kinds = r => (r.other_rights || []).filter(x=>!x.deleted).map(x=>String(x.kind));
+  const rows = [], oa = own(a), ob = own(b), ma = sum(a), mb = sum(b);
+  if(oa.join() !== ob.join()) rows.push({t:'소유자가 바뀌었어요 (' + (oa.join(', ') || '?') + ' → ' + (ob.join(', ') || '?') + ') · 잔금 보내기 전에 멈추세요', lv:'bad', why:'reg2'});
+  if(mb > ma) rows.push({t:'근저당이 ' + won(mb - ma) + ' 늘었어요 · 잔금 보내기 전에 멈추세요', lv:'bad', why:'reg2'});
+  if(mb < ma) rows.push({t:'근저당이 ' + won(ma - mb) + ' 줄었어요 (말소됨)', lv:'fact'});
+  const ka = kinds(a); kinds(b).filter(k=>!ka.includes(k)).forEach(k=>rows.push({t:'「' + k.slice(0, 10) + '」 등기가 새로 생겼어요 · 잔금 보내기 전에 멈추세요', lv:'bad', why:'reg2', newKind:true}));
+  return {rows, same:!rows.length, at:D.reg2.at};
+}
+// ② 계약서에 특약이 들어갔는지: 고른 특약(특약 만들기)과 꼭 넣을 특약을 올린 계약서의 특약 문장과 비교해요
+const CL_TOPIC = {early:'early_exit', back:'deposit_return', fix:'repair', repair:'repair'};
+const CL_KEY = {fee:t=>/관리비/.test(t), restore:t=>/원상\s*복구/.test(t)};
+const Q_TOPIC = {q5:'mort_clear', q14:'no_new_loan', q10:'deposit_return', q11:'early_exit'};
+// 글자 두 개씩 묶어 얼마나 겹치는지(0~1). 중개사가 문장을 조금 바꿔 적어도 찾게요
+const bi = t => { const s = String(t).replace(/[^가-힣0-9]/g, ''), o = new Set(); for(let i = 0; i < s.length - 1; i++) o.add(s.slice(i, i + 2)); return o; };
+const simIn = (want, have) => { const A = bi(want); if(!A.size) return 0; const B = bi(have); let n = 0; A.forEach(x=>{ if(B.has(x)) n++; }); return n / A.size; };
+function dqClauseCheck(h){
+  const ct = h.docs && h.docs.contract && h.docs.contract.d && h.docs.contract.d.doc_ok !== false ? h.docs.contract.d : null;
+  if(!ct) return null;
+  const fixed = (ct.special_clauses || []).map(String), out = [];
+  const oralTopics = new Set(dqCompare(h).filter(r=>r.topic).map(r=>r.topic)); // 약속 비교에서 이미 보는 주제는 빼요
+  intoHouse(h.id, ()=>{
+    const own = CLAUSES.filter(c=>((h.clauses || {})[c.id] || {}).on).map(c=>({text:c.txt(clauseOf(c.id)), topic:CL_TOPIC[c.id], key:CL_KEY[c.id], src:'직접 고른 특약'}));
+    const must = finalClauses().filter(x=>x.must && !x.own).map(x=>({text:x.text, topic:Q_TOPIC[x.q.id], src:x.q.n + '. ' + x.q.tag}));
+    own.concat(must).forEach(c=>{
+      if(c.topic && oralTopics.has(c.topic)) return;
+      if(out.some(o=>c.topic && o.topic === c.topic)) return;
+      const ok = c.topic ? fixed.some(t=>PR_KEY[c.topic](t)) : c.key ? fixed.some(c.key) : fixed.some(t=>simIn(c.text, t) >= .45);
+      out.push(Object.assign(c, {ok}));
+    });
+  });
+  return out;
+}
+const clShort = t => { t = String(t).replace(/^(임대인은|임차인은)\s*/, ''); return t.length > 20 ? t.slice(0, 20) + '…' : t; };
+function regDiffSection(h){
+  const x = h.docs && h.docs.reg2, busy = dqBusy[h.id + '|reg2'], df = dqRegDiff(h);
+  let s = '<div class="cr-sec">잔금 전 다시 확인<small>' + (busy ? '읽는 중' : x && x.d ? '읽음 · ' + stamp(x.at) : '잔금 보내기 직전에') + '</small></div><div class="cr-card">';
+  if(busy) s += '<div class="dq-st">읽는 중이에요. 처음 등기부와 비교할게요.</div>';
+  else if(x && x.err && !x.d) s += '<div class="dq-st">' + esc(x.err) + '</div>';
+  else if(x && x.d && x.d.doc_ok === false) s += '<div class="dq-st">등기부등본으로 보이지 않아요. 다시 올려 주세요.</div>';
+  else if(df && df.same) s += '<div class="dq-st" style="display:flex;gap:8px;align-items:center"><i class="dq-dot" style="background:#16A35F"></i><span>처음 올린 등기부와 달라진 것이 없어요 (소유자·근저당·압류 등)</span></div>';
+  else if(df) s += df.rows.map(r=>'<div class="dq-st" style="display:flex;gap:8px;align-items:center"><i class="dq-dot' + (r.lv === 'bad' ? ' bad"' : '" style="background:#B0B8C4"') + '></i><span>' + esc(r.t) + '</span></div>').join('');
+  else s += '<div class="dq-st">계약 뒤 잔금 전까지 집주인이 대출을 새로 받거나 집을 팔 수 있어요. 잔금 보내기 직전에 등기부를 새로 떼어 올리면 처음 것과 비교해요.</div>';
+  return s + '<button type="button" class="cr-row" data-dq-up="reg2"' + (busy ? ' disabled' : '') + '>' + crIc('doc') + '<span class="cr-t"><b>' + (x && (x.d || x.err) ? '다시 올리기' : '새로 뗀 등기부 올리기') + '</b><span>인터넷등기소에서 오늘 날짜로 떼요</span></span>' + CHEV_R + '</button></div>';
+}
+function clauseSection(h){
+  const L = dqClauseCheck(h); if(!L || !L.length) return '';
+  return '<div class="cr-sec">계약서 특약 확인<small>' + L.filter(x=>x.ok).length + ' / ' + L.length + '개 들어감</small></div><div class="cr-card">' +
+    L.map(c=>'<div class="dq-v"><div class="dq-vh"><span>' + esc(c.src) + '</span><span class="cr-d dq-tag">' + (c.ok ? '들어갔어요' : '<i class="dq-dot unsure"></i>안 보여요') + '</span></div><div class="dq-vv" style="font-size:15px;font-weight:400">' + esc(c.text) + '</div></div>').join('') +
+    '<div class="dq-st" style="font-size:14px;color:#697383">계약서를 고친 뒤 다시 올리면 다시 확인해요. 문장이 조금 달라도 같은 뜻이면 「들어갔어요」로 봐요. 최종 서명 전에 눈으로도 확인해 주세요.</div></div>';
 }
 // 2026-11-29 4단계: 예전 녹음 기록(집 번호 없이 이름만)은 이름이 같은 집이 하나뿐일 때만 「들은 말」로 이어 붙여요
 (function linkOldTalks(){
@@ -5096,6 +5158,8 @@ function renderDocs(){
     }
     s += '<button type="button" class="cr-row" data-dq-up="' + k + '"' + (busy ? ' disabled' : '') + '>' + crIc('doc') + '<span class="cr-t"><b>' + (x && (x.d || x.err) ? '다시 올리기' : 'PDF·사진 올리기') + '</b><span>PDF 1개(3MB까지) 또는 사진 여러 장</span></span>' + CHEV_R + '</button></div>';
   });
+  if(h.docs && h.docs.reg && h.docs.reg.d) s += regDiffSection(h);
+  s += clauseSection(h);
   if(hasDocs(h) || h.heard) s += cmpSection(h);
   const dq = (h.docQ || []).filter(id=>BY_ID[id]);
   if(dq.length){
@@ -5121,11 +5185,11 @@ async function dqUpload(kind, files){
   let err = '';
   try {
     const blobs = pdf ? [pdf] : await Promise.all(list.map(shrink));
-    for(const b of blobs){ try { await pAdd({h:h.id, m:'doc', s:kind, t:Date.now(), b}); } catch(e) {} }
+    for(const b of blobs){ try { await pAdd({h:h.id, m:'doc', s:kind === 'reg2' ? 'reg' : kind, t:Date.now(), b}); } catch(e) {} }
     const send = await Promise.all(blobs.map(async b=>({mime:b.type === 'application/pdf' ? 'application/pdf' : 'image/jpeg', data:await b64(b)})));
     if(send.reduce((s, f)=>s + f.data.length, 0) > 4000000) throw new Error('big');
     const ac = new AbortController(), tm = setTimeout(()=>ac.abort(), 65000);
-    const r = await fetch('/api/doc', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({kind, files:send}), signal:ac.signal});
+    const r = await fetch('/api/doc', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({kind:kind === 'reg2' ? 'reg' : kind, files:send}), signal:ac.signal});
     clearTimeout(tm);
     const d = await r.json().catch(()=>({}));
     if(!r.ok || !d.data) throw new Error(d.error || 'ai');
@@ -5363,6 +5427,7 @@ function renderTask(){
     if(dep != null || rent) s += '<div class="cr-box"><h3>갱신할 때 올릴 수 있는 한도</h3>' + (dep != null ? '<p>보증금 ' + won(dep) + ' → 최대 <b>' + won(Math.floor(dep * 105) / 100) + '</b></p>' : '') + (rent ? '<p>월세 ' + won(rent) + ' → 최대 <b>' + won(Math.floor(rent * 105) / 100) + '</b></p>' : '') + '<p class="cr-law">지금 금액의 20분의 1까지 (주택임대차보호법 제7조 제2항)</p></div>';
     s += '<div class="cr-box"><h3>보낼 문장</h3><p class="cr-msg" id="crMsg">' + esc('안녕하세요. 지금 사는 집 세입자예요. 주택임대차보호법 제6조의3에 따라 ' + kdate(h.lease.end) + '에 끝나는 계약의 갱신을 요구합니다. 갱신 조건을 알려 주시면 감사하겠습니다.') + '</p><button type="button" class="cr-b2" data-copy-msg>문장 복사</button></div>';
   }
+  if(x.id === 'reg') s += '<button type="button" class="cr-b2" data-dq-recheck>' + (h.docs && h.docs.reg && h.docs.reg.d ? '새로 뗀 등기부 올려 처음 것과 비교하기' : '등기부 올려서 분석하기') + '</button>';
   if(x.id === 'early' && !earlyOn(h)) s += '<button type="button" class="cr-b2" data-go-clause>중도 해지 특약 문장 만들기</button>';
   if(x.id === 'out') s += '<button type="button" class="cr-b1" data-care-view="pout">나갈 때 체크리스트 보기</button>';
   if(x.id === 'out') s += '<button type="button" class="cr-b2" data-care-view="pex" style="background:var(--brand-50)">보증금 돌려받기 준비 (사진 비교표·문장)</button>';
@@ -5955,6 +6020,7 @@ function closeSheet(){ $('crSheet').hidden = true; }
 $('ck-x').addEventListener('click', closeSheet);
 $('crSheet').addEventListener('click', e=>{
   if(e.target === $('crSheet')) return closeSheet();
+  if(e.target.closest('[data-dq-recheck]')){ const h = myHouse(); closeSheet(); if(h) useHouse(h.id); return go('pq'); }
   const d = e.target.closest('[data-crdone]'); if(d) return crToggle(d.dataset.crdone);
   const od = e.target.closest('[data-crowndel]');
   if(od){ const h = myHouse(); if(!h || !confirm('이 일정을 지울까요?')) return;
