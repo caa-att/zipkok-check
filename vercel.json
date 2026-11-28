@@ -8,6 +8,9 @@
     },
     "api/recommend.mjs": {
       "maxDuration": 60
+    },
+    "api/doc.mjs": {
+      "maxDuration": 60
     }
   },
   "rewrites": [

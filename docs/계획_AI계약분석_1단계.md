@@ -225,6 +225,12 @@
 - 결과 파일: `tests/doc0/results/`(1차), `results/round2/`, `results/round3/`
 - 결정: 방법 **A**(PDF·사진을 그대로 보냄). 시험 시간이 길었던 건 무료 등급 횟수 제한 때문에 6초씩 쉬어서예요. 실제 사용은 서류 3장에 약 5~10초로 예상하고, 읽는 동안 진행 표시를 보여 줘요.
 
+## 1단계 진행 (2026-11-28)
+- 사용자 의견으로 흐름을 "서류 먼저"로 다시 잡음: 서류를 올리면 먼저 분석하고 15개 질문 답을 「확인 전」으로 채운 뒤, 남은 질문을 체크리스트·녹음으로 더해요. 그래서 답 채우기와 기본 대조(이름·예금주·근저당)를 1단계로 당겼어요.
+- 서류는 중개사에게 받는 길을 기본으로(요청 문장 복사). 입구는 집 화면 남색 주인공 카드(A안, 사용자가 고름).
+- 만든 것: `api/doc.mjs`, 집 화면 카드, 서류 분석 화면 `#pq`, 동의 창. 시험 서버 `api/doc-test.mjs`는 지웠어요.
+- 남은 것: 미리보기에서 가짜 서류로 실제 Gemini 시험(사용자 휴대폰), 새 판단 기준(신탁·압류·호수 불일치) 승인, 2단계 녹음 대조.
+
 ## 10. 조사 출처 (2026-11-28)
 - Gemini 요금·토큰: https://ai.google.dev/gemini-api/docs/pricing · https://ai.google.dev/gemini-api/docs/document-processing · https://ai.google.dev/gemini-api/docs/audio
 - 등기부 API 명세(2단계 이후 참고): https://developer.codef.io/products/public/each/ck/real-estate-register

@@ -1,4 +1,4 @@
-// AI 계약 분석 0단계: 가짜 서류 읽기 시험 돌리기 (2026-11-28)
+// AI 계약 분석 0단계: 가짜 서류 읽기 시험 돌리기 (2026-11-28) · 시험 서버 api/doc-test.mjs는 1단계에서 지웠어요(다시 하려면 git 기록에서 되살려요)
 // 쓰는 법 (PowerShell):
 //   미리보기 주소는 Vercel 로그인 보호가 있어서 $env:VERCEL_BYPASS(Deployment Protection → Protection Bypass for Automation 값)도 넣어요.
 //   $env:DOC_URL="https://미리보기주소/api/doc-test"; $env:DOC_TEST_SECRET="(Vercel에 넣은 값)"; node tests/doc0/run.mjs A 1
