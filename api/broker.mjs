@@ -4,6 +4,8 @@
 // 받은 값과 조회 결과는 어디에도 저장하지 않고, 로그에도 남기지 않아요.
 
 const URL_BASE = 'https://api.vworld.kr/ned/data/getEBOfficeInfo';
+// 2026-11-28 사용자와 정함: 그 사무소에 등록된 사람(공인중개사·중개보조원) 조회 — 브이월드 「부동산중개업자정보」(getEBBrokerInfo), 같은 키
+const PEOPLE_URL = 'https://api.vworld.kr/ned/data/getEBBrokerInfo';
 const MAX_ITEMS = 5;
 
 // 서울 25개 구 (시군구 코드)
@@ -64,6 +66,7 @@ export default async function handler(req, res){
   // 없으면 지금 열린 사이트 주소를 보내요.
   const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
   const domain = String(process.env.BROKER_DOMAIN || '').trim() || 'https://' + host;
+  if(b.mode === 'people') return people(res, gu, no, key, domain);
   const q = new URLSearchParams({ldCode: gu, format: 'json', numOfRows: '20', pageNo: '1', key, domain});
   if(no) q.set('jurirno', no);
   if(office) q.set('bsnmCmpnm', office);
@@ -95,4 +98,42 @@ export default async function handler(req, res){
   } finally {
     clearTimeout(timer);
   }
+}
+
+// 그 사무소 사람 목록: 등록번호로만 물어요. 이름·구분(대표·소속공인중개사·중개보조원)·자격 취득일만 돌려줘요(공개 자료).
+function collectP(node, out){
+  if(Array.isArray(node)){ node.forEach(n => collectP(n, out)); return out; }
+  if(node && typeof node === 'object'){
+    if('brkrNm' in node) out.push(node);
+    else Object.values(node).forEach(n => collectP(n, out));
+  }
+  return out;
+}
+async function people(res, gu, no, key, domain){
+  if(!no) return res.status(400).json({error: 'input'});
+  const q = new URLSearchParams({ldCode: gu, jurirno: no, format: 'json', numOfRows: '50', pageNo: '1', key, domain});
+  const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 10000);
+  try {
+    const r = await fetch(PEOPLE_URL + '?' + q.toString(), {signal: ctrl.signal});
+    if(!r.ok){ logFail('사람 조회 응답 ' + r.status); return res.status(502).json({error: 'lookup'}); }
+    let data; try { data = await r.json(); } catch(e) { logFail('사람 조회 JSON 아님'); return res.status(502).json({error: 'lookup'}); }
+    const raw = collectP(data, []);
+    const list = raw.map(o => ({
+      name: pick(o, ['brkrNm']),
+      role: pick(o, ['brkrAsortCodeNm', 'ofcpsSeCodeNm', 'brkrAsortNm']) || pickRe(o, /(asort|ofcps).*nm$/i),
+      office: pick(o, ['bsnmCmpnm']),
+      qual: day(pick(o, ['crqfcAcqdt', 'crqfcAcqDe']) || pickRe(o, /crqfc.*(dt|de)$/i))
+    })).filter(x => x.name);
+    if(!list.length){
+      const txt = JSON.stringify(data);
+      const m = txt.match(/"resultCode"\s*:\s*"([A-Z_0-9]{2,40})"/);
+      if(m && !/NOT_FOUND|^0+$|SUCCESS|OK/i.test(m[1])){ logFail('사람 조회 오류 · ' + m[1]); return res.status(502).json({error: 'lookup'}); }
+      return res.status(200).json({people: []});
+    }
+    console.log('중개업자 조회 성공 · ' + list.length + '명');
+    return res.status(200).json({people: list.slice(0, 30), fields: Object.keys(raw[0]).slice(0, 40)});
+  } catch(e) {
+    logFail(e.name === 'AbortError' ? '사람 조회 시간 초과' : '사람 조회 연결 오류');
+    return res.status(502).json({error: 'lookup'});
+  } finally { clearTimeout(timer); }
 }
