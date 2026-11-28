@@ -211,6 +211,18 @@
 | 6 | 보내는 방법 A·B·C는? | 0단계 결과를 보고 정해요 |
 | 7 | 작업 브랜치는? | 지금 배포된 것과 섞이지 않게 새 브랜치 → `feature/doc-analysis` |
 
+## 0단계 결과 (2026-11-28, 가짜 서류 14건, 모델 gemini-3.5-flash-lite 무료 등급)
+
+| 차수 | 방법 A (PDF 그대로) | 방법 B (글자만) | 메모 |
+|---|---|---|---|
+| 1차 | 4/14 통과 (나머지는 횟수 제한 거절) | 4/14 통과 (같은 이유) | 신탁 표시 놓침, 예전 소유자까지 적음 → 지시문 고침 |
+| 2차 | **14/14 통과** · 서류 하나에 보낸 토큰 약 1,200 · 평균 1.7초 | **14/14 통과** · 약 660 · 평균 1.3초 | 호출 6초 간격, 실패 0 |
+
+- 말소된 근저당: 두 방법 모두 정확. B도 맞은 이유는 「1번근저당권설정등기말소」 줄이 따로 있어서예요(빨간 줄은 B에서 사라짐).
+- 한 사례(서류 3개) 비용 추정: A 약 4원, B 약 3원(유료 등급 값 기준, 위 6절 단가).
+- 한계: 가짜 서류는 배치가 단순해요. 실제 서류·사진·스캔은 유료 등급 전환 뒤 따로 확인해야 해요.
+- 결과 파일: `tests/doc0/results/`
+
 ## 10. 조사 출처 (2026-11-28)
 - Gemini 요금·토큰: https://ai.google.dev/gemini-api/docs/pricing · https://ai.google.dev/gemini-api/docs/document-processing · https://ai.google.dev/gemini-api/docs/audio
 - 등기부 API 명세(2단계 이후 참고): https://developer.codef.io/products/public/each/ck/real-estate-register
