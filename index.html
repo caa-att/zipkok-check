@@ -1486,6 +1486,17 @@
   .dq-vh button{flex:none;height:40px;margin:-8px -6px -8px 0;padding:0 8px;border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:var(--brand);cursor:pointer}
   .dq-vh > .dq-tag{flex:none;display:inline-flex;align-items:center;gap:4px;color:#354153;font-size:12px}
   .dq-tag .dq-dot{width:6px;height:6px}
+  .dq-ex + .dq-ex,.dq-ex + .dq-st,.dq-st + .dq-ex{border-top:1px solid var(--ds-divider)}
+  .dq-ex summary{display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 16px 10px 18px;font-size:15px;line-height:22px;color:#354153;cursor:pointer;list-style:none}
+  .dq-ex summary::-webkit-details-marker{display:none}
+  .dq-ex summary > span{flex:1}
+  .dq-ex summary svg{flex:none;width:18px;height:18px;color:#697383;transition:transform .15s}
+  .dq-ex[open] summary svg{transform:rotate(180deg)}
+  .dq-exb{padding:0 16px 14px 34px;font-size:15px;line-height:22px;color:#354153}
+  .dq-ask{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--brand-50);color:#141A24}
+  .dq-ask b{display:block;margin-bottom:2px;font-size:13px;font-weight:600;color:var(--brand)}
+  .dq-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .dq-acts .hbtn{border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
   .dq-vv{margin-top:2px;font-size:16px;font-weight:600;line-height:24px;color:#141A24}
   .dq-q{margin-top:4px;font-size:13px;line-height:19px;color:#697383}
   .dq-st{padding:12px 16px 14px 18px;font-size:15px;line-height:22px;color:#354153}
@@ -4157,7 +4168,7 @@ async function analyzeTalk(){
       renderList(); renderStart();
       Object.assign(T, {phase:'done', result:data, at});
       const list = lsGet(TKEY, []).filter(Boolean);
-      list.unshift({id:Date.now(), at, house:got.name, text, result:data});
+      list.unshift({id:Date.now(), at, house:got.name, hid:T.hid, text, result:data});
       lsSet(TKEY, list.slice(0, 5));
     } else Object.assign(T, {phase:'fail', err:code === 429 ? '잠깐 사이에 너무 많이 분석했어요. 몇 분 뒤 다시 해 주세요.' : '분석하지 못했어요.'});
     if(curView === 'pa'){ renderTalk(); $('pa').querySelector('.scroll').scrollTop = 0; }
@@ -4578,6 +4589,11 @@ function renderFinal(){
   const any = Q.some(q=>isDone(q.id) && !na(q.id));
   let h = '<div class="fz-head"><p>' + esc(name) + (sub ? ' · ' + esc(sub) : '') + '</p><h2>' + (any ? headline(c, left, Q.length).replace(/<em[^>]*>|<\/em>/g, '') : '아직 확인한 질문이 없어요') + '</h2>' +
     '<p class="fz-st">' + n + ' / ' + Q.length + '개 확인' + (any && sumLine(c) ? '<i>·</i>' + sumLine(c).replace(/<[^>]+>/g, '') : '') + '</p></div>';
+  // 2026-11-29 3단계: 서류·녹음 분석에서 나온 것(15개 질문 목록과 겹치지 않는 것)을 맨 위에. 위험 → 확인 필요 → 사실
+  const DI = finalDocItems(B, U);
+  if(DI.length) h += '<div class="grp"><div class="card-t">서류·녹음 분석에서 나온 것<small>' + DI.length + '개</small></div><div class="card">' +
+    DI.map(x=>{ const m = x.t.match(/^(.*?) · (?![^()]*\))(.*)$/), t1 = m ? m[1] : x.t, t2 = m ? m[2] : '';
+      return '<button type="button" class="fz-row" data-dq="open"><b>' + esc(t1) + (x.lv === 'bad' || x.lv === 'unsure' ? '<span class="lv ' + x.lv + '">' + LEVEL[x.lv][1] + '</span>' : '') + '</b>' + (t2 ? '<span>' + esc(t2) + '</span>' : '') + '</button>'; }).join('') + '</div></div>';
   h += '<div class="grp"><div class="card-t">계약 전에 해결할 것<small>' + (B.length + U.length) + '개</small></div><div class="card">' +
     (B.length + U.length ? B.map(q=>row(q, 'bad')).join('') + U.map(q=>row(q, 'unsure')).join('') : '<p class="fz-empty">' + (any ? '지금까지 위험하거나 더 확인할 답은 없어요.' + (left ? ' 남은 ' + left + '개도 확인해 주세요.' : '') : '질문에 답하면 위험한 것부터 여기에 모여요.') + '</p>') + '</div></div>';
   h += '<div class="grp"><div class="card-t">계약서에 넣을 특약<small>' + cl.length + '개</small></div><div class="card">' +
@@ -4594,6 +4610,11 @@ function renderFinal(){
   h += '<p class="note">참고용 안내이며 법률 자문이 아니에요. 이 안내를 바탕으로 한 결정과 그 결과에 대해 집콕체크는 책임지지 않아요. 중요한 결정 전에는 변호사·법무사 같은 전문가와 상담하세요.</p>';
   $('pz-body').innerHTML = h;
 }
+function finalDocItems(B, U){
+  if(!hasDocs(house) && !house.heard) return [];
+  const inQ = new Set(B.concat(U).map(q=>q.id));
+  return dqSum(house).items.filter(x=>!(x.q && inQ.has(x.q)) && x.lv !== 'gap');
+}
 function finalText(){
   const c = levelCount(), n = Q.filter(q=>seen(q.id)).length;
   const byLv = lv => Q.filter(q=>isDone(q.id) && !na(q.id) && judge(q.id).level === lv);
@@ -4602,6 +4623,8 @@ function finalText(){
   const L = ['[집콕체크] ' + name + ' 계약 전 정리' + (sub ? ' (' + sub + ')' : ''), '확인한 질문 ' + n + ' / ' + Q.length];
   if(B.length) L.push('', '위험 ' + B.length + '개', ...B.map(q=>'- ' + q.n + '. ' + q.tag));
   if(U.length) L.push('', '확인 필요 ' + U.length + '개', ...U.map(q=>'- ' + q.n + '. ' + q.tag));
+  const DI = finalDocItems(B, U);
+  if(DI.length) L.push('', '서류·녹음 분석에서 나온 것', ...DI.map(x=>'- ' + x.t + (x.lv === 'bad' ? ' (위험)' : x.lv === 'unsure' ? ' (확인 필요)' : '')));
   if(!B.length && !U.length && c.ok) L.push('', '지금까지 위험하거나 더 확인할 답은 없어요.');
   L.push('', '계약서에 넣을 특약', ...cl.map((x,i)=>(i + 1) + '. ' + x.text));
   L.push('', '참고용 안내이며 법률 자문이 아니에요.', 'https://zipkok-check.vercel.app');
@@ -4613,6 +4636,7 @@ async function copyText(t){
 }
 document.addEventListener('click', e=>{ if(e.target.closest('[data-go-final]')) go('pz'); });
 $('pz').addEventListener('click', e=>{
+  if(e.target.closest('[data-dq="open"]')) return go('pq');
   const g = e.target.closest('[data-goq]'); if(!g) return;
   state.sel = g.dataset.goq; renderAnswer(); go('p2');
 });
@@ -4897,8 +4921,8 @@ const jb = (w, a, b) => { const c = String(w).charCodeAt(String(w).length - 1) -
 const CMP_ST = {same:'같음', diff:'다름', oral:'말로만', doconly:'서류에만', none:'아직 비교 못 함'};
 function cmpItems(h){
   return dqCompare(h).flatMap(r=>{
-    if(r.st === 'diff') return [{t:'들은 ' + r.label + jb(r.label, '과', '와') + ' ' + r.where + jb(r.where, '이', '가') + ' 달라요 (' + r.said + ' · ' + r.doc + ')', lv:'fact', q:r.key === 'mort' ? 'q5' : r.key === 'use' ? 'q9' : null}];
-    if(r.st === 'oral') return [{t:'「' + PR_NAME[r.topic] + '」 약속이 말로만이에요 · 특약에 담아요', lv:PR_Q[r.topic] ? 'unsure' : 'fact', q:PR_Q[r.topic] || null, topic:r.topic}];
+    if(r.st === 'diff') return [{t:'들은 ' + r.label + jb(r.label, '과', '와') + ' ' + r.where + jb(r.where, '이', '가') + ' 달라요 (' + r.said + ' · ' + r.doc + ')', lv:'fact', cmp:r, q:r.key === 'mort' ? 'q5' : r.key === 'use' ? 'q9' : null}];
+    if(r.st === 'oral') return [{t:'「' + PR_NAME[r.topic] + '」 약속이 말로만이에요 · 특약에 담아요', lv:PR_Q[r.topic] ? 'unsure' : 'fact', q:PR_Q[r.topic] || null, cmp:r, topic:r.topic}];
     return [];
   });
 }
@@ -4927,7 +4951,7 @@ function rightItem(h, x){
     const ok = ((h.docs.reg || {}).fix || {}).trustOk;
     return {t:ok ? '신탁 등기 · 신탁회사 동의서를 봤어요 · 임대 권한을 다시 확인해요' : '신탁 등기가 있어요 · 신탁회사 동의 없이 맺은 계약은 무효가 될 수 있어요', lv:ok ? 'unsure' : 'bad', why:'trust'};
   }
-  if(/압류|가압류|가처분|경매/.test(k)) return {t:'등기부에 「' + k.slice(0, 10) + '」 등기가 있어요 · 보증금을 먼저 돌려받기 어려워요', lv:'bad', why:'seize'};
+  if(/압류|가압류|가처분|경매/.test(k)) return {t:'등기부에 「' + k.slice(0, 10) + '」 등기가 있어요 · 보증금을 먼저 돌려받기 어려워요', lv:'bad', why:'seize', kind:k.slice(0, 10)};
   if(/임차권/.test(k)) return {t:'임차권등기가 있어요 · 예전 세입자가 보증금을 못 받았다는 뜻이에요', lv:'bad', why:'lease'};
   return {t:'등기부에 「' + k.slice(0, 12) + '」 표시가 있어요 · 꼭 물어보세요', lv:'fact'};
 }
@@ -4956,8 +4980,8 @@ function dqSum(h){
   if(new Set(hos).size > 1) out.items.push({t:'서류마다 호수가 달라요 (' + [...new Set(hos)].join('호 · ') + '호) · 계약서·전입신고는 등기부 호수대로', lv:multi ? 'fact' : 'unsure', why:'ho'});
   DQ_KINDS.forEach(([k, nm])=>{
     const x = h.docs && h.docs[k];
-    if(x && x.d && x.d.doc_ok === false) out.items.push({t:nm + (k === 'contract' ? '로' : '으로') + ' 읽지 못했어요 · 다시 올려 주세요', lv:'gap'});
-    else if(x && x.d && (x.d.missing || []).length) out.items.push({t:nm + ' ' + x.d.missing.slice(0, 2).join('·') + ' 확인 못 함', lv:'gap'});
+    if(x && x.d && x.d.doc_ok === false) out.items.push({t:nm + (k === 'contract' ? '로' : '으로') + ' 읽지 못했어요 · 다시 올려 주세요', lv:'gap', kind:k});
+    else if(x && x.d && (x.d.missing || []).length) out.items.push({t:nm + ' ' + x.d.missing.slice(0, 2).join('·') + ' 확인 못 함', lv:'gap', kind:k});
   });
   out.items.push(...cmpItems(h));
   const rank = {bad:0, unsure:1, fact:2, gap:3};
@@ -4996,12 +5020,59 @@ const DQ_EDIT = {
             ['rent', '월세', n=>n.rent ? won(n.rent.v) : null, '월세를 만 원으로 적어 주세요. 전세면 0'],
             ['fee', '중개보수', n=>n.fee ? won(n.fee.v) : null, '중개보수를 만 원으로 적어 주세요']]
 };
+// 2026-11-29 AI 계약 분석 3단계: 먼저 볼 것마다 쉬운 설명 · 그대로 읽을 질문 · 다음 할 일 (앱에 정해 둔 문장, AI 호출 없음)
+// 설명은 판단기준.md(질문별 기준, 2-1 서류 분석 추가 기준)와 앱 질문 설명 안에서만 써요
+function dqExplain(h, x){
+  const n = dqNorm(h), own = n.owners && n.owners.v.length ? n.owners.v.join(', ') : '등기부 소유자';
+  const goq = id => ({t:id.slice(1) + '번 질문에서 답 확인', a:'data-dq-q="' + id + '"'});
+  const help = {t:'무료 상담 알아보기', a:'data-dq-help'}, fin = {t:'최종 정리에서 특약 보기', a:'data-dq-final'};
+  const why = x.why || (x.topic ? 'oral' : x.cmp ? 'diff' : x.lv === 'gap' ? 'gap' : x.q || '');
+  const E = {
+    q2:{m:'계약서의 임대인이 등기부의 지금 소유자와 달라요. 소유자가 아닌 사람과 계약하면 보증금을 돌려받지 못할 수 있어요.', a:'등기부 소유자는 ' + own + '인데 계약서 임대인이 다른 이유가 뭔가요? 대리인이면 위임장과 인감증명서 원본을 보여 주세요.', b:[goq('q2'), help]},
+    q13:{m:'보증금을 받는 계좌 주인이 집주인이 아니에요. 집주인이 아닌 사람에게 보낸 돈은 집주인이 "못 받았다"고 할 수 있어요.', a:'보증금은 등기부 소유자(' + own + ') 본인 명의 계좌로 보내도 될까요?', b:[goq('q13')]},
+    q9:{m:'건축물대장에서 주택이 아니거나 위반건축물로 표시돼 있어요. 보증금 반환보증 가입이 거절되거나 보호받기 어려울 수 있어요.', a:'건축물대장 용도가 주택이 아닌데(또는 위반건축물인데) 보증금 반환보증 가입이 되나요?', b:[goq('q9'), help]},
+    q5:{m:'지워지지 않은 근저당이 있어요. 집이 경매로 넘어가면 은행이 먼저 돈을 가져가요. 근저당과 내 보증금을 합친 금액이 집값에 비해 크면 위험해요.', a:'근저당' + (n.mort && n.mort.v ? '(채권최고액 ' + won(n.mort.v) + ')' : '') + '은 잔금 날 갚고 말소해 주실 수 있나요? 특약에 넣어 주세요.', b:[goq('q5'), fin]},
+    q3:{m:'소유자가 여러 명이에요. 집을 빌려주는 일은 지분 절반을 넘는 소유자들이 정할 수 있어요. 지분이 절반 이하인 사람만 계약하면 권한이 없을 수 있어요.', a:'공동 소유자 모두(또는 지분 절반이 넘는 분들)가 계약에 동의하셨나요? 동의서나 위임장을 보여 주세요.', b:[goq('q3')]},
+    q14:{m:'잔금 뒤에 새 대출(근저당)이 생기면 내 보증금보다 먼저 가져갈 수 있어요.', a:'잔금일 다음 날까지 근저당 설정을 하지 않는다는 특약을 넣어 주실 수 있나요?', b:[goq('q14'), fin]},
+    q10:{m:'보증금을 돌려받는 날이 분명하지 않으면 "다음 세입자가 와야 준다"는 일이 생길 수 있어요.', a:'계약이 끝나는 날 보증금을 돌려준다는 내용을 특약에 넣어 주실 수 있나요?', b:[goq('q10')]},
+    trust:{m:'집 소유권이 신탁회사로 넘어가 있어요. 신탁회사 동의 없이 원래 주인과 맺은 계약은 무효가 될 수 있어요. 등기소에서 「신탁원부」를 떼면 임대 권한이 누구에게 있는지 나와요.', a:'신탁원부와 신탁회사의 임대 동의서를 보여 주실 수 있나요? 보증금은 누구 계좌로 보내야 하나요?', b:[help]},
+    seize:{m:'등기부에 「' + (x.kind || '압류') + '」 등기가 있어요. 이런 등기 뒤에 들어온 세입자는 보증금을 먼저 돌려받기 어려워요. 생활법령은 이런 집은 피하라고 안내해요.', a:'등기부에 「' + (x.kind || '압류') + '」 등기가 있는데, 잔금 전에 말소되나요? 말소된 등기부를 다시 보여 주세요.', b:[help]},
+    lease:{m:'예전 세입자가 보증금을 못 받아 임차권등기를 했다는 뜻이에요. 이 집을 새로 빌리면 소액보증금 우선변제를 받을 수 없어요.', a:'임차권등기가 된 이유가 뭔가요? 예전 세입자 보증금은 돌려주셨나요?', b:[help]},
+    ho:{m:'서류마다 호수가 달라요. 계약서와 전입신고를 등기부·건축물대장과 다른 호수로 하면 보호받지 못할 수 있어요.', a:'등기부·건축물대장 호수와 계약서 호수가 다른데, 어느 것이 맞나요? 계약서를 등기부 호수로 고쳐 주세요.', b:[]},
+    oral:{m:'말로만 한 약속은 나중에 증명하기 어려워요. 계약서 특약으로 남겨야 지킬 의무가 생겨요.', a:'말씀하신 「' + (x.cmp ? x.cmp.said : '') + '」 약속을 계약서 특약에 넣어 주실 수 있나요?', b:[{t:'특약에 담기', a:'data-dq-cl="' + x.topic + '"'}]},
+    diff:{m:'들은 말과 서류가 달라요. 서류가 맞는지, 말이 바뀐 건지 계약 전에 꼭 확인해요.', a:x.cmp ? '처음에 ' + x.cmp.label + '은(는) ' + x.cmp.said + '라고 들었는데 ' + x.cmp.where + '에는 ' + x.cmp.doc + '로 되어 있어요. 어느 것이 맞나요?' : '', b:x.q ? [goq(x.q)] : []},
+    gap:{m:'이 서류를 다 읽지 못했어요. 못 본 부분은 "없음"이 아니에요. 빠진 쪽까지 다시 올려 주세요.', a:'', b:[{t:'다시 올리기', a:'data-dq-up="' + (x.kind || 'reg') + '"'}]}
+  };
+  return E[why] || null;
+}
+function dqAskText(h){
+  const qs = dqSum(h).items.map(x=>(dqExplain(h, x) || {}).a).filter(Boolean);
+  return qs.length ? '계약 전에 확인하고 싶은 것이 있어요.\n' + qs.map((t, i)=>(i + 1) + '. ' + t).join('\n') : '';
+}
+// 2026-11-29 4단계: 예전 녹음 기록(집 번호 없이 이름만)은 이름이 같은 집이 하나뿐일 때만 「들은 말」로 이어 붙여요
+(function linkOldTalks(){
+  try {
+    const recs = lsGet(TKEY, []).filter(r=>r && r.result && !r.hid);
+    houses.list.forEach(h=>{
+      if(h.heard || blankHouse(h) || houses.list.filter(x=>x.name === h.name).length > 1) return;
+      const r = recs.find(x=>x.house === h.name); if(!r) return;
+      h.heard = {fills:(r.result.fills || []).map(x=>({q:x.q, k:x.k, v:x.v, quote:String(x.quote || '').slice(0, 140)})), promises:(r.result.promises || []).slice(0, 8), at:r.id, old:true};
+    });
+    localStorage.setItem(HKEY, JSON.stringify(houses));
+  } catch(e) {}
+})();
 function renderDocs(){
   const h = house, box = $('pq-body'); if(!box) return;
   const n = dqNorm(h), S = hasDocs(h) ? dqSum(h) : null;
   let s = '<p class="d-lead">AI가 서류에서 사실만 옮겨 적어요. 위험 판단은 앱의 15개 질문 기준으로 해요. 틀린 값은 「고치기」로 바로잡아 주세요.</p>';
-  if(S && S.items.length) s += '<div class="cr-sec">먼저 볼 것</div><div class="cr-card">' + S.items.map(x=>x.q ? '<button type="button" class="cr-row" style="min-height:48px" data-dq-q="' + x.q + '"><i class="dq-dot' + (x.lv === 'bad' || x.lv === 'unsure' ? ' ' + x.lv : '') + '"' + (x.lv === 'fact' ? ' style="background:#B0B8C4"' : '') + '></i><span class="cr-t" style="font-size:15px">' + esc(x.t) + '</span>' + CHEV_R + '</button>'
-    : '<div class="dq-st" style="display:flex;gap:8px;align-items:center"><i class="dq-dot' + (x.lv === 'unsure' || x.lv === 'bad' ? ' ' + x.lv + '"' : '" style="background:#B0B8C4"') + '></i><span>' + esc(x.t) + '</span></div>').join('') + '</div>';
+  // 3단계: 줄을 누르면 쉬운 설명 · 그대로 읽을 질문 · 다음 할 일이 펼쳐져요
+  if(S && S.items.length) s += '<div class="cr-sec">먼저 볼 것<small>눌러서 설명 보기</small></div><div class="cr-card">' + S.items.map(x=>{
+    const e = dqExplain(h, x), dot = '<i class="dq-dot' + (x.lv === 'unsure' || x.lv === 'bad' ? ' ' + x.lv + '"' : '" style="background:#B0B8C4"') + '></i>';
+    if(!e) return '<div class="dq-st" style="display:flex;gap:8px;align-items:center">' + dot + '<span>' + esc(x.t) + '</span></div>';
+    return '<details class="dq-ex"><summary>' + dot + '<span>' + esc(x.t) + '</span>' + DOWN_I + '</summary><div class="dq-exb"><p>' + esc(e.m) + '</p>' +
+      (e.a ? '<p class="dq-ask"><b>중개사에게 이렇게 물어보세요</b>' + esc(e.a) + '</p>' : '') +
+      (e.b.length ? '<div class="dq-acts">' + e.b.map(b=>'<button type="button" class="hbtn" ' + b.a + '>' + b.t + '</button>').join('') + '</div>' : '') + '</div></details>';
+  }).join('') + '</div>' + (S.items.some(x=>(dqExplain(h, x) || {}).a) ? '<button type="button" class="cr-b2" data-dq-ask>중개사에게 물어볼 말 모두 복사</button>' : '');
   DQ_KINDS.forEach(([k, nm])=>{
     const x = h.docs && h.docs[k], busy = dqBusy[h.id + '|' + k];
     s += '<div class="cr-sec">' + nm + '<small>' + (busy ? '읽는 중' : x && x.d ? (x.d.doc_ok === false ? '읽지 못함' : '읽음 · ' + stamp(x.at)) : x && x.err ? '실패' : '아직 없음') + '</small></div><div class="cr-card">';
@@ -5085,6 +5156,9 @@ async function dqClick(e){
   const a = e.target.closest('[data-dq]');
   if(a){ if(a.dataset.dq === 'open') return go('pq'); if(a.dataset.dq === 'copy'){ const ok = await copyText(dqReqText(house)); return toast(ok ? '복사했어요. 중개사에게 문자로 붙여 보내세요.' : '복사하지 못했어요.'); } }
   if(e.target.closest('[data-dq-talk]')) return go('pa');
+  if(e.target.closest('[data-dq-help]')) return goTab('ps');
+  if(e.target.closest('[data-dq-final]')) return go('pz');
+  if(e.target.closest('[data-dq-ask]')){ const ok = await copyText(dqAskText(house)); return toast(ok ? '복사했어요. 중개사에게 문자로 붙여 보내세요.' : '복사하지 못했어요.'); }
   if(e.target.closest('[data-dq-trust]')){ const x = house.docs.reg; x.fix = Object.assign({}, x.fix, {trustOk:!(x.fix || {}).trustOk}); save(); renderDocs(); renderStart(); return; }
   const cl = e.target.closest('[data-dq-cl]');
   if(cl){
@@ -5684,7 +5758,7 @@ $('pw').addEventListener('click', e=>{
   }
   const dl = e.target.closest('[data-visit-del]'); if(dl){ h.lease.visits = h.lease.visits.filter(v=>v.id !== +dl.dataset.visitDel); save(); renderStart(); return renderVisits(); }
 });
-const DOC_SPOTS = [['contract','계약서'], ['reg','등기부등본'], ['bldg','건축물대장'], ['fixdate','확정일자·신고 필증'], ['receipt','계약금·잔금 영수증'], ['etc','그 밖의 서류']];
+const DOC_SPOTS = [['contract','계약서'], ['reg','등기부등본'], ['bldg','건축물대장'], ['explain','중개대상물 확인·설명서'], ['fixdate','확정일자·신고 필증'], ['receipt','계약금·잔금 영수증'], ['etc','그 밖의 서류']];
 
 // 누름 처리 (내 계약 탭 · 할 일 화면 · 최종 정리)
 document.addEventListener('click', async e=>{
