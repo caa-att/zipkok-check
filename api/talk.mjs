@@ -41,6 +41,7 @@ const SYSTEM = [
   '- fraud: 아래 [사기 유형] 가운데 대화에 실제 신호가 보이는 것만 번호(id)와 이유. 신호가 없으면 빈 목록. 추측으로 넣지 마.',
   '- checklist: 아래 [체크리스트] 가운데 이 대화와 관련 있어 앱에서 꼭 확인해 볼 질문 번호(id).',
   '- urgent: 이미 돈을 보냈는데 연락이 끊겼거나 사기를 당한 것 같은 말이 있으면 true.',
+  '- promises: 중개사나 집주인이 앞으로 해 주겠다고 약속한 것만. topic은 mort_clear(근저당·대출을 갚거나 말소해 준다), deposit_return(보증금을 언제 돌려준다), early_exit(중간에 나가도 된다·해지 조건), no_new_loan(잔금 뒤 대출·근저당을 새로 하지 않는다), repair(고장·옵션을 고쳐 주거나 바꿔 준다), other(그 밖의 약속) 중 하나. said는 약속 내용을 짧게, quote는 대화 문장을 그대로. 약속이 없으면 빈 목록. 사용자가 한 말이나 질문은 약속이 아니야.',
   '규칙: 대화에 없는 사실을 지어내지 마. 법률 이름·조항 번호·판례는 쓰지 마. 사람 이름과 연락처는 쓰지 마.',
   '쉬운 한국어 존댓말(-요)로 짧게 써. 마크다운 기호(**, #)는 쓰지 마. 단정하지 말고 참고 안내로 써.',
   '',
@@ -61,11 +62,13 @@ const SCHEMA = {
     recheck: {type: 'ARRAY', items: {type: 'OBJECT', properties: {said: S('들은 말'), why: S('왜 따져야 하는지'), how: S('어떻게 확인할지')}, required: ['said', 'why', 'how']}},
     fraud: {type: 'ARRAY', items: {type: 'OBJECT', properties: {id: S('사기 유형 번호'), why: S('대화에서 보인 신호')}, required: ['id', 'why']}},
     checklist: {type: 'ARRAY', items: S('체크리스트 질문 번호')},
-    urgent: {type: 'BOOLEAN'}
+    urgent: {type: 'BOOLEAN'},
+    promises: {type: 'ARRAY', items: {type: 'OBJECT', properties: {topic: S('약속 종류'), said: S('약속 내용'), quote: S('대화 문장')}, required: ['topic', 'said', 'quote']}}
   },
-  required: ['summary', 'facts', 'followups', 'recheck', 'fraud', 'checklist', 'urgent']
+  required: ['summary', 'facts', 'followups', 'recheck', 'fraud', 'checklist', 'urgent', 'promises']
 };
 
+const PROMISE = ['mort_clear', 'deposit_return', 'early_exit', 'no_new_loan', 'repair', 'other'];
 const list = (a, n) => (Array.isArray(a) ? a : []).slice(0, n);
 
 // ---------- 체크리스트 자동 채우기 (2026-11-20) ----------
@@ -154,6 +157,8 @@ export default async function handler(req, res){
       fraud: list(r.fraud, 6).map(x => ({id: String(x && x.id || '').trim(), why: cut(x && x.why, 240)})).filter(x => FRAUD[x.id] && !seen.has(x.id) && seen.add(x.id)),
       checklist: [...new Set(list(r.checklist, 8).map(x => String(x).trim()).filter(x => CHECK[x]))],
       urgent: r.urgent === true,
+      // 2026-11-28 AI 계약 분석 2단계: 말로 한 약속(계약서 특약과 비교는 앱 코드가 해요)
+      promises: list(r.promises, 8).map(x => ({topic: String(x && x.topic || '').trim(), said: cut(x && x.said, 120), quote: cut(x && x.quote, 140)})).filter(x => PROMISE.includes(x.topic) && x.said),
       fills: hasForm ? readFills(r.fills, form) : []
     };
     return res.status(200).json(out);
