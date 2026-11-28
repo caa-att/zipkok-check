@@ -1,5 +1,6 @@
 // AI 계약 분석 0단계: 가짜 서류 읽기 시험 돌리기 (2026-11-28)
 // 쓰는 법 (PowerShell):
+//   미리보기 주소는 Vercel 로그인 보호가 있어서 $env:VERCEL_BYPASS(Deployment Protection → Protection Bypass for Automation 값)도 넣어요.
 //   $env:DOC_URL="https://미리보기주소/api/doc-test"; $env:DOC_TEST_SECRET="(Vercel에 넣은 값)"; node tests/doc0/run.mjs A 1
 //   인자: 방법(A 또는 B) · 반복 횟수(기본 1) · 사례 이름 일부(선택)
 // 결과: tests/doc0/out/result_방법_시각.json, 화면에 사례별 통과·실패와 토큰·시간 합계
@@ -18,7 +19,7 @@ async function ask(kind, dir){
   const body = {kind, method};
   if(method === 'A') body.pdf = (await readFile(path.join(dir, kind + '.pdf'))).toString('base64');
   else body.text = htmlText(await readFile(path.join(dir, kind + '.html'), 'utf8'));
-  const r = await fetch(URL_, {method: 'POST', headers: {'Content-Type': 'application/json', 'x-test-secret': SECRET}, body: JSON.stringify(body)});
+  const r = await fetch(URL_, {method: 'POST', headers: Object.assign({'Content-Type': 'application/json', 'x-test-secret': SECRET}, process.env.VERCEL_BYPASS ? {'x-vercel-protection-bypass': process.env.VERCEL_BYPASS} : {}), body: JSON.stringify(body)});
   return r.json().catch(()=>({error: 'json'}));
 }
 
